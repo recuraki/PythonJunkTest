@@ -1,5 +1,9 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
+# 以下のコードを参考にしています
+# http://coreblog.org/ats/python-de-plugin-archetecture/
+
 import imp
 import os
 import types
@@ -34,16 +38,23 @@ class Action(object):
 
   def init(self):
     print("inited")
-  def hello(self):
-    print("call hello")
+
+  def run(self, f_name):
+      if f_name in self.function:
+          self.function[f_name]()
+      else:
+          print("function not found: %s" % f_name)
+
   def load_plugin(self):
     plugindir = "plugins"    # Pluginが入っているディレクトリ
     cwd = os.getcwd()
     moduledir = os.path.join(cwd,plugindir)
     plugins = load_plugins(moduledir)   # Pluginを読み込む
     for p in plugins:
-        self.function[p.__name__] = types.MethodType(p.foo, self)
-        print p.__name__
+        # 以下のようにすると、モジュール名自身をfunctionとして入れる
+        # つまり、loop.pyをインポートするとloopという名前で入る
+        # self.function[p.__name__] = types.MethodType(p.foo, self)
+        self.function[p.module_name()] = types.MethodType(p.run, self)
 
 if __name__ == "__main__":
   print("core-name")
