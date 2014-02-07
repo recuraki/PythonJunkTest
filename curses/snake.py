@@ -1,8 +1,11 @@
 #!/usr/local/bin/python
 # -*- coding: utf-8 -*-
 
+# 盤面のサイズ(正方形)
 inSize = 20
+# 初期尻尾の長さ
 MaxTail = 5
+# ごはんの数
 MaxFood = 3
 inTime = 0
 
@@ -19,12 +22,17 @@ curses.cbreak()
 
 banner = ( ("Dev", "kanai"), ("name", "snake"),)
 
+# バナー表示のテスト
 for y, stTmp in enumerate(banner):
     cuMain.move(y, 0)
     cuMain.addstr("%s :%s" % stTmp)
+
+# 一旦、これで書く
 cuMain.refresh()
 
+# サブウィンドウの表示
 cuSub = cuMain.subwin(inSize, inSize, len(banner) , 20)
+
 # 左、右、上、下、左上、右上、左下、右下
 cuSub.border("|", "|", "-", "-", "+", "+", "+", "+")
 
@@ -33,6 +41,7 @@ x = 1
 y = 1
 stDirection = "j"
 
+# 情報の初期化
 Tail = []
 Food = []
 isLive = True
