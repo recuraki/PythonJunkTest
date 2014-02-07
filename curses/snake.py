@@ -114,10 +114,10 @@ while isLive:
         cuSub.addstr("%")
 
     # 当たり判定
-    if x > (inSize - 1)  or x < 1:
+    if x > (inSize - 2)  or x < 1:
         isLive = False
         continue
-    if y > (inSize - 1) or y < 1:
+    if y > (inSize - 2) or y < 1:
         isLive = False
         continue
     if (y, x) in Tail:
