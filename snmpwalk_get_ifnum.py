@@ -8,11 +8,14 @@ IF-MIB::ifDescrのTreeを表示します
 
 # 変数
 comm = "public"
-hostname = "127.0.0.1"
+hostname = "192.168.10.253"
 
 # cmdgen を importする
 # pip install pysnmpが必要
+# pip install pysnmp-mibs
+
 from pysnmp.entity.rfc3413.oneliner import cmdgen
+from pysnmp.smi import builder, view, error
 import sys
 
 # IF-MIB::ifDescr
@@ -57,20 +60,20 @@ for varBindTableRow in result:
         print '%s = %s' % (name.prettyPrint(), val.prettyPrint())
 
 
-from pysnmp.smi import builder, view, error
-path_to_mib_dir = "mibs"
+
+"""
+
+path_to_mib_dir = "/usr/share/mibs/ietf/SNMPv2-SMI"
 mibBuilder = builder.MibBuilder()
 mibPath = mibBuilder.getMibPath() + ( path_to_mib_dir, )
 mibBuilder.setMibPath( *mibPath )
 mibBuilder.loadModules( 
-    builder.ZipMibSource('SNMPv2-SMI.txt'),
+    builder.ZipMibSource('SNMPv2-SMI'),
     )
+"""
 
-#mibBuilder = builder.MibBuilder() 
-##mibPath = mibBuilder.getMibSources()+(builder.DirMibSource(path_to_mib_dir),)
-#mibPath = mibBuilder.getMibSources() + (builder.DirMibSource('mibs'),)
-#print mibPath
-#mibBuilder.setMibSources(*mibPath)
-#mibBuilder.loadModules('SNMPv2-MIB')
-#mibBuilder.loadModules('RFC-1213',)
-#mibView = view.MibViewController(mibBuilder)
+mibBuilder = builder.MibBuilder() 
+mibPath = mibBuilder.getMibSources() + (builder.DirMibSource('/usr/share/mibs/'),)
+mibBuilder.setMibSources(*mibPath)
+mibBuilder.loadModules('SNMPv2-MIB')
+mibView = view.MibViewController(mibBuilder)
