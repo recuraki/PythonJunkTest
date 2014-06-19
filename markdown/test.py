@@ -37,4 +37,3 @@ if '__main__' == __name__:
     codehilite = 'codehilite(force_linenos=True, guess_lang=False, css_class=syntax)'
     html = markdown.markdown(templ, ['extra', codehilite, 'gfm' ])
     print(html.encode('utf-8'))
-
