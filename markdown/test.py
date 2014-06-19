@@ -2,16 +2,23 @@
 # -*- coding: utf-8 -*-
 
 # pip install pygments
+
 # git clone https://github.com/dart-lang/py-gfm.git
 # cd py-gfm
-# python setup.py install
+# sudo python setup.py install
+
+# sudo pip install mdx_linkify  bleach  html5lib
+# sudo pip install mdx_del_ins
 
 import markdown
+
 
 templ = u"""
 hogehoge
 
-```
+[google](http://www.google.com)
+
+```ruby
 import sys
 
 def hoge(fuga):
@@ -28,6 +35,6 @@ def hoge(fuga):
 
 if '__main__' == __name__:
     codehilite = 'codehilite(force_linenos=True, guess_lang=False, css_class=syntax)'
-    html = markdown.markdown(templ, extentions = ['extra', codehilite, 'gfm'])
+    html = markdown.markdown(templ, ['extra', codehilite, 'gfm' ])
     print(html.encode('utf-8'))
 
