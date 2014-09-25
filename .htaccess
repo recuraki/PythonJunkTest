@@ -1,0 +1,2 @@
+Option ExecCGI
+AddHandler cgi-script .pl .cgi
