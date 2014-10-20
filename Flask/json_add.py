@@ -18,25 +18,22 @@ app = Flask(__name__)
 
 @app.route('/', methods=['GET'])
 def index():
-    return('index', 200)
+    return('index')
 
 
 @app.route('/add', methods=['POST'])
 def hello():
-    print("debug")
-    print(request.data)
     res = proc_add(request.data)
     c = ""
     c += str(res)
-    return(c, 200)
+    return(c)
 
 @app.route('/hello/<name>', methods=['GET'])
 def hello_withname(name):
-    return("hi! {0}".format(name), 200)
+    return("hi! {0}".format(name))
 
 def proc_add(stJson):
     diInput = json.loads(stJson)
-    print diInput
     if not "val1" in diInput:
         raise Excetion("noval1")
     if not "val2" in diInput:
