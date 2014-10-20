@@ -3,3 +3,4 @@ cover
 .coverage
 .cache
 .cache.*
+nosetests.xml
