@@ -2,3 +2,4 @@
 cover
 .coverage
 .cache
+.cache.*
