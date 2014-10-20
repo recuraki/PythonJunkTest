@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from flask import Flask, request
+from urllib import urlencode
 import json
 
 """
@@ -25,11 +26,8 @@ def hello():
     print("debug")
     print(request.data)
     res = proc_add(request.data)
-    name = request.args.get("name", "")
     c = ""
-    c += "<hr>"
-    c += str(res) + name
-    c += "<hr>"
+    c += str(res)
     return(c, 200)
 
 @app.route('/hello/<name>', methods=['GET'])
@@ -43,8 +41,11 @@ def proc_add(stJson):
         raise Excetion("noval1")
     if not "val2" in diInput:
         raise Excetion("noval2")
-    
-    return(diInput['val1'] + diInput['val2'])
+
+    inRes = diInput["val1"] + diInput["val2"]
+    diRet = {}
+    diRet['res'] = inRes
+    return(json.dumps(diRet, indent = 2))
 
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0")
