@@ -31,5 +31,5 @@ class TestAdd:
         assert actual == 5
 
     def test_add_nums_str(self):
-        actual = api_add("a", 10)
-        assert actual == 5
+        actual = api_add(1, 10)
+        assert actual == 11
