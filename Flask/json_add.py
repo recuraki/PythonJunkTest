@@ -28,9 +28,6 @@ def hello():
     c += str(res)
     return(c)
 
-@app.route('/hello/<name>', methods=['GET'])
-def hello_withname(name):
-    return("hi! {0}".format(name))
 
 def proc_add(stJson):
     diInput = json.loads(stJson)
@@ -43,6 +40,14 @@ def proc_add(stJson):
     diRet = {}
     diRet['res'] = inRes
     return(json.dumps(diRet, indent = 2))
+
+@app.route('/add/<val1>', methods=['GET'])
+@app.route('/add/<val1>/<val2>', methods=['GET'])
+def add_with_value(val1, val2 = 0):
+    inRes = int(val1) + int(val2)
+    return("{0}".format(str(inRes)))
+
+
 
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0")
