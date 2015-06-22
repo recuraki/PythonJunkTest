@@ -4,6 +4,9 @@
 # pexpectのサンプル。
 """
 一定の処理をした後に、ユーザに処理を渡す
+1. ログインする
+2. lsする
+3. ユーザに処理を渡す
 """
 
 # 参考にしたページ
@@ -37,7 +40,7 @@ child.sendline ('anonymous')
 
 # パスワードを入力
 child.expect ('[pP]assword:')
-child.sendline ('noah@example.com')
+child.sendline ('recuraki@example.com')
 
 # コマンドを実行
 child.expect ('ftp> ')
