@@ -12,6 +12,8 @@ FastEthernet0 is up, line protocol is up
   5 minute input rate 1000 bits/sec, 1 packets/sec
   5 minute output rate 1000 bits/sec, 1 packets/sec
 FastEthernet1 is up, line protocol is up 
+  MTU 1500 bytes, BW 100000 Kbit/sec, DLY 100 usec, 
+     reliability 255/255, txload 1/255, rxload 1/255
   5 minute input rate 1000 bits/sec, 1 packets/sec
   5 minute output rate 1000 bits/sec, 1 packets/sec
 
