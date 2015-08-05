@@ -9,7 +9,7 @@ def check_result(res):
     else:
         print("FOUND:[" + res.group() + "]") 
 
-# Try1: "pen"が含まれているか確認し、含まれていたらokと表示しましょう
+# Try1: "pen"が含まれているか確認しましょう
 print("Try1")
 query = ""
 res = re.search(query, "this is a pen.")

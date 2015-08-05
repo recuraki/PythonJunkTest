@@ -24,20 +24,27 @@ import re
 # 100-101,201などを100-101と201に分割し、渡す
 def parsevlan(vlanstr):
     vlanlist = []
+    # ","でくぎる
     for i in vlanstr.split(","):
+        # くぎった文字列を展開する
         vlanlist = vlanlist + extractvlan(i)
     print vlanlist
     
 # 100-101などを100,101に展開する
 # - が含まれていないならそのまま
 def extractvlan(vlanstr):
-  res = re.search("(\d+)-(\d+)", vlanstr)
-  if res != None:
-      bnum = int(res.group(1))
-      enum = int(res.group(2)) + 1
-      return(range(bnum, enum))
-  else:
-      return([int(vlanstr)])
+    # 数値-数値をパース
+    res = re.search("(\d+)-(\d+)", vlanstr)
+    # これにマッチするなら
+    if res != None:
+        bnum = int(res.group(1))
+        enum = int(res.group(2)) + 1
+        # range(数値, 数値 + 1)を実行
+        return(range(bnum, enum))
+    # マッチしない = 1とか2だけなら
+    else:
+        # そのまま返す
+        return([int(vlanstr)])
 
 # 以下のような文字列を検索し、イテレータ(for可能)にする
 # interface port <num>/<num>

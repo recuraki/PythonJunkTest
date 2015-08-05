@@ -16,10 +16,14 @@ curl -H "Content-Type:application/json" -X POST -d '{"val1": 1, "val2": "2"}' ht
 
 app = Flask(__name__)
 
+@app.route('/add/<val1>/<val2>', methods=['GET'])
+def add_with_value(val1, val2 = 0):
+    inRes = int(val1) + int(val2)
+    return("{0}".format(str(inRes)))
+
 @app.route('/', methods=['GET'])
 def index():
-    return('index')
-
+    return('indexa')
 
 @app.route('/add', methods=['POST'])
 def hello():
@@ -27,7 +31,6 @@ def hello():
     c = ""
     c += str(res)
     return(c)
-
 
 def proc_add(stJson):
     diInput = json.loads(stJson)
@@ -41,11 +44,6 @@ def proc_add(stJson):
     diRet['res'] = inRes
     return(json.dumps(diRet, indent = 2))
 
-@app.route('/add/<val1>', methods=['GET'])
-@app.route('/add/<val1>/<val2>', methods=['GET'])
-def add_with_value(val1, val2 = 0):
-    inRes = int(val1) + int(val2)
-    return("{0}".format(str(inRes)))
 
 
 
