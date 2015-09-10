@@ -5,10 +5,10 @@
 str="""
 interface port 1/1
  description hogehoge
- switchport trunk add 201-700
+ switchport trunk add  10-12
 interface port 1/2
  description hogehoge2
- switchport trunk add 201-700,801,900
+ switchport trunk add 10-20,30,40
 interface port 1/3
  description hogehoge
  switchport access 2
