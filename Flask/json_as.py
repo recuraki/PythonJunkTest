@@ -7,6 +7,8 @@ import json
 import telnetlib
 
 """
+テストはこんな感じ
+curl -F "text=asnum 290" http://localhost:5000/ 
 """
 
 app = Flask(__name__)
