@@ -36,16 +36,33 @@ sc = SlackClient(tkn)
 #)
 #sc.rtm_send_message("bottest", "hogehoge")
 
-if not sc.rtm_connect():
+
+
+
+res = sc.api_call("rtm.start")
+selfid = res["self"]["id"]
+
+res = sc.rtm_connect()
+
+
+if not res:
   print "err"
   sys.exit(1)
 
+def do_recv_msg2self(d):
+  if re.search(u".*しゃべって:.*", d["text"]) is not None:
+    content = d["text"].split(u"て:")[1]
+    print content
+    sc.api_call("chat.postMessage", channel="#bottest", text=u"しゃべるよ:" + content, username="kanaibot", )
+  else:
+    sc.api_call("chat.postMessage", channel="#bottest", text=u"よんだ？", username="kanaibot", )
+
 def do_recv_msg(d):
-  if re.search(u".*しゃべって.*", d["text"]) is not None:
-    print "say"
-  
+  if re.search(u"@" + selfid,  d["text"]) is not None:
+    do_recv_msg2self(d)
+
 def do_recv(d):
-  print d
+  print "recv"
   if "type" in d.keys():
     if d["type"] == "message":
       do_recv_msg(d)
