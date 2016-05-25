@@ -1,10 +1,11 @@
-#!env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 from slackclient import SlackClient
 # pip install pit
 from pit import Pit
 # pip instal oauth2
+import subprocess
 import time
 import os
 import sys
@@ -20,7 +21,7 @@ sys.stdout = codecs.getwriter("utf-8")(sys.stdout)
 # for pit
 if not "EDITOR" in os.environ:
   print("OS-EDITOR = NONE")
-  sys.exit(1)
+#  sys.exit(1)
 # tokenの取得
 piConf = Pit.get("slackclient", {'require': {'tkn': 'token',}})
 
@@ -54,6 +55,16 @@ def do_recv_msg2self(d):
     content = d["text"].split(u"て:")[1]
     print content
     sc.api_call("chat.postMessage", channel="#bottest", text=u"しゃべるよ:" + content, username="kanaibot", )
+    c = ["/home/kanai/say.sh", content]
+    subprocess.Popen(c)
+  elif re.search(u".*オン", d["text"]) is not None:
+    sc.api_call("chat.postMessage", channel="#bottest", text=u"GPIO21 ONするよ", username="kanaibot", )
+    c = ["/home/kanai/21_on.sh"]
+    subprocess.Popen(c)
+  elif re.search(u".*オフ", d["text"]) is not None:
+    sc.api_call("chat.postMessage", channel="#bottest", text=u"GPIO21 OFFするよ", username="kanaibot", )
+    c = ["/home/kanai/21_off.sh"]
+    subprocess.Popen(c)
   else:
     sc.api_call("chat.postMessage", channel="#bottest", text=u"よんだ？", username="kanaibot", )
 
