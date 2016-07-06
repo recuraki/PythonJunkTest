@@ -51,8 +51,9 @@ halfadd(A, B, S, COUT) :-
 
 /*
 テストケース
-halfadd(0,0,S,C).
-halfadd(1,0,S,C).
-halfadd(0,1,S,C).
-halfadd(1,1,S,C).
+halfadd(0,0,0,0).
+halfadd(0,1,1,0).
+halfadd(1,0,1,0).
+halfadd(1,1,0,1).
+
 */
