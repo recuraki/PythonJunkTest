@@ -1,0 +1,58 @@
+% リレーのc接点の定義
+% 0の場合、Break接点はINとなる
+% 1の場合、mAke接点はINとなる
+contactc(0, IN, OUTA, OUTB) :- OUTA is 0,  OUTB is IN.
+contactc(1, IN, OUTA, OUTB) :- OUTA is IN,  OUTB is 0.
+
+% 4回路リレー
+relay4(0, IN, OUTA1, OUTB1, OUTA2, OUTB2, OUTA3, OUTB3, OUTA4, OUTB4) :-
+ contactc(0, IN, OUTA1, OUTB1),
+ contactc(0, IN, OUTA2, OUTB2),
+ contactc(0, IN, OUTA3, OUTB3),
+ contactc(0, IN, OUTA4, OUTB4).
+relay4(1, IN, OUTA1, OUTB1, OUTA2, OUTB2, OUTA3, OUTB3, OUTA4, OUTB4) :-
+ contactc(1, IN, OUTA1, OUTB1),
+ contactc(1, IN, OUTA2, OUTB2),
+ contactc(1, IN, OUTA3, OUTB3),
+ contactc(1, IN, OUTA4, OUTB4).
+
+% 2回路リレー
+relay2(0, IN, OUTA1, OUTB1, OUTA2, OUTB2) :-
+ contactc(0, IN, OUTA1, OUTB1),
+ contactc(0, IN, OUTA2, OUTB2).
+relay2(1, IN, OUTA1, OUTB1, OUTA2, OUTB2) :-
+ contactc(1, IN, OUTA1, OUTB1),
+ contactc(1, IN, OUTA2, OUTB2).
+
+% ANDの配線(直列)
+wireand([0], 0).
+wireand([1], 1).
+wireand([0 | Y], R) :- R is 0.
+wireand([1 | Y], R) :- wireand(Y, R).
+
+% ORの配線(並列)
+wireor([], 0).
+wireor([0], 0).
+wireor([1], 1).
+wireor([0 | Y], R) :- wireor(Y, R).
+wireor([1 | Y], R) :- R is 1.
+
+% 半加算器
+% A, B: in
+% S: 加算結果
+% C: キャリー
+halfadd(A, B, S, COUT) :-
+ relay4(A, 1, OUTAA1, OUTAB1, OUTAA2, OUTAB2, OUTAA3, OUTAB3, OUTAA4, OUTAB4),
+ relay4(B, 1, OUTBA1, OUTBB1, OUTBA2, OUTBB2, OUTBA3, OUTBB3, OUTBA4, OUTBB4),
+ wireand([OUTAA1, OUTBB1], SIN1),
+ wireand([OUTAB2, OUTBA2], SIN2),
+ wireor([SIN1, SIN2], S),
+ wireand([OUTAA3, OUTBA3], COUT).
+
+/*
+テストケース
+halfadd(0,0,S,C).
+halfadd(1,0,S,C).
+halfadd(0,1,S,C).
+halfadd(1,1,S,C).
+*/
