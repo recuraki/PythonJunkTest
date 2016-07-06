@@ -41,6 +41,13 @@ wireor([1 | Y], R) :- R is 1.
 % A, B: in
 % S: 加算結果
 % C: キャリー
+/*
+テストケース
+halfadd(0,0,0,0).
+halfadd(0,1,1,0).
+halfadd(1,0,1,0).
+halfadd(1,1,0,1).
+*/
 halfadd(A, B, S, COUT) :-
  relay4(A, 1, OUTAA1, OUTAB1, OUTAA2, OUTAB2, OUTAA3, OUTAB3, OUTAA4, OUTAB4),
  relay4(B, 1, OUTBA1, OUTBB1, OUTBA2, OUTBB2, OUTBA3, OUTBB3, OUTBA4, OUTBB4),
@@ -49,11 +56,22 @@ halfadd(A, B, S, COUT) :-
  wireor([SIN1, SIN2], S),
  wireand([OUTAA3, OUTBA3], COUT).
 
+% 全加算器
+% A, B: in
+% S: 加算結果
+% CIN, COUT: キャリー
 /*
-テストケース
-halfadd(0,0,0,0).
-halfadd(0,1,1,0).
-halfadd(1,0,1,0).
-halfadd(1,1,0,1).
-
+fulladd(0, 0, 0, 0, 0).
+fulladd(1, 0, 0, 1, 0).
+fulladd(0, 1, 0, 1, 0).
+fulladd(1, 1, 0, 0, 1).
+fulladd(0, 0, 1, 1, 0).
+fulladd(1, 0, 1, 0, 1).
+fulladd(0, 1, 1, 0, 1).
+fulladd(1, 1, 1, 1, 1).
 */
+fulladd(A, B, CIN, S, COUT) :-
+ halfadd(A, B, Stmp, Ctmp),
+ halfadd(Stmp, CIN, S, Ctmp2),
+ wireor([Ctmp, Ctmp2], COUT).
+
