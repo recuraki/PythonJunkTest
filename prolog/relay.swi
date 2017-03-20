@@ -37,6 +37,10 @@ wireor([1], 1).
 wireor([0 | Y], R) :- wireor(Y, R).
 wireor([1 | Y], R) :- R is 1.
 
+% notの配線
+not(0, R) :- R is 1.
+not(1, R) :- R is 0.
+
 % 半加算器
 % A, B: in
 % S: 加算結果
@@ -55,6 +59,13 @@ halfadd(A, B, S, COUT) :-
  wireand([OUTAB2, OUTBA2], SIN2),
  wireor([SIN1, SIN2], S),
  wireand([OUTAA3, OUTBA3], COUT).
+
+zusefulladd(A, B, CIN, S, COUT) :-
+ not(CIN, CINNOT),
+ relay4(A, 1, OUTAA1, OUTAB1, OUTAA2, OUTAB2, OUTAA3, OUTAB3, OUTAA4, OUTAB4),
+ relay4(B, 1, OUTBA1, OUTBB1, OUTBA2, OUTBB2, OUTBA3, OUTBB3, OUTBA4, OUTBB4).
+ 
+ 
 
 % 全加算器
 % A, B: in
