@@ -31,6 +31,22 @@ Gi0/0/4     1    110 P Init    unknown         unknown         10.0.11.1
 Gi0/0/5     1    110 P Init    unknown         unknown         10.0.21.1
 """
 
+"""
+output
+Gi0/0/3.201 Init
+Gi0/0/3.202 Init
+Gi0/0/3.203 Init
+Gi0/0/3.204 Init
+Gi0/0/3.205 Init
+Gi0/0/3.206 Init
+Gi0/0/3.207 Init
+Gi0/0/3.208 Init
+Gi0/0/3.209 Init
+Gi0/0/3.210 Init
+Gi0/0/4 Init
+Gi0/0/5 Init
+"""
+
 # まず、元の文字列を表示
 print("Original:")
 print("[" + str + "]")
