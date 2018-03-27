@@ -53,11 +53,6 @@ print("[" + str + "]")
 
 import re
 
-# 以下のような文字列を検索し、イテレータ(for可能)にする
-# interface port <num>/<num>
-# (空白)ほにゃらら
-# (空白)ほにゃらら
-# switchport trunk add <num>(改行)
 r = re.finditer("(Gi[^ ]+)[ \n]+ +[0-9]+ +[0-9]+ +. ([^ ]+) +[^ ]+", str)
 for res in r:
     eth = res.group(1).strip()
