@@ -22,7 +22,7 @@ out = cv2.VideoWriter('output.avi',fourcc, 20.0, (width,height))
 # depthフレーム分のバッファを作る
 zeros = numpy.zeros((height, width), frame.dtype)
 layer_blue = []
-depth = 5
+depth = 20
 for i in range(depth):
     layer_blue.append(zeros)
 
@@ -42,13 +42,13 @@ while(cap.isOpened()):
         img_blue_c1 = layer_blue[0]
 
         # フレームを作る
-        frame = cv2.merge((img_red_c1, img_green_c1, img_blue_c1))
+        frame = cv2.merge((img_blue_c1, img_green_c1, img_red_c1))
 
         # ファイルに書き出す
         out.write(frame)
 
         # 画面に表示させたいときはこっち
-        #cv2.imshow('frame', frame)
+        ｃv2.imshow('frame', frame)
 
         #　画面表示モードの場合、"q"を押すと狩猟
         if cv2.waitKey(1) & 0xFF == ord('q'):
