@@ -5,3 +5,4 @@ cover
 .cache
 .cache.*
 nosetests.xml
+*/venv/
