@@ -22,7 +22,7 @@ out = cv2.VideoWriter('output.avi',fourcc, 20.0, (width,height))
 # depthフレーム分のバッファを作る
 zeros = numpy.zeros((height, width), frame.dtype)
 layer_blue = []
-depth = 20
+depth = 5
 for i in range(depth):
     layer_blue.append(zeros)
 
