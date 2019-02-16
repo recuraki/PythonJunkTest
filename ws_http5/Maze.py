@@ -38,9 +38,20 @@ class Maze(object):
 
 class Solver(object):
     maze: Maze
+    searchCells: List[Tuple[int, int]]
+    discardCells: List[Tuple[int, int]]
+
     def __init__(self, m: Maze):
         self.maze = m
+        self.searchCells = list()
+        self.discardCells = list()
+        self.initTest()
 
+    def initTest(self):
+        self.discardCells.append((1, 1))
+        self.discardCells.append((1, 2))
+        self.searchCells.append((2, 2))
+        self.searchCells.append((2, 3))
 
 if __name__ == "__main__":
     m = Maze()

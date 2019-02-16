@@ -10,6 +10,7 @@ from Logs import Log
 import jinja2
 
 from Maze import Maze
+from Maze import Solver
 
 bindHost = "0.0.0.0"
 bindPort = 8081
@@ -53,6 +54,8 @@ async def ws_init(ws, dat: dict) -> None:
     r["map"] = m.map
     r["posStart"] = m.posStart
     r["posGoal"] = m.posGoal
+    r["searchCells"] = s.searchCells
+    r["discardCells"] = s.discardCells
     logs.write_log("[came] init")
     await sendMsg(ws, dat, r)
 
@@ -120,6 +123,7 @@ logs = Log()
 logs.write_log("init")
 
 m = Maze()
+s = Solver(m)
 
 if __name__ == "__main__":
     # グローバルなループイベントの作成
