@@ -13,11 +13,12 @@
  var ws;
  var map = [];
  var sizefield = [];
- var posstart = [0, 0];
- var posgoal = [0, 0];
- var sizecell = 20; // セルサイズ
- var sizeline = 1; // セルの枠線
+ var posStart = [0, 0];
+ var posGoal = [0, 0];
+ var sizeCell = 20; // セルサイズ
+ var sizeLine = 1; // セルの枠線
  var lineColor =  'rgb(0,0,255)';
+ var fillColorBlank = 'rgb(255,255,255)';
  var fillColorDiscard =  'rgb(255,0,0)';
  var fillColorSearching =  'rgb(255,255,0)';
  var fillColorStart =  'rgb(0,255,0)';
@@ -76,6 +77,8 @@ function wsOnMessage(e){
 
 function handleResponseInit(dat){
   map = dat["map"];
+  posGoal = dat["posGoal"]
+  posStart = dat["posStart"]
   drawMap(ctx);
 }
 
@@ -88,7 +91,6 @@ function handleResponse(dat)
   if(dat["method"] == "responseoInit"){
     handleResponseInit(dat)
   }
-
 }
 
 function drawMap(ctx){
@@ -97,14 +99,15 @@ function drawMap(ctx){
   var x, y; // loopcounter
   for(y = 0; y < map.length; y++) {
     for(x = 0; x < map[y].length; x++){
-      console.log(map[y][x]);
       /* 描画する座標の計算 */
-      pos = [(sizeline + sizecell + sizeline) * x, (sizeline + sizecell + sizeline) * y];
       /* 座標の hex strの int化 */
       value = map[y][x];
-      drawCell(ctx, pos, value, fillColorDiscard);
+      drawCell(ctx, [x, y], value, fillColorBlank);
     }
   }
+  //drawCell(ctx, [posStart], map[posStart[0], posStart[1]], fillColorStart)
+  drawCell(ctx, posStart, map[posStart[0], posGoal[1]], fillColorStart)
+  drawCell(ctx, posGoal, map[posGoal[0], posGoal[1]], fillColorGoal)
 }
 
 function drawline(ctx, x1, y1, x2, y2, color)
@@ -117,16 +120,18 @@ function drawline(ctx, x1, y1, x2, y2, color)
   ctx.stroke();
 }
 
-function drawCell(ctx, pos, value, color)
+function drawCell(ctx, posCell, value, color)
 {
-  if(value & 0x1){drawline(ctx, pos[0], pos[1], pos[0] + sizecell + sizeline, pos[1], color);}
-  if(value & 0x2){drawline(ctx, pos[0] + sizecell + sizeline, pos[1] , pos[0] + sizecell + sizeline, pos[1] + sizecell + sizeline, color);}
-  if(value & 0x4){drawline(ctx, pos[0] + sizecell + sizeline, pos[1] + sizecell + sizeline, pos[0] , pos[1] + sizecell + sizeline, color);}
-  if(value & 0x8){drawline(ctx, pos[0] , pos[1] + sizecell + sizeline, pos[0] , pos[1], color);}
+  pos = [(sizeLine + sizeCell + sizeLine) * posCell[0], (sizeLine + sizeCell + sizeLine) * posCell[1]];
+
+  if(value & 0x1){drawline(ctx, pos[0], pos[1], pos[0] + sizeCell + sizeLine, pos[1], color);}
+  if(value & 0x2){drawline(ctx, pos[0] + sizeCell + sizeLine, pos[1] , pos[0] + sizeCell + sizeLine, pos[1] + sizeCell + sizeLine, color);}
+  if(value & 0x4){drawline(ctx, pos[0] + sizeCell + sizeLine, pos[1] + sizeCell + sizeLine, pos[0] , pos[1] + sizeCell + sizeLine, color);}
+  if(value & 0x8){drawline(ctx, pos[0] , pos[1] + sizeCell + sizeLine, pos[0] , pos[1], color);}
   /* Fill cell as specificated color */
   ctx.beginPath();;
-  ctx.fillStyle = fillColorDiscard;
-  ctx.rect(pos[0] + sizeline, pos[1] + sizeline, sizecell, sizecell);
+  ctx.fillStyle = color;
+  ctx.rect(pos[0] + sizeLine, pos[1] + sizeLine, sizeCell, sizeCell);
   ctx.fill();
   ctx.closePath();
 }
@@ -151,7 +156,7 @@ function dummymap(){
  ];
  map=[]
  fieldsize = [4, 4];
- posstart = [0, 0];
+ posStart = [0, 0];
  posend = [3, 3];
 }
 

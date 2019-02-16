@@ -51,6 +51,8 @@ async def ws_init(ws, dat: dict) -> None:
     r = {}
     r["method"] = "responseoInit"
     r["map"] = m.map
+    r["posStart"] = m.posStart
+    r["posGoal"] = m.posGoal
     logs.write_log("[came] init")
     await sendMsg(ws, dat, r)
 

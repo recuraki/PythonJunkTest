@@ -8,18 +8,18 @@ from Logs import Log
 import jinja2
 
 class Maze(object):
-    map: List[List[str]]
+    map: List[List[int]]
     sizeX: int
     sizeY: int
     posStart: Tuple[int, int]
-    posEnd: Tuple[int, int]
-
+    posGoal: Tuple[int, int]
 
     def __init__(self, x: int = 4, y: int = 4):
         self.sizeX = x
         self.sizeY = y
         self.initMap()
         self.initTest()
+        pprint(self.map)
 
     def initMap(self):
         self.map = list()
@@ -28,10 +28,18 @@ class Maze(object):
         self.map[0] = [9] + [1] * (self.sizeX - 2) + [3]
         for i in range(1, self.sizeY - 1):
             self.map[i] = [8] + [0] * (self.sizeX - 2) + [2]
-        self.map[self.sizeY - 1 ] = [12] + [4] * (self.sizeX - 2) + [6]
-        pprint(self.map)
+        self.map[self.sizeY - 1] = [12] + [4] * (self.sizeX - 2) + [6]
 
     def initTest(self):
+        self.posStart = (0, 0)
+        self.posGoal = (3, 3)
+        self.map[0][0] = self.map[0][0] + 4
+        self.map[0][1] = self.map[0][1] + 2
+
+class Solver(object):
+    maze: Maze
+    def __init__(self, m: Maze):
+        self.maze = m
 
 
 if __name__ == "__main__":
