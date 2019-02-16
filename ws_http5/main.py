@@ -8,7 +8,6 @@ from pprint import pprint
 import datetime
 from Logs import Log
 import jinja2
-import ssl
 
 bindHost = "0.0.0.0"
 bindPort = 8081
