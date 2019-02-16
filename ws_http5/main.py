@@ -8,6 +8,8 @@ from pprint import pprint
 import datetime
 from Logs import Log
 import jinja2
+import aioconsole
+
 
 from Maze import Maze
 from Maze import Solver
@@ -59,6 +61,25 @@ async def ws_init(ws, dat: dict) -> None:
     logs.write_log("[came] init")
     await sendMsg(ws, dat, r)
 
+async def ws_next(ws, dat: dict) -> None:
+    r = {}
+    r["method"] = "responseoNext"
+    logs.write_log("[came] next")
+    await sendMsg(ws, dat, r)
+
+finish = False
+async def solveUpdate() -> None:
+    global finish
+    if finish:
+        return
+    # s.solve()
+    r = {}
+    r["method"] = "update"
+    r["searchCells"], finish = next(n)
+    logs.write_log("[send] update")
+    for wsc in ws_clients:
+        await sendMsg(wsc, {}, r)
+
 
 async def web_connect(request: web.Request):
     # wsの初期化
@@ -88,6 +109,9 @@ async def web_connect(request: web.Request):
 
         if dat["method"] == "ping":
             await ws.send_str('{"method": "pong"}')
+
+        if dat["method"] == "next":
+            await ws_next(ws, dat)
 
     ws_clients.remove(ws)
     print('websocket connection closed')
@@ -119,11 +143,34 @@ app["static_root_url"] = "/static"
 aiohttp_jinja2.setup(app, loader=jinja2.FileSystemLoader("./"), filters=j2_filters)
 app.add_routes(routes)
 
+class Cli(object):
+    def __init__(self, loop):
+        self.loop = loop
+
+    async def read(self):
+        while True:
+            s = sys.stdin.readline().strip()
+            if s == "exit":
+                return
+            yield s
+
+    async def task(self):
+        print("task")
+        stdin, stdout = await aioconsole.get_standard_streams()
+        async for s in stdin:
+            s = s.decode()
+            s = s.strip()
+            print("async for [{0}]".format(s))
+            if s == "":
+                await solveUpdate()
+
+
 logs = Log()
 logs.write_log("init")
 
 m = Maze()
 s = Solver(m)
+n = s.solve()
 
 if __name__ == "__main__":
     # グローバルなループイベントの作成
@@ -133,6 +180,8 @@ if __name__ == "__main__":
     loop.run_until_complete(runner.setup())
     site = web.TCPSite(runner, port=bindPort)
 
+    c = Cli(loop)
+
     # ループイベントにWebタスクを追加する
     cors = []
     cors.append(site.start())
@@ -140,6 +189,8 @@ if __name__ == "__main__":
 
     # ループの開始
     print(">> Server Process Start [{0};{1}]".format(bindHost, bindPort))
+
+    asyncio.ensure_future(c.task())
 
     loop.run_forever()
 

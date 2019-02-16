@@ -87,6 +87,14 @@ function handleResponseInit(dat){
   drawMap(ctx);
 }
 
+function handleUpdate(dat){
+  console.log("update()")
+  searchCellsUpdate = dat["searchCells"]
+  console.log(searchCellsUpdate)
+  searchCells.push(searchCellsUpdate)
+  drawMap(ctx)
+}
+
 function handleResponse(dat)
 {
   console.log(dat);
@@ -95,6 +103,9 @@ function handleResponse(dat)
   }
   if(dat["method"] == "responseoInit"){
     handleResponseInit(dat)
+  }
+  if(dat["method"] == "update"){
+    handleUpdate(dat)
   }
 }
 

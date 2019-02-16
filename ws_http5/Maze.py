@@ -14,7 +14,7 @@ class Maze(object):
     posStart: Tuple[int, int]
     posGoal: Tuple[int, int]
 
-    def __init__(self, x: int = 4, y: int = 4):
+    def __init__(self, x: int = 6, y: int = 6):
         self.sizeX = x
         self.sizeY = y
         self.initMap()
@@ -62,6 +62,13 @@ class Maze(object):
         self.posGoal = (3, 3)
         self.map[0][0] = self.map[0][0] + 4
         self.map[0][1] = self.map[0][1] + 2
+        self.map[1][1] = self.map[1][1] + 4 + 2
+        self.map[2][0] = self.map[2][0] + 2
+        self.map[3][0] = self.map[3][0] + 2
+        self.map[4][0] = self.map[4][0] + 2
+        self.map[3][3] = self.map[3][3] + 2 + 8 + 1
+        self.map[4][3] = self.map[4][3] + 8 + 2
+        self.map[5][3] = self.map[5][3] + 8
 
 
 class Solver(object):
@@ -82,20 +89,28 @@ class Solver(object):
         self.discardMap = list()
         for y in range(self.maze.sizeY):
             self.searchMap.append([False] * self.maze.sizeX)
-        self.initTest()
-
-    def initTest(self):
-        self.discardCells.append((1, 1))
-        self.discardCells.append((1, 2))
-        self.searchCells.append((2, 2))
-        self.searchCells.append((2, 3))
+        self.searchMap[self.maze.posStart[1]][self.maze.posStart[0]] = True
+        self.solve()
 
 
-    def next(self):
+
+    def solve(self):
         queueSearch: List[Tuple[int, int]] = list()
-        queueSearch.append(m.posStart)
-        while len(queueSearch > 0):
+        queueSearch.append(self.maze.posStart)
+        while len(queueSearch) > 0 :
             pos, queueSearch = queueSearch[0], queueSearch[1:]
+
+            print("current" + str(pos))
+            for next in self.maze.suggestNextPoss(pos):
+                if next == self.maze.posGoal:
+                    print("SOLVED")
+                    yield next,True
+                if self.searchMap[next[1]][next[0]] is not False:
+                    continue  # 既に動いたところには戻りたくない
+                # そうでないなら次の移動候補
+                self.searchMap[next[1]][next[0]] = True
+                queueSearch.append(next)
+                yield next,False
 
 
 if __name__ == "__main__":
