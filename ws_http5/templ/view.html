@@ -1,0 +1,145 @@
+<html>
+<head>
+<title>view</title>
+
+<script>
+/*
+ 1: うえ
+ 2: みぎ
+ 4: した
+ 8: ひだり
+*/
+ var uri = "ws://127.0.0.1:8081/connect";
+ var ws;
+ var  map = [];
+ var sizefield = [];
+ var posstart = [0, 0];
+ var posgoal = [0, 0];
+ var sizecell = 20; // セルサイズ
+ var sizeline = 1; // セルの枠線
+ var lineColor =  'rgb(0,0,255)';
+ var fillColorDiscard =  'rgb(255,0,0)';
+ var fillColorSearching =  'rgb(255,255,0)';
+ var fillColorStart =  'rgb(0,255,0)';
+ var fillColorGoal =  'rgb(0,255,0)';
+
+function init(){
+ var ctx = document.getElementById("cv1").getContext("2d");
+ dummymap();
+ drawMap(ctx);
+ wsOpen();
+}
+
+function wsOpen()
+{
+  if (ws == null) 
+  {
+    ws = new WebSocket(uri);
+    ws.onopen = wsOnOpen;
+    ws.onmessage = wsOnMessage;
+    ws.onclose = wsOnClose;
+    ws.onerror = wsOnError;
+  }
+}
+
+function wsOnOpen(e){
+  ws.send('{"method": "ping"}');
+}
+
+function wsOnError(e){
+  return;
+}
+
+function wsOnClose(e){
+  ws = null;
+  console.log("WebSocket was closed. Client will try reconnect after 3 sec.");
+  setTimeout("wsOpen()", 3000);
+}
+
+function wsOnMessage(e){
+  if(e && e.data){
+    dat = JSON.parse(e.data); 
+    console.log(dat);
+  }
+  else{
+    console.log("event don't have data")
+    return;
+  }
+}
+
+function drawMap(ctx){
+  console.log("a");
+  var x, y; // loopcounter
+  for(y = 0; y < map.length; y++) {
+    for(x = 0; x < map[y].length; x++){
+      console.log(map[y][x]);
+      /* 描画する座標の計算 */
+      pos = [(sizeline + sizecell + sizeline) * x, (sizeline + sizecell + sizeline) * y];
+      /* 座標の hex strの int化 */
+      value = parseInt("0x" + map[y][x]);
+      drawCell(ctx, pos, value, fillColorDiscard);
+    }
+  }
+}
+
+function drawline(ctx, x1, y1, x2, y2, color)
+{
+  ctx.beginPath();
+  ctx.moveTo(x1, y1);
+  ctx.lineTo(x2, y2);
+  ctx.strokeStyle = lineColor;
+  ctx.closePath();
+  ctx.stroke();
+}
+
+function drawCell(ctx, pos, value, color)
+{
+  if(value & 0x1){drawline(ctx, pos[0], pos[1], pos[0] + sizecell + sizeline, pos[1], color);}
+  if(value & 0x2){drawline(ctx, pos[0] + sizecell + sizeline, pos[1] , pos[0] + sizecell + sizeline, pos[1] + sizecell + sizeline, color);}
+  if(value & 0x4){drawline(ctx, pos[0] + sizecell + sizeline, pos[1] + sizecell + sizeline, pos[0] , pos[1] + sizecell + sizeline, color);}
+  if(value & 0x8){drawline(ctx, pos[0] , pos[1] + sizecell + sizeline, pos[0] , pos[1], color);}
+  /* Fill cell as specificated color */
+  ctx.beginPath();;
+  ctx.fillStyle = fillColorDiscard;
+  ctx.rect(pos[0] + sizeline, pos[1] + sizeline, sizecell, sizecell);
+  ctx.fill();
+  ctx.closePath();
+}
+
+function draw1(){
+  var ctx = document.getElementById("cv1").getContext("2d");
+  ctx.beginPath();
+  ctx.moveTo(50, 50);
+  ctx.lineTo(100, 100);
+  ctx.fillStyle = 'rgb(0,0,255)';
+  ctx.closePath();
+  ctx.stroke();
+}
+
+
+function dummymap(){
+ map = [
+  ["0", "1", "2", "3"],
+  ["4", "5", "6", "7"],
+  ["8", "9", "a", "b"],
+  ["c", "d", "e", "f"],
+ ];
+
+ fieldsize = [4, 4];
+ posstart = [0, 0];
+ posend = [3, 3];
+}
+
+function fetchsize(){
+ 
+}
+
+</script>
+
+</head>
+<body onload="init()">
+
+<canvas id="cv1" width="360" height="240"></canvas>
+
+</body>
+</html>
