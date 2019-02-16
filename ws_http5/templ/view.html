@@ -11,7 +11,7 @@
 */
  var uri = "ws://127.0.0.1:8081/connect";
  var ws;
- var  map = [];
+ var map = [];
  var sizefield = [];
  var posstart = [0, 0];
  var posgoal = [0, 0];
@@ -22,12 +22,12 @@
  var fillColorSearching =  'rgb(255,255,0)';
  var fillColorStart =  'rgb(0,255,0)';
  var fillColorGoal =  'rgb(0,255,0)';
-
+ var ctx;
 function init(){
- var ctx = document.getElementById("cv1").getContext("2d");
+ ctx = document.getElementById("cv1").getContext("2d");
  dummymap();
- drawMap(ctx);
  wsOpen();
+ drawMap(ctx);
 }
 
 function wsOpen()
@@ -44,6 +44,7 @@ function wsOpen()
 
 function wsOnOpen(e){
   ws.send('{"method": "ping"}');
+  ws.send('{"method": "init"}');
 }
 
 function wsOnError(e){
@@ -58,8 +59,14 @@ function wsOnClose(e){
 
 function wsOnMessage(e){
   if(e && e.data){
-    dat = JSON.parse(e.data); 
-    console.log(dat);
+    try{
+      var dat = JSON.parse(e.data); 
+      handleResponse(dat)
+    } catch(error) {
+      console.log("ERROR: JSON FORMAT")
+      return
+    }
+
   }
   else{
     console.log("event don't have data")
@@ -67,8 +74,26 @@ function wsOnMessage(e){
   }
 }
 
+function handleResponseInit(dat){
+  map = dat["map"];
+  drawMap(ctx);
+}
+
+function handleResponse(dat)
+{
+  console.log(dat);
+  if(dat["method"] == "pong"){
+    console.log("PONG");
+  }
+  if(dat["method"] == "responseoInit"){
+    handleResponseInit(dat)
+  }
+
+}
+
 function drawMap(ctx){
-  console.log("a");
+  ctx.clearRect(0, 0, ctx.width, ctx.height);
+  console.log("DRAW");
   var x, y; // loopcounter
   for(y = 0; y < map.length; y++) {
     for(x = 0; x < map[y].length; x++){
@@ -76,7 +101,7 @@ function drawMap(ctx){
       /* 描画する座標の計算 */
       pos = [(sizeline + sizecell + sizeline) * x, (sizeline + sizecell + sizeline) * y];
       /* 座標の hex strの int化 */
-      value = parseInt("0x" + map[y][x]);
+      value = map[y][x];
       drawCell(ctx, pos, value, fillColorDiscard);
     }
   }
@@ -124,7 +149,7 @@ function dummymap(){
   ["8", "9", "a", "b"],
   ["c", "d", "e", "f"],
  ];
-
+ map=[]
  fieldsize = [4, 4];
  posstart = [0, 0];
  posend = [3, 3];

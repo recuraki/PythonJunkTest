@@ -1,6 +1,7 @@
 import asyncio
 import json
 from typing import List
+from typing import Tuple
 from pprint import pprint
 import datetime
 from Logs import Log
@@ -10,11 +11,15 @@ class Maze(object):
     map: List[List[str]]
     sizeX: int
     sizeY: int
+    posStart: Tuple[int, int]
+    posEnd: Tuple[int, int]
+
 
     def __init__(self, x: int = 4, y: int = 4):
         self.sizeX = x
         self.sizeY = y
         self.initMap()
+        self.initTest()
 
     def initMap(self):
         self.map = list()
@@ -25,6 +30,8 @@ class Maze(object):
             self.map[i] = [8] + [0] * (self.sizeX - 2) + [2]
         self.map[self.sizeY - 1 ] = [12] + [4] * (self.sizeX - 2) + [6]
         pprint(self.map)
+
+    def initTest(self):
 
 
 if __name__ == "__main__":

@@ -9,6 +9,8 @@ import datetime
 from Logs import Log
 import jinja2
 
+from Maze import Maze
+
 bindHost = "0.0.0.0"
 bindPort = 8081
 
@@ -21,6 +23,37 @@ async def web_hello(request: web.Request):
     args["application"] = "DashBoard"
     args["name"] = request.url.query.get("name", "somebody")
     return web.json_response(text=json.dumps(args))
+
+async def sendMsg(wsd, dat: dict, res: dict, debug = False):
+    """
+
+    :param wsd: websocket clientのオブジェクト
+    :param dat: clientから送られてきたデータ
+    :param res: 返信すべきデータ
+    :return:
+    """
+    # 成功応答の作成
+    res["result"] = "ok"
+    res["reason"] = ""
+    res["nodeName"] = ""
+    res["msgId"] = ""
+    # 反射
+    if "nodeName" in dat:
+        res["nodeName"] = dat["nodeName"]
+    if "msgId" in dat:
+        res["msgId"] = dat["msgId"]
+    if debug:
+        pprint(res)
+    await wsd.send_str(json.dumps(res, indent=4))
+
+
+async def ws_init(ws, dat: dict) -> None:
+    r = {}
+    r["method"] = "responseoInit"
+    r["map"] = m.map
+    logs.write_log("[came] init")
+    await sendMsg(ws, dat, r)
+
 
 async def web_connect(request: web.Request):
     # wsの初期化
@@ -46,7 +79,7 @@ async def web_connect(request: web.Request):
             continue
 
         if dat["method"] == "init":
-            await ws.send_str("{}")
+            await ws_init(ws, dat)
 
         if dat["method"] == "ping":
             await ws.send_str('{"method": "pong"}')
@@ -83,6 +116,8 @@ app.add_routes(routes)
 
 logs = Log()
 logs.write_log("init")
+
+m = Maze()
 
 if __name__ == "__main__":
     # グローバルなループイベントの作成
