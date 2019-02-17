@@ -66,6 +66,7 @@ async def ws_next(ws, dat: dict) -> None:
     r["method"] = "responseoNext"
     logs.write_log("[came] next")
     await sendMsg(ws, dat, r)
+    await solveUpdate()
 
 finish = False
 async def solveUpdate() -> None:
@@ -123,10 +124,15 @@ async def web_log(request: web.Request):
     args["logs"] = logs.get_logs()
     return aiohttp_jinja2.render_template("templ/status.templ", request, args)
 
+async def web_view(request: web.Request):
+    args = dict()
+    return aiohttp_jinja2.render_template("templ/view.html", request, args)
+
 routes = [
     web.get   ("/", web_hello),
     web.get("/logs", web_log),
     web.get("/connect", web_connect),
+    web.get("/view", web_view),
     web.static("/static", "./static"),
 ]
 

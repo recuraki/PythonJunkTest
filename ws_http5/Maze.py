@@ -69,6 +69,13 @@ class Maze(object):
         self.map[3][3] = self.map[3][3] + 2 + 8 + 1
         self.map[4][3] = self.map[4][3] + 8 + 2
         self.map[5][3] = self.map[5][3] + 8
+        self.map[2][1] = self.map[2][1] + 2
+        self.map[3][1] = self.map[3][1] + 2
+        self.map[4][1] = self.map[4][1] + 2
+        self.map[1][2] = self.map[1][2] + 2
+        self.map[0][3] = self.map[0][3] + 4
+        self.map[0][4] = self.map[0][4] + 4
+        self.map[0][5] = self.map[0][5] + 4
 
 
 class Solver(object):

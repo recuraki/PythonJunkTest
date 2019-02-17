@@ -25,10 +25,11 @@
  var fillColorGoal =  'rgb(0,255,0)';
  var discardCells = [];
  var searchCells = [];
+ var solved;
  var ctx;
-function init(){
+
+ function init(){
  ctx = document.getElementById("cv1").getContext("2d");
- dummymap();
  wsOpen();
  drawMap(ctx);
 }
@@ -48,6 +49,7 @@ function wsOpen()
 function wsOnOpen(e){
   ws.send('{"method": "ping"}');
   ws.send('{"method": "init"}');
+  setTimeout("sendNext()", 2000);
 }
 
 function wsOnError(e){
@@ -76,6 +78,12 @@ function wsOnMessage(e){
     console.log("event don't have data")
     return;
   }
+}
+
+function sendNext()
+{
+  ws.send('{"method": "next"}');
+  setTimeout("sendNext()", 300);
 }
 
 function handleResponseInit(dat){
@@ -161,35 +169,6 @@ function drawCell(ctx, posCell, value, color)
   ctx.fill();
   ctx.closePath();
 }
-
-function draw1(){
-  var ctx = document.getElementById("cv1").getContext("2d");
-  ctx.beginPath();
-  ctx.moveTo(50, 50);
-  ctx.lineTo(100, 100);
-  ctx.fillStyle = 'rgb(0,0,255)';
-  ctx.closePath();
-  ctx.stroke();
-}
-
-
-function dummymap(){
- map = [
-  ["0", "1", "2", "3"],
-  ["4", "5", "6", "7"],
-  ["8", "9", "a", "b"],
-  ["c", "d", "e", "f"],
- ];
- map=[]
- fieldsize = [4, 4];
- posStart = [0, 0];
- posend = [3, 3];
-}
-
-function fetchsize(){
- 
-}
-
 </script>
 
 </head>
