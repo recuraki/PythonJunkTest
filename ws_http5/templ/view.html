@@ -20,7 +20,7 @@
  var lineColor =  'rgb(0,0,255)';
  var fillColorBlank = 'rgb(255,255,255)';
  var fillColorDiscard =  'rgb(255,0,0)';
- var fillColorSearching =  'rgb(255,255,0)';
+ var fillColorSearching =  'rgb(64,192,32)';
  var fillColorStart =  'rgb(0,255,0)';
  var fillColorGoal =  'rgb(0,255,0)';
  var discardCells = [];
@@ -83,7 +83,7 @@ function wsOnMessage(e){
 function sendNext()
 {
   ws.send('{"method": "next"}');
-  setTimeout("sendNext()", 300);
+  setTimeout("sendNext()", 150);
 }
 
 function handleResponseInit(dat){
