@@ -1,0 +1,185 @@
+<html>
+<head>
+<title>view</title>
+
+<script>
+/*
+ 1: うえ
+ 2: みぎ
+ 4: した
+ 8: ひだり
+*/
+ var uri = "ws://127.0.0.1:8081/connect";
+ var ws;
+ var map = [];
+ var sizefield = [];
+ var posStart = [0, 0];
+ var posGoal = [0, 0];
+ var sizeCell = 20; // セルサイズ
+ var sizeLine = 1; // セルの枠線
+ var lineColor =  'rgb(0,0,255)';
+ var fillColorBlank = 'rgb(255,255,255)';
+ var fillColorDiscard =  'rgb(255,0,0)';
+ var fillColorSearching =  'rgb(64,192,32)';
+ var fillColorStart =  'rgb(0,255,0)';
+ var fillColorGoal =  'rgb(0,255,0)';
+ var fillColorWall = 'rgb(0,0,0)';
+ var discardCells = [];
+ var searchCells = [];
+ var solved;
+ var ctx;
+
+ var BLANK = 0;
+ var WALL = 1;
+ var SEARCHED = 2;
+
+ function init(){
+ ctx = document.getElementById("cv1").getContext("2d");
+ wsOpen();
+ drawMap(ctx);
+}
+
+function wsOpen()
+{
+  if (ws == null) 
+  {
+    ws = new WebSocket(uri);
+    ws.onopen = wsOnOpen;
+    ws.onmessage = wsOnMessage;
+    ws.onclose = wsOnClose;
+    ws.onerror = wsOnError;
+  }
+}
+
+function wsOnOpen(e){
+  ws.send('{"method": "ping"}');
+  ws.send('{"method": "init"}');
+  setTimeout("sendNext()", 2000);
+}
+
+function wsOnError(e){
+  return;
+}
+
+function wsOnClose(e){
+  ws = null;
+  console.error("[WARN]WebSocket was closed. Client will try reconnect after 1 sec.");
+  
+  setTimeout("wsOpen()", 1000);
+}
+
+function wsOnMessage(e){
+  if(e && e.data){
+    try{
+      var dat = JSON.parse(e.data); 
+      handleResponse(dat)
+    } catch(error) {
+      console.log("ERROR: JSON FORMAT")
+      return
+    }
+
+  }
+  else{
+    console.log("event don't have data")
+    return;
+  }
+}
+
+function sendNext()
+{
+  ws.send('{"method": "next"}');
+  setTimeout("sendNext()", 75);
+}
+
+function handleResponseInit(dat){
+  map = dat["map"];
+  posGoal = dat["posGoal"]
+  posStart = dat["posStart"]
+  discardCells = dat["discardCells"]
+  searchCells = dat["searchCells"]
+  drawMap(ctx);
+}
+
+function handleUpdate(dat){
+  console.log("update()")
+  searchCellsUpdate = dat["searchCells"]
+  console.log(searchCellsUpdate)
+  searchCells.push(searchCellsUpdate)
+  drawMap(ctx)
+}
+
+function handleResponse(dat)
+{
+  console.log(dat);
+  if(dat["method"] == "pong"){
+    console.log("PONG");
+  }
+  if(dat["method"] == "responseoInit"){
+    handleResponseInit(dat)
+  }
+  if(dat["method"] == "update"){
+    handleUpdate(dat)
+  }
+}
+
+function drawMap(ctx){
+  ctx.clearRect(0, 0, ctx.width, ctx.height);
+  console.log("DRAW");
+  var x, y; // loopcounter
+  for(y = 0; y < map.length; y++) {
+    for(x = 0; x < map[y].length; x++){
+      /* 描画する座標の計算 */
+      /* 座標の hex strの int化 */
+      value = map[y][x];
+      if((value & WALL) == 0){
+        drawCell(ctx, [x, y], value, fillColorBlank);
+      }
+      if(value & WALL){
+        drawCell(ctx, [x, y], value, fillColorWall);
+      }
+    }
+  }
+  //drawCell(ctx, [posStart], map[posStart[0], posStart[1]], fillColorStart)
+  drawCell(ctx, posStart, map[posStart[0], posGoal[1]], fillColorStart)
+  drawCell(ctx, posGoal, map[posGoal[0], posGoal[1]], fillColorGoal)
+  for(i = 0; i < discardCells.length; i++){
+    var c = discardCells[i];
+    console.log(c)
+    drawCell(ctx, c, map[c[0], c[1]], fillColorDiscard);
+  }
+  for(i = 0; i < searchCells.length; i++){
+    var c = searchCells[i];
+    console.log(c)
+    drawCell(ctx, c, map[c[0], c[1]], fillColorSearching);
+  }
+}
+
+function drawline(ctx, x1, y1, x2, y2, color)
+{
+  ctx.beginPath();
+  ctx.moveTo(x1, y1);
+  ctx.lineTo(x2, y2);
+  ctx.strokeStyle = lineColor;
+  ctx.closePath();
+  ctx.stroke();
+}
+
+function drawCell(ctx, posCell, value, color)
+{
+  pos = [(sizeLine + sizeCell + sizeLine) * posCell[0], (sizeLine + sizeCell + sizeLine) * posCell[1]];
+  /* Fill cell as specificated color */
+  ctx.beginPath();;
+  ctx.fillStyle = color;
+  ctx.rect(pos[0] + sizeLine, pos[1] + sizeLine, sizeCell, sizeCell);
+  ctx.fill();
+  ctx.closePath();
+}
+</script>
+
+</head>
+<body onload="init()">
+
+<canvas id="cv1" width="360" height="360"></canvas>
+
+</body>
+</html>
