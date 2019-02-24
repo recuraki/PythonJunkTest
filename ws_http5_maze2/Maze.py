@@ -20,6 +20,7 @@ class Maze(object):
     posGoal: Tuple[int, int]
 
     def __init__(self, x: int = 13, y: int = 13):
+        pprint("init Maze")
         self.sizeX = x
         self.sizeY = y
         self.initMap()
@@ -72,7 +73,7 @@ class Maze(object):
     def initTest(self):
         self.posStart = (1, 1)
         self.posGoal = (7, 7)
-        self.setWall(1,2)
+        self.setWall(1, 2)
         self.setWall(4, 1)
         self.setWall(4, 1)
         self.setWall(2, 5)
@@ -93,7 +94,6 @@ class Maze(object):
         self.setWall(7, 6)
         self.setWall(8, 7)
         self.setWall(8, 9)
-
         pprint(self.suggestNextPoss((1,1)))
 
 
@@ -108,6 +108,7 @@ class Solver(object):
     discardMap: List[List[bool]]
 
     def __init__(self, m: Maze):
+        pprint("init Solver")
         self.maze = m
         self.searchCells = list()
         self.discardCells = list()
@@ -118,7 +119,44 @@ class Solver(object):
         self.searchMap[self.maze.posStart[1]][self.maze.posStart[0]] = True
         self.solve()
 
-    def solve(self):
+
+    def solve_astar(self):
+        queueSearch: List[ Tuple[Tuple[int, int],int ]] = list()
+
+        # hfuncはヒューリスティック関数
+        hfunc = lambda s, g: abs(s[0] - g[0]) + abs(s[1] - g[1])
+        # hは任意の点とゴールまでの距離を示す関数
+        h = lambda x: hfunc(x, self.maze.posGoal)
+        sortkey = lambda x: x[1]
+
+        queueSearch.append( (self.maze.posStart, h(self.maze.posStart )))
+
+        pprint(queueSearch)
+        while len(queueSearch) > 0 :
+            # 次の探索リストをdequeueする
+            cur, queueSearch = queueSearch[0], queueSearch[1:]
+            pos = cur[0]
+            print("CUR" + str(pos))
+            # 次に行けるところを一覧する
+            step = 0
+            for next in self.maze.suggestNextPoss(pos):
+                step = 1
+                # ゴールに行ける場合は向かう
+                if next == self.maze.posGoal:
+                    print("SOLVED")
+                    yield pos,True
+                # 動けるところが既知のところか？
+                if self.searchMap[next[1]][next[0]] is not False:
+                    continue  # 既に動いたところには戻りたくない
+                # そうでないなら次の移動候補
+                self.searchMap[next[1]][next[0]] = True
+                queueSearch = [ (next, h(next)) ] + queueSearch
+                queueSearch = sorted(queueSearch, key=sortkey)
+                pprint(queueSearch)
+                yield pos,False
+                #yield next,False
+
+    def solve_habatansaku(self):
         queueSearch: List[Tuple[int, int]] = list()
         queueSearch.append(self.maze.posStart)
         while len(queueSearch) > 0 :
@@ -135,6 +173,8 @@ class Solver(object):
                 self.searchMap[next[1]][next[0]] = True
                 queueSearch.append(next)
                 yield next,False
+
+    solve = solve_astar
 
 
 if __name__ == "__main__":

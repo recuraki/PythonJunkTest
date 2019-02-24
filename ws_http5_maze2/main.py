@@ -49,8 +49,10 @@ async def sendMsg(wsd, dat: dict, res: dict, debug = False):
         pprint(res)
     await wsd.send_str(json.dumps(res, indent=4))
 
-
 async def ws_init(ws, dat: dict) -> None:
+    m = Maze()
+    s = Solver(m)
+    n = s.solve()
     r = {}
     r["method"] = "responseoInit"
     r["map"] = m.map
@@ -73,7 +75,6 @@ async def solveUpdate() -> None:
     global finish
     if finish:
         return
-    # s.solve()
     r = {}
     r["method"] = "update"
     r["searchCells"], finish = next(n)
