@@ -323,7 +323,7 @@ function* solve_fukasa(){
       var newpath = path.slice();
       newpath.push(next)
 
-      queueSearch.push( [next.slice(), newpath] )
+      queueSearch.unshift( [next.slice(), newpath] )
 
       console.log(queueSearch)
 
@@ -374,7 +374,7 @@ function* solve_haba(){
       var newpath = path.slice();
       newpath.push(next)
 
-      queueSearch.unshift( [next.slice(), newpath])
+      queueSearch.push( [next.slice(), newpath])
       console.log(queueSearch)
       yield( [false, next] )
     }
