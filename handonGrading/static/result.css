@@ -1,0 +1,9 @@
+.positivechar {background-color:#eeeeee; color:#44ff44;}
+.negativechar {background-color:#ffffff; color:#ff0000;}
+.resultlog {border-style: dashed;}
+.rule {font-size: 300%;}
+.contain {font-size:150%;}
+.notcontain {font-size:150%;}
+.rulecorrect {color: #000000;}
+.ruleincorrect {color: #ff0000;}
+.rulenoeval {color: #888888;}
