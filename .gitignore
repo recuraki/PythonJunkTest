@@ -6,3 +6,5 @@ cover
 .cache.*
 nosetests.xml
 */venv/
+*/venv2/
+*.BAK
