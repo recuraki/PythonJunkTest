@@ -177,7 +177,6 @@ testStr="""
        - "FULL"
      "notinclude": 
        - "192.168.0.2"
-       - "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
        - "2WAY"
 - "hostname": "JUNOSRouter"
   "device_type": "juniper_junos"
