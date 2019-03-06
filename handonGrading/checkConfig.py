@@ -171,7 +171,7 @@ testStr="""
   "ipaddr": "192.168.153.20"
   "tests":
    - "name": "SW1 is vty server"
-     "cmd": "show vtp statu"
+     "cmd": "show ip os nei"
      "include": 
        - "192.168.0.1"
        - "FULL"
@@ -212,13 +212,12 @@ if __name__ == "__main__":
     loop = asyncio.get_event_loop()
     cors = []
 
-    t = CheckConfig(debug=True)
     d = yaml.load(testStr)
     nodes = []
     is_pass = True
 
     for node in d:
-        cors.append(t.test(node))
+        cors.append(CheckConfig(debug=True).test(node))
     futures = asyncio.gather(*cors)
     loop.run_until_complete(futures)
 
