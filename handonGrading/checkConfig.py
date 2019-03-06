@@ -1,5 +1,14 @@
 from netmiko import Netmiko
+import netdev
 from SimpleTextLineTest import SimpleTextLineTest
+from SimpleTextLineTestDecorator import SimpleTextLineTestDecorator
+import asyncio
+import logging
+from pprint import pprint
+
+#logging.basicConfig(level=logging.INFO)
+#netdev.logger.setLevel(logging.DEBUG)
+
 
 class CheckConfig:
     """
@@ -7,6 +16,11 @@ class CheckConfig:
     """
     debug = False
     promptName = ""
+    net_connect = None
+    stlt = None
+    result = None
+    rawReturn = None
+
     def __init__(self, debug = False):
         self.debug = debug
         pass
@@ -15,19 +29,20 @@ class CheckConfig:
         if self.debug == True:
             print(d)
 
-    def connect(self, host, port, username, password, device_type="cisco_ios", enablePass = "cisco"):
+    async def connect(self, host, port, username, password, device_type="cisco_ios", enablePass = "cisco"):
         loginInfo = {
             "host": host,
             "username": username,
             "password": password,
-            "device_type": "cisco_ios",
-            "secret": password,  # enable
+            "device_type": device_type,
         }
-        self.net_connect = Netmiko(**loginInfo)
         if device_type in ["cisco_ios"]:
-            self.net_connect.enable()
+            loginInfo["secret"] = password
+        print(loginInfo)
+        self.net_connect = netdev.create(**loginInfo)
+        await self.net_connect.connect()
 
-    def do_singletest(self, cmd, p = [], n = []):
+    async def do_singletest(self, cmd, p = [], n = []):
         """
         :param cmd: これを実施する
         :param p: 含まれるべき文字列
@@ -36,8 +51,10 @@ class CheckConfig:
         """
         # 指定文字列の実行
         self.dp("send: {0}".format(cmd))
-        res = self.net_connect.send_command(cmd)
-
+        await asyncio.sleep(0.3)
+        res = await self.net_connect.send_command(cmd)
+        pprint("---2")
+        pprint(res)
         # 応答を評価する
         self.stlt = SimpleTextLineTest(res, p, n, debug=True)
         is_pass = self.stlt.is_pass()
@@ -71,7 +88,7 @@ class CheckConfig:
     def disconnect(self):
         pass
 
-    def test(self, diTests):
+    async def test(self, diTests):
         res = []
         ipaddr = diTests.get("ipaddr", "127.0.0.1")
         port = diTests.get("port", "23")
@@ -80,7 +97,7 @@ class CheckConfig:
         password = diTests.get("password", "test123")
         device_type = diTests.get("device_type", "cisco_ios")
 
-        self.connect(ipaddr, port, username, password, device_type=device_type)
+        await self.connect(ipaddr, port, username, password, device_type=device_type)
         final_pass = True
         for t in diTests.get("tests", []):
             name = t.get("name", "NONAME")
@@ -88,7 +105,7 @@ class CheckConfig:
             cmd = t.get("cmd", [])
             p = t.get("include", [])
             n = t.get("notinclude", [])
-            is_pass = self.do_singletest(cmd, p, n)
+            is_pass = await self.do_singletest(cmd, p, n)
             final_pass = final_pass and is_pass
             self.write("!!!!!!! END")
             self.write("")
@@ -99,7 +116,13 @@ class CheckConfig:
             r["cmd"] = cmd
             r["html"] = self.decorateHTML()
             res.append(r)
-        return (final_pass, res)
+        r = {}
+        r["hostname"] = hostname
+        r["pass"] = final_pass
+        ret = {}
+        ret["header"] = r
+        ret["test"] = res
+        return (ret)
 
 
     def write(self, cmd, rough= False):
@@ -148,15 +171,16 @@ testStr="""
   "ipaddr": "192.168.153.20"
   "tests":
    - "name": "SW1 is vty server"
-     "cmd": "show ip os nei"
+     "cmd": "show vtp statu"
      "include": 
        - "192.168.0.1"
        - "FULL"
      "notinclude": 
        - "192.168.0.2"
+       - "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
        - "2WAY"
 - "hostname": "JUNOSRouter"
-  "device_type": "juniper"
+  "device_type": "juniper_junos"
   "ipaddr": "192.168.153.10"
   "tests":
    - "name": "ospf"
@@ -181,53 +205,25 @@ testStr="""
        - "7.7.7.7"
        - "9.9.9.9"
 """
-
-
-from jinja2 import Environment, FileSystemLoader
-def j2_filter_date(date):
-    pass
-def j2_filter_positive(d):
-    return list(filter(lambda x: x[1] == "p", d))
-def j2_filter_negative(d):
-    return list(filter(lambda x: x[1] == "n", d))
-def j2_classname(d):
-    if d[0] == True:
-        return "rulecorrect"
-    if d[0] == False:
-        return "ruleincorrect"
-    return "rulenoeval"
-def j2_classname_nodes(d):
-    if d == True:
-        return "nodescorrect"
-    return "nodesincorrect"
-env = Environment(loader=FileSystemLoader('./', encoding='utf8'))
-env.filters["filter_positive"] = j2_filter_positive
-env.filters["filter_negative"] = j2_filter_negative
-env.filters["classname"] = j2_classname
-tpl = env.get_template('templ/result.templ')
-
-def render(res = [], is_pass = True):
-    print(res)
-    html = tpl.render(data=res, is_pass=is_pass)
-    return (html)
-
-
 import yaml
+
+
 if __name__ == "__main__":
+    loop = asyncio.get_event_loop()
+    cors = []
+
     t = CheckConfig(debug=True)
     d = yaml.load(testStr)
     nodes = []
     is_pass = True
-    for node in d:
-        res = t.test(node)
-        print(res)
-        nd = {}
-        nd["hostname"] = node["hostname"]
-        nd["res"] = res
-        if res[0] == False:
-            is_pass = False
-        nodes.append(nd)
 
-    print(nodes, is_pass)
+    for node in d:
+        cors.append(t.test(node))
+    futures = asyncio.gather(*cors)
+    loop.run_until_complete(futures)
+
+    nodes = futures.result()
+
+    sd = SimpleTextLineTestDecorator()
     with open("test.html", mode='w') as f:
-        f.write(render(nodes, is_pass))
+        f.write(sd.render(nodes))

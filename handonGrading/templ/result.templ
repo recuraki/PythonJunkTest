@@ -24,7 +24,7 @@
 <body>
 
 <hr>
-{% if is_pass %}
+{% if final_path %}
 This TestResult is PASS
 {% else %}
 FAIL
@@ -33,15 +33,15 @@ FAIL
 
 {% for node in data %}
 
-{% if node["res"][0] == True%}
- <div class="nodecorrect"><div class="node">[OK]{{ node["hostname"] }}</div></div>
+{% if node["header"]["pass"] == True %}
+ <div class="nodecorrect"><div class="node">[OK]{{ node["header"]["hostname"] }}</div></div>
 {% else %}
- <div class="nodeincorrect"><div class="node">[NG]{{ node["hostname"] }}</div></div>
+ <div class="nodeincorrect"><div class="node">[NG]{{ node["header"]["hostname"] }}</div></div>
 {% endif %}
 
-{% for rule in node["res"][1] %}
+{% for rule in node["test"] %}
 <hr>
-{% if rule ["is_pass"] == True%}
+{% if rule["is_pass"] == True%}
 <div class="rule"><div class="rulescorrect">[OK]{{ rule["name"] }}</div></div>
 {% else %}
 <div class="rule"><div class="rulesincorrect">[NG] {{ rule["name"] }}</div></div>

@@ -3,8 +3,6 @@
 
 import re
 from pprint import pprint
-from html import escape
-import jinja2
 
 class SimpleTextLineTest():
     """

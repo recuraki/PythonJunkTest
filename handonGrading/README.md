@@ -14,4 +14,8 @@ NW Equipment Grading Project
 
 このプロジェクトでは、NW装置にログインし、自動的に採点するシステムを実装する。
 
-# 
+# デザイン
+
+SimpleTextLineTest(Object)
+
+SimpleTextLineTestDecorater(Object)
