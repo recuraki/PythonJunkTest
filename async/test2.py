@@ -12,7 +12,7 @@ res, pending = await asyncio.wait([cors...])
 加えて、asyncio.waitの戻り値resは順不同であるため、
 戻り値を識別できるコードは入れるべきである。(あるいは、順が必要なら、ソート用にキーを返すべきである)
 
-これに対して、  asyncio.ensure_future(
+これに対して、  asyncio.ensure_future(asyncio.gather([cors..]))した際は順序が保存されるため、要注意
 
 wake[b]
 wake[a]
@@ -77,4 +77,4 @@ if __name__ == "__main__":
     loop = asyncio.get_event_loop()
     futures =asyncio.gather(*cors)
     res = loop.run_until_complete(futures)
-    print(res)
+    print　res
