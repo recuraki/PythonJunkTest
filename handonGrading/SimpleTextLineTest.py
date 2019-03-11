@@ -4,6 +4,9 @@
 import re
 from pprint import pprint
 
+from logging import getLogger, StreamHandler, DEBUG
+logger = getLogger(__name__)
+
 class SimpleTextLineTest():
     """
     入力された文字列（複数行を想定）に対して、

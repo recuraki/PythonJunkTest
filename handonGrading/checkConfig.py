@@ -1,14 +1,16 @@
-from netmiko import Netmiko
 import netdev
 from SimpleTextLineTest import SimpleTextLineTest
 from SimpleTextLineTestDecorator import SimpleTextLineTestDecorator
 import asyncio
-import logging
-from pprint import pprint
+import yaml
 
-#logging.basicConfig(level=logging.INFO)
-#netdev.logger.setLevel(logging.DEBUG)
-
+from logging import getLogger, StreamHandler, DEBUG
+logger = getLogger(__name__)
+handler = StreamHandler()
+handler.setLevel(DEBUG)
+logger.setLevel(DEBUG)
+logger.addHandler(handler)
+logger.propagate = False
 
 class CheckConfig:
     """
@@ -50,11 +52,11 @@ class CheckConfig:
         :return: 結果true or false
         """
         # 指定文字列の実行
-        self.dp("send: {0}".format(cmd))
+        logger.debug("send: {0}".format(cmd))
         await asyncio.sleep(0.3)
         res = await self.net_connect.send_command(cmd)
-        pprint("---2")
-        pprint(res)
+        logger.debug("result")
+        logger.debug(res)
         # 応答を評価する
         self.stlt = SimpleTextLineTest(res, p, n, debug=True)
         is_pass = self.stlt.is_pass()
@@ -65,7 +67,7 @@ class CheckConfig:
         # 結果をターミナルに書く
         resultstr = self.result2str()
         for l in resultstr:
-            self.write("!" + l)
+            logger.debug("!" + l)
         return is_pass
 
     def result2str(self):
@@ -97,18 +99,19 @@ class CheckConfig:
         password = diTests.get("password", "test123")
         device_type = diTests.get("device_type", "cisco_ios")
 
+        logger.info("connecting to: " + hostname)
         await self.connect(ipaddr, port, username, password, device_type=device_type)
         final_pass = True
         for t in diTests.get("tests", []):
             name = t.get("name", "NONAME")
-            self.write("!!!!!!! BEGIN Test: {0}".format(name))
+            logger.debug("!!!!!!! BEGIN Test: {0}".format(name))
             cmd = t.get("cmd", [])
             p = t.get("include", [])
             n = t.get("notinclude", [])
             is_pass = await self.do_singletest(cmd, p, n)
             final_pass = final_pass and is_pass
-            self.write("!!!!!!! END")
-            self.write("")
+            logger.debug("!!!!!!! END")
+            logger.debug("")
             r = {}
             r["name"] = name
             r["is_pass"] = is_pass
@@ -122,11 +125,10 @@ class CheckConfig:
         ret = {}
         ret["header"] = r
         ret["test"] = res
+        logger.info("finish on: " + hostname)
         return (ret)
 
 
-    def write(self, cmd, rough= False):
-        self.dp("send: {0}".format(cmd))
 
     def writeResult(self, result):
             """
@@ -134,16 +136,14 @@ class CheckConfig:
             :param result:
             :return:
             """
-            self.write("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-            self.write("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+            logger.debug("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
             finalResult = True
             for name, is_pass in result:
                 s = "PASS" if is_pass else "FAIL"
                 finalResult = finalResult and is_pass
-                self.write("! [{0}]: {1}".format(s, name))
-            self.write("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-            self.write("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-            self.write("! FINAL RESULT [{0}]".format("PASS" if finalResult else "FAIL"))
+                logger.debug("! [{0}]: {1}".format(s, name))
+            logger.debug("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+            logger.debug("! FINAL RESULT [{0}]".format("PASS" if finalResult else "FAIL"))
 
     def writeResult2stdout(self, result):
         """
@@ -204,7 +204,6 @@ testStr="""
        - "7.7.7.7"
        - "9.9.9.9"
 """
-import yaml
 
 
 if __name__ == "__main__":
@@ -219,7 +218,6 @@ if __name__ == "__main__":
         cors.append(CheckConfig(debug=True).test(node))
     futures = asyncio.gather(*cors)
     loop.run_until_complete(futures)
-
     nodes = futures.result()
 
     sd = SimpleTextLineTestDecorator()
