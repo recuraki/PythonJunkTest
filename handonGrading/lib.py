@@ -12,9 +12,24 @@ import yaml
 import re
 
 def listScenarioname(path: str) -> list:
+    """
+    [(0, 'test', WindowsPath('scenario/test'))...]
+    :param path:
+    :return:
+    """
+    # pathの中にあるディレクトリを走査して
     dirs = listDirFromDir(path)
-    for d in dirs:
-        pprint(str(d.resolve()).replace(str(pathlib.Path(path).resolve()), "").replace("\\", "/"))
+    # フルパスを得て
+    pathdirs = list()
+    pathdirs = list(map(lambda d: str(d.resolve()), dirs))
+    # 指定されたディレクトリ前の範囲を削除して
+    pathdirs = list(map(lambda d: d.replace(str(pathlib.Path(path).resolve()), ""), pathdirs))
+    # windowsの場合は\を/に変換して
+    pathdirs = list(map(lambda d: d.replace("\\", "/"), pathdirs))
+    # 頭にパスの"/"があるので削除する
+    pathdirs = list(map(lambda d: str(re.sub("^/", "", d)),pathdirs))
+    # そして、それぞれ、ディレクトリ番号を0から振る
+    return list(zip(range(len(dirs)), pathdirs, dirs))
 
 def load_yaml_file(p) -> dict:
     """
@@ -62,14 +77,8 @@ def loadYamlFromDir(path: str) -> list:
 
 if __name__ == "__main__":
     scenarioPath = "./scenario"
-    logger.info(pformat(listDirFromDir("./scenario")))
-    logger.info("---")
-    logger.info(pformat(listYamlFromDir("./scenario")))
-    logger.info("---")
-    logger.info(pformat(listYamlFromDir("./scenario/test_cisco")))
-    logger.info("---")
-    logger.info(pformat(loadYamlFromDir("./scenario/test_cisco")))
-    logger.info("---")
-    logger.info(pformat(loadYamlFromDir("./scenario")))
-
-    listScenarioname(scenarioPath)
+    scenarios = listScenarioname(scenarioPath)
+    for no, name, p in scenarios:
+        test = loadYamlFromDir(p)
+        pprint(no)
+        pprint(test)

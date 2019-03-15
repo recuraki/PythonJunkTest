@@ -9,6 +9,8 @@ import datetime
 from Logs import Log
 import jinja2
 import aioconsole
+import lib
+from checkConfig import checkConfig, checkConfigTests
 
 from logging import getLogger, StreamHandler, DEBUG
 logger = getLogger(__name__)
@@ -46,8 +48,7 @@ async def web_reset(request: web.Request):
 
 async def web_list_scenarios(request: web.Request):
     args = dict()
-    args["application"] = "DashBoard"
-    args["name"] = request.url.query.get("name", "sce")
+    args["data"] = testall.list_scenario()
     return web.json_response(text=json.dumps(args))
 
 
@@ -55,11 +56,9 @@ async def web_detail_scenarios(request: web.Request):
     id = request.match_info["id"]
     if not id:
         return web.Response(text="Resource not found", status=404)
-
     args = dict()
-    args["application"] = "DashBoard"
-    args["name"] = request.url.query.get("name", str(id))
-    return web.json_response(text=json.dumps(args))
+    args = testall.test_by_id(id)
+    return web.json_response(text=json.dumps(args, indent=2))
 
 
 routes = [
@@ -87,7 +86,20 @@ app.add_routes(routes)
 logs = Log()
 logs.write_log("init")
 
+
+testall = checkConfigTests()
+def initScenario():
+    # TODO scenarioは可変にする
+    scenarioPath = "./scenario"
+    scenarios = lib.listScenarioname(scenarioPath)
+    for no, name, p in scenarios:
+        test = lib.loadYamlFromDir(p)
+        testall.push(str(no), name, lib.loadYamlFromDir(p))
+    pprint(testall.list_scenario())
+
+
 if __name__ == "__main__":
+    initScenario()
     # グローバルなループイベントの作成
     loop = asyncio.get_event_loop()
 

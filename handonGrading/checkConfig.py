@@ -12,7 +12,7 @@ logger.setLevel(DEBUG)
 logger.addHandler(handler)
 logger.propagate = False
 
-class CheckConfig:
+class checkConfig:
     """
     当該ホストへのtelnetを行い、指定した文字列を打って、戻り値を評価するライブラリ
     """
@@ -164,6 +164,52 @@ class CheckConfig:
     def decorateHTML(self):
         return self.stlt.decorateHTML()
 
+class checkConfigTests:
+    tests: dict
+
+    def __init__(self):
+        self.tests = dict()
+
+    def push(self, no: str, aliasname: str, test: list):
+        t = dict()
+        t["name"] = aliasname
+        t["test"] = test
+        self.tests[no] = t
+
+    def list_scenario(self):
+        res = list()
+        for t in self.tests:
+            res.append({"id": str(t), "name": self.tests[t]["name"]})
+        return res
+
+    def test_by_id(self, id: str):
+        if id not in self.tests:
+            return None
+        return self.tests[id]["test"]
+
+
+    def no_by_name(self, name: str):
+        """
+        シナリオ名からシナリオ番号を返す
+        :param name:
+        :return:
+        """
+        for t in self.tests:
+            if self.tests[t]["name"] == name:
+                return t
+        return None
+
+    def name_by_id(self, id: str):
+        """
+        シナリオ名からシナリオ番号を返す
+        :param name:
+        :return:
+        """
+        if id not in self.tests:
+            return None
+        return self.tests[id]["name"]
+
+
 
 
 testStr="""
@@ -215,7 +261,7 @@ if __name__ == "__main__":
     is_pass = True
 
     for node in d:
-        cors.append(CheckConfig(debug=True).test(node))
+        cors.append(checkConfig(debug=True).test(node))
     futures = asyncio.gather(*cors)
     loop.run_until_complete(futures)
     nodes = futures.result()
