@@ -11,6 +11,11 @@ logger.propagate = False
 import yaml
 import re
 
+def listScenarioname(path: str) -> list:
+    dirs = listDirFromDir(path)
+    for d in dirs:
+        pprint(str(d.resolve()).replace(str(pathlib.Path(path).resolve()), "").replace("\\", "/"))
+
 def load_yaml_file(p) -> dict:
     """
     指定されたファイルを開き、YAMLとして辞書を返す
@@ -56,6 +61,7 @@ def loadYamlFromDir(path: str) -> list:
 
 
 if __name__ == "__main__":
+    scenarioPath = "./scenario"
     logger.info(pformat(listDirFromDir("./scenario")))
     logger.info("---")
     logger.info(pformat(listYamlFromDir("./scenario")))
@@ -66,3 +72,4 @@ if __name__ == "__main__":
     logger.info("---")
     logger.info(pformat(loadYamlFromDir("./scenario")))
 
+    listScenarioname(scenarioPath)
