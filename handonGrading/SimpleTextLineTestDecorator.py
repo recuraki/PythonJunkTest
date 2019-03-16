@@ -20,9 +20,12 @@ class SimpleTextLineTestDecorator:
 
     def render(self, res=[]):
         # Render。基本的にそのまま吐き出す。
+        pprint("render")
         pprint(res)
         final_pass = True
         for n in res:
+            pprint("hogehoge")
+            pprint(n)
             final_pass = final_pass & n["header"]["pass"]
         html = self.tpl.render(data=res, final_pass = final_pass)
         return html

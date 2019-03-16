@@ -11,6 +11,7 @@ import jinja2
 import aioconsole
 import lib
 from checkConfig import checkConfig, checkConfigTests
+from SimpleTextLineTestDecorator import SimpleTextLineTestDecorator
 
 from logging import getLogger, StreamHandler, DEBUG
 logger = getLogger(__name__)
@@ -60,6 +61,24 @@ async def web_detail_scenarios(request: web.Request):
     args = testall.test_by_id(id)
     return web.json_response(text=json.dumps(args, indent=2))
 
+async def web_run_by_id(request: web.Request):
+    id = request.match_info["id"]
+    if not id:
+        return web.Response(text="Resource not found", status=404)
+
+    tests = testall.test_by_id(id)
+    cors = []
+    # for node in tests:
+    cors.append(checkConfig(debug=True).test(tests))
+    res, pending = await asyncio.wait(cors)
+    pprint(res)
+
+    print("--res")
+    res = map(lambda x: x.result(), res)
+    sd = SimpleTextLineTestDecorator()
+    html = sd.render(res)
+    return web.Response(text=html)
+
 
 routes = [
     web.get   ("/", web_top),
@@ -67,6 +86,7 @@ routes = [
     web.get("/reset", web_reset),
     web.get("/scenarios", web_list_scenarios),
     web.get("/scenarios/{id}", web_detail_scenarios),
+    web.get("/run/id/{id}", web_run_by_id),
     web.static("/static", "./static"),
 ]
 
@@ -95,7 +115,6 @@ def initScenario():
     for no, name, p in scenarios:
         test = lib.loadYamlFromDir(p)
         testall.push(str(no), name, lib.loadYamlFromDir(p))
-    pprint(testall.list_scenario())
 
 
 if __name__ == "__main__":
