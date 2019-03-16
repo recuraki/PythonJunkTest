@@ -3,7 +3,6 @@
 
 import re
 from pprint import pprint
-
 from logging import getLogger, StreamHandler, DEBUG
 logger = getLogger(__name__)
 

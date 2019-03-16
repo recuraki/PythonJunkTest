@@ -1,17 +1,15 @@
 import asyncio
-import aiohttp
 from aiohttp import web
 import json
 import aiohttp_jinja2
-from typing import List
-from pprint import pprint
 import datetime
 from Logs import Log
 import jinja2
-import aioconsole
 import lib
 from checkConfig import checkConfig, checkConfigTests
 from SimpleTextLineTestDecorator import SimpleTextLineTestDecorator
+from checkConfigResult import checkConfigResult, checkConfigResultData
+from datetime import datetime
 
 from logging import getLogger, StreamHandler, DEBUG
 logger = getLogger(__name__)
@@ -66,12 +64,18 @@ async def web_run_by_id(request: web.Request):
     if not id:
         return web.Response(text="plz input id", status=404)
 
+    timeStart = datetime.now()
+
     tests = testall.test_by_id(id)
     cors = []
     for node in tests:
         cors.append(checkConfig(debug=True).test(node))
     res, pending = await asyncio.wait(cors)
     res = list(map(lambda x: x.result(), res))
+
+    timeEnd = datetime.now()
+
+    resultall.push(id, res, timeStart, timeEnd)
 
     sd = SimpleTextLineTestDecorator()
     html = sd.render(res)
@@ -83,6 +87,25 @@ async def web_results(request: web.Request):
     if not id or not rev:
         return web.Response(text="Resource not found", status=404)
 
+    res = resultall.getLastResultById(id)
+
+    sd = SimpleTextLineTestDecorator()
+    html = sd.render(res)
+    return web.Response(text=html, content_type="text/html")
+
+async def web_results_by_id(request: web.Request):
+    id = request.match_info["id"]
+    if not id:
+        return web.Response(text="Resource not found", status=404)
+
+    res = resultall.getLastResultById(id)
+    if not res:
+        return web.Response(text="Resource not found", status=404)
+
+    sd = SimpleTextLineTestDecorator()
+    html = sd.render(res)
+    return web.Response(text=html, content_type="text/html")
+
 
 routes = [
     web.get   ("/", web_top),
@@ -91,7 +114,7 @@ routes = [
     web.get("/scenarios", web_list_scenarios),
     web.get("/scenarios/{id}", web_detail_scenarios),
     web.get("/run/id/{id}", web_run_by_id),
-    web.get("/results", web_results),
+    web.get("/results/{id}", web_results_by_id),
     web.static("/static", "./static"),
 ]
 
@@ -120,6 +143,9 @@ def initScenario():
     for no, name, p in scenarios:
         test = lib.loadYamlFromDir(p)
         testall.push(str(no), name, lib.loadYamlFromDir(p))
+
+
+resultall = checkConfigResult()
 
 
 if __name__ == "__main__":

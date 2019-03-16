@@ -3,18 +3,13 @@ from typing import List, Dict, Tuple
 
 
 class checkConfigResultData():
-    results: list = []
+    results: list
     timeStart: datetime = None
     timeEnd: datetime = None
     status: str = None
     judgeCounter: Tuple[int, int] = None
 
-    def __init__(self):
-        self.status = "created"
-        self.timeStart = datetime.now()
-
-    def push(self, inputresult: Dict, timeStart: datetime=None, timeEnd: datetime=None):
-        self.judgeCounter = self.judgeCount(inputresult)
+    def __init__(self, inputresult: list, timeStart: datetime=None, timeEnd: datetime=None):
         self.results = inputresult
         self.timeStart = timeStart
         self.timeEnd = timeEnd
@@ -35,5 +30,13 @@ class checkConfigResultData():
 class checkConfigResult():
     result: Dict[str, List[checkConfigResultData]] = {}
 
-    def push(self, id: str, inputResult: dict):
-        self.result[id].append(inputResult)
+    def push(self, id: str, inputResult: list, timeStart: datetime=None, timeEnd: datetime=None):
+        if id not in self.result:
+            self.result[id] = list()
+        self.result[id].append(checkConfigResultData(inputResult, timeStart, timeEnd))
+
+    def getLastResultById(self, id: str):
+        if id not in self.result:
+            return None
+        return self.result[id][len(self.result[id]) - 1].results
+

@@ -3,6 +3,7 @@ from SimpleTextLineTest import SimpleTextLineTest
 from SimpleTextLineTestDecorator import SimpleTextLineTestDecorator
 import asyncio
 import yaml
+from checkConfigResult import checkConfigResult, checkConfigResultData
 
 from logging import getLogger, StreamHandler, DEBUG
 logger = getLogger(__name__)
@@ -90,7 +91,7 @@ class checkConfig:
     def disconnect(self):
         pass
 
-    async def test(self, diTests):
+    async def test(self, diTests: dict):
         res = []
         ipaddr = diTests.get("ipaddr", "127.0.0.1")
         port = diTests.get("port", "23")
