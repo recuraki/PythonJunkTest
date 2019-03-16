@@ -64,20 +64,24 @@ async def web_detail_scenarios(request: web.Request):
 async def web_run_by_id(request: web.Request):
     id = request.match_info["id"]
     if not id:
-        return web.Response(text="Resource not found", status=404)
+        return web.Response(text="plz input id", status=404)
 
     tests = testall.test_by_id(id)
     cors = []
-    # for node in tests:
-    cors.append(checkConfig(debug=True).test(tests))
+    for node in tests:
+        cors.append(checkConfig(debug=True).test(node))
     res, pending = await asyncio.wait(cors)
-    pprint(res)
+    res = list(map(lambda x: x.result(), res))
 
-    print("--res")
-    res = map(lambda x: x.result(), res)
     sd = SimpleTextLineTestDecorator()
     html = sd.render(res)
-    return web.Response(text=html)
+    return web.Response(text=html, content_type="text/html")
+
+async def web_results(request: web.Request):
+    id = request.match_info["id"]
+    rev = request.match_info["rev"]
+    if not id or not rev:
+        return web.Response(text="Resource not found", status=404)
 
 
 routes = [
@@ -87,6 +91,7 @@ routes = [
     web.get("/scenarios", web_list_scenarios),
     web.get("/scenarios/{id}", web_detail_scenarios),
     web.get("/run/id/{id}", web_run_by_id),
+    web.get("/results", web_results),
     web.static("/static", "./static"),
 ]
 
