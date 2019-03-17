@@ -28,6 +28,11 @@ async def web_top(request: web.Request):
 
 
 async def web_hello(request: web.Request):
+    """
+    テスト用のダミー
+    :param request:
+    :return:
+    """
     args = dict()
     args["application"] = "DashBoard"
     args["name"] = request.url.query.get("name", "somebody")
@@ -40,23 +45,25 @@ async def web_log(request: web.Request):
 
 
 async def web_reset(request: web.Request):
+    # TODO 現状単なるモック
     args = dict()
     args["logs"] = logs.get_logs()
     return aiohttp_jinja2.render_template("templ/status.templ", request, args)
 
 
 async def web_list_scenarios(request: web.Request):
+    # id: シナリオ名を一覧する
     args = dict()
     args["data"] = testall.list_scenario()
     return web.json_response(text=json.dumps(args))
 
 
 async def web_detail_scenarios(request: web.Request):
+    # idで指定されたシナリオを表示する
     id = request.match_info["id"]
     if not id:
         return web.Response(text="Resource not found", status=404)
-    args = dict()
-    args = testall.test_by_id(id)
+    args: dict = testall.test_by_id(id)
     return web.json_response(text=json.dumps(args, indent=2))
 
 async def web_run_by_id(request: web.Request):
@@ -64,21 +71,21 @@ async def web_run_by_id(request: web.Request):
     if not id:
         return web.Response(text="plz input id", status=404)
 
-    timeStart = datetime.now()
+    timeStart:datetime = datetime.now()
 
     tests = testall.test_by_id(id)
-    cors = []
+    cors_test = []
     for node in tests:
-        cors.append(checkConfig(debug=True).test(node))
-    res, pending = await asyncio.wait(cors)
-    res = list(map(lambda x: x.result(), res))
+        cors_test.append(checkConfig(debug=True).test(node))
+    res_cors, pending = await asyncio.wait(cors_test)
+    res_cors = list(map(lambda x: x.result(), res_cors))
 
-    timeEnd = datetime.now()
+    timeEnd:datetime = datetime.now()
 
-    resultall.push(id, res, timeStart, timeEnd)
+    resultall.push(id, res_cors, timeStart, timeEnd)
 
     sd = SimpleTextLineTestDecorator()
-    html = sd.render(res)
+    html = sd.render(res_cors)
     return web.Response(text=html, content_type="text/html")
 
 async def web_results(request: web.Request):
