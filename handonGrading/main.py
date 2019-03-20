@@ -76,7 +76,7 @@ async def web_run_by_id(request: web.Request):
     tests = testall.test_by_id(id)
     cors_test = []
     for node in tests:
-        cors_test.append(checkConfig(debug=True).test(node))
+        cors_test.append(checkConfig(debug=True, timeout=2.5).test(node))
     res_cors, pending = await asyncio.wait(cors_test)
     res_cors = list(map(lambda x: x.result(), res_cors))
 

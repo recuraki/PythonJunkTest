@@ -23,9 +23,11 @@ class checkConfig:
     stlt = None
     result = None
     rawReturn = None
+    timeout: float = 2.0
 
-    def __init__(self, debug = False):
+    def __init__(self, debug = False, timeout: float = 2.0):
         self.debug = debug
+        self.timeout = timeout
         pass
 
     def dp(self, d):
@@ -101,7 +103,23 @@ class checkConfig:
         device_type = diTests.get("device_type", "cisco_ios")
 
         logger.info("connecting to: " + hostname)
-        await self.connect(ipaddr, port, username, password, device_type=device_type)
+        try:
+            # timeoutを設定してconnectを呼ぶ
+            await asyncio.wait_for(self.connect(ipaddr, port, username, password, device_type=device_type),
+                                   timeout=self.timeout)
+            # timeoutが発生した場合は、netdev側ではなく、asyncioとしてのexceptionが発生する
+        except asyncio.TimeoutError:
+            # TODO ここ、関数化するなりしてもいいと思う
+            print("timeout")
+            r = {}
+            r["hostname"] = hostname
+            r["pass"] = False
+            r["reason"] = "timeout"
+            ret = {}
+            ret["header"] = r
+            ret["test"] = []
+            logger.info("finish on: " + hostname)
+            return (ret)
         final_pass = True
         for t in diTests.get("tests", []):
             name = t.get("name", "NONAME")
@@ -123,6 +141,7 @@ class checkConfig:
         r = {}
         r["hostname"] = hostname
         r["pass"] = final_pass
+        r["reason"] = None
         ret = {}
         ret["header"] = r
         ret["test"] = res
