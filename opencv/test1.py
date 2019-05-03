@@ -13,6 +13,7 @@ height = img.shape[0]
 width = img.shape[1]
 print("{0} x {1}".format(height, width))
 """
+# 白黒にする
 for x in range(width  ):
     for y in range(height):
         if img[y,x] < boader:
@@ -24,6 +25,7 @@ cv2.imshow('image', img)
 cv2.waitKey(0)
 """
 
+# ブロック化
 dat = list()
 for y in range(math.floor(height / cellsize) - 1):
     line = list()
