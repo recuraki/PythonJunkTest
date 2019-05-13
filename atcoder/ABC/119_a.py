@@ -12,23 +12,25 @@ class TestClass(unittest.TestCase):
         sys.stdout, sys.stdin = stdout, stdin
         self.assertEqual(out, output)
     def test_入力例_1(self):
-        input = """2 11 4"""
-        output = """4"""
+        input = """2019/04/30"""
+        output = """Heisei"""
         self.assertIO(input, output)
     def test_入力例_2(self):
-        input = """3 9 5"""
-        output = """3"""
-        self.assertIO(input, output)
-    def test_入力例_3(self):
-        input = """100 1 10"""
-        output = """0"""
+        input = """2019/11/01"""
+        output = """TBD"""
         self.assertIO(input, output)
 
 if __name__ == "__main__":
     unittest.main()
 
 def resolve():
-    import math
-    a,b,c = map(int,input().split())
-    count = min(math.floor(b / a), c)
-    print(count)
+    y,m,d= map(int, input().split("/"))
+    if y < 2019:
+        print("Heisei")
+    elif y == 2019:
+        if m < 5:
+            print("Heisei")
+        else:
+            print("TBD")
+    else: print("TBD")
+
