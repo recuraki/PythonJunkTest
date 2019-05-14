@@ -28,8 +28,22 @@ if __name__ == "__main__":
     unittest.main()
 
 def resolve():
-
+    
     d,n = map(int, input().split())
     r = 0
-    r = n * (pow(100 ,d))
-    print(r)
+    if n == 100:
+        if d == 0:
+            print( 1 * 101)
+        elif d == 1:
+            print( 100 * 101)
+        elif d == 2:
+            print( 100*100 * 101)
+    else:
+        if d == 0:
+            print(n * 1)
+        elif d == 1:
+            print(n * 100)
+        elif d == 2:
+            print(n * 100*100)
+
+:
