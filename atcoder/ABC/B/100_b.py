@@ -28,7 +28,7 @@ if __name__ == "__main__":
     unittest.main()
 
 def resolve():
-    
+
     d,n = map(int, input().split())
     r = 0
     if n == 100:
