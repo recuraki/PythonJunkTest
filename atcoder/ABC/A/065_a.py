@@ -27,12 +27,11 @@ class TestClass(unittest.TestCase):
 if __name__ == "__main__":
     unittest.main()
 
-    def resolve():
+def resolve():
     x,a,b = map(int, input().split())
-    r = -a + b + 1
-    if r < x:
+    if b <= a:
         print("delicious")
-    elif r==x:
+    elif b <= (a+x):
         print("safe")
     else:
         print("dangerous")
