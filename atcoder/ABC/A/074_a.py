@@ -12,26 +12,25 @@ class TestClass(unittest.TestCase):
         sys.stdout, sys.stdin = stdout, stdin
         self.assertEqual(out, output)
     def test_入力例_1(self):
-        input = """5 7 5"""
-        output = """7"""
+        input = """3
+4"""
+        output = """5"""
         self.assertIO(input, output)
     def test_入力例_2(self):
-        input = """1 1 7"""
-        output = """7"""
+        input = """19
+100"""
+        output = """261"""
         self.assertIO(input, output)
     def test_入力例_3(self):
-        input = """-100 100 100"""
-        output = """-100"""
+        input = """10
+0"""
+        output = """100"""
         self.assertIO(input, output)
 
 if __name__ == "__main__":
     unittest.main()
 
 def resolve():
-    a,b,c = map(int, input().split())
-    if(a == c ):
-        print(b)
-    if(a == b ):
-        print(c)
-    if(b == c ):
-        print(a)
+    n = int(input())
+    a = int(input())
+    print( n*n - a)
