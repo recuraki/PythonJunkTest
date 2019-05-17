@@ -29,4 +29,4 @@ if __name__ == "__main__":
 
 def resolve():
     n = int(input())
-    print(int(n/3))
+    print(int(n / 3))
