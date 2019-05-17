@@ -12,24 +12,20 @@ class TestClass(unittest.TestCase):
         sys.stdout, sys.stdin = stdout, stdin
         self.assertEqual(out, output)
     def test_入力例_1(self):
-        input = """29"""
-        output = """Yes"""
+        input = """5 2 7"""
+        output = """B"""
         self.assertIO(input, output)
     def test_入力例_2(self):
-        input = """72"""
-        output = """No"""
-        self.assertIO(input, output)
-    def test_入力例_3(self):
-        input = """91"""
-        output = """Yes"""
+        input = """1 999 1000"""
+        output = """A"""
         self.assertIO(input, output)
 
 if __name__ == "__main__":
     unittest.main()
 
 def resolve():
-    n = input()
-    if (n.find("9") != -1):
-        print("Yes")
+    x,a,b = map(int, input().split())
+    if abs(x-a) < abs(x-b):
+        print("A")
     else:
-        print("No")
+        print("B")
