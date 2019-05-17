@@ -39,21 +39,23 @@ if __name__ == "__main__":
 def resolve():
     s = input()
 
+    f = True
+
     if s[0] != "A":
-        print("WA")
+        f = False
 
+
+    for i in range(len(ss)):
+        if ss[i] < "a" or ss[i] > "z":
+            f = False
+
+    if (s[2] == "C" and s[-2] == "C"):
+        f = False
+    if (s[2] != "C" and s[-2] != "C"):
+        f = False
+
+    if f:
+        print("AC")
     else:
-        ss = s[1:2] + s[3:-2] + s[-1:]
-        flag = True
-        for i in range(len(ss)):
-            if ss[i] < "a" or ss[i] > "z":
-                flag = False
-
-        if flag == False:
-            print("WA")
-        elif (s[2] == "C" and s[-2] != "C") or\
-                (s[2] != "C" and s[-2] == "C"):
-            print("AC")
-        else:
-            print("WA")
+        print("WA")
 
