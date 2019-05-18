@@ -30,7 +30,8 @@ if __name__ == "__main__":
 def resolve():
     a, b, k = map(int, input().split())
     res = []
-    for i in range(1, 100):
+    for i in range(1, max(a,b) +1):
+
         if ((a % i) == 0) and ((b % i) == 0):
             res.append(i)
-    print(res[-k])
+    print(res[(-k)])

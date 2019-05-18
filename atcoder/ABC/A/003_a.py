@@ -12,35 +12,17 @@ class TestClass(unittest.TestCase):
         sys.stdout, sys.stdin = stdout, stdin
         self.assertEqual(out, output)
     def test_入力例_1(self):
-        input = """kyoto
-tokyo"""
-        output = """Yes"""
+        input = """6"""
+        output = """35000"""
         self.assertIO(input, output)
     def test_入力例_2(self):
-        input = """abc
-arc"""
-        output = """No"""
-        self.assertIO(input, output)
-    def test_入力例_3(self):
-        input = """aaaaaaaaaaaaaaab
-aaaaaaaaaaaaaaab"""
-        output = """Yes"""
+        input = """91"""
+        output = """460000"""
         self.assertIO(input, output)
 
 if __name__ == "__main__":
     unittest.main()
 
 def resolve():
-    s = input()
-    t = input()
-    ok = False
-    for i in range(len(s)):
-        if s == t:
-            ok = True
-            break
-        s = s[-1] + s[0:-1]
-
-    if ok:
-        print("Yes")
-    else:
-        print("No")
+    n = int(input())
+    print(int((1+n) / 2 * 10000))

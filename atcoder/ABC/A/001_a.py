@@ -12,46 +12,25 @@ class TestClass(unittest.TestCase):
         sys.stdout, sys.stdin = stdout, stdin
         self.assertEqual(out, output)
     def test_入力例_1(self):
-        input = """3 4
-2 1 3
-3 1 2 3
-2 3 2"""
-        output = """1"""
+        input = """15
+10"""
+        output = """5"""
         self.assertIO(input, output)
     def test_入力例_2(self):
-        input = """5 5
-4 2 3 4 5
-4 1 3 4 5
-4 1 2 4 5
-4 1 2 3 5
-4 1 2 3 4"""
+        input = """0
+0"""
         output = """0"""
         self.assertIO(input, output)
     def test_入力例_3(self):
-        input = """1 30
-3 5 10 30"""
-        output = """3"""
+        input = """5
+20"""
+        output = """-15"""
         self.assertIO(input, output)
 
 if __name__ == "__main__":
     unittest.main()
 
 def resolve():
-    n,m = map(int, input().split())
-    master = [True] * m
-    for i in range(n):
-        d = map(int, input().split())
-        d = list(d)
-        num = int(d[0])
-        d = d[1:]
-        table = [False] * (m + 1)
-        for j in range(num):
-            table[ d[j] - 1 ] = True
-        for j in range(m):
-            master[j] = master[j] and table[j]
-
-    count = 0
-    for j in range(m):
-        if master[j]:
-            count += 1
-    print(count)
+    h1 = int(input())
+    h2 = int(input())
+    print(h1-h2)
