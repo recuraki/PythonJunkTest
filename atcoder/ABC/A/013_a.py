@@ -3,8 +3,10 @@ from io import StringIO
 import unittest
 
 def resolve():
-    n = int(input())
-    print(int((1+n) / 2 * 10000))
+    a = "ABCDE"
+    x = input()
+    num = a.find(x)
+    print(num + 1)
 
 class TestClass(unittest.TestCase):
     def assertIO(self, input, output):
@@ -15,13 +17,21 @@ class TestClass(unittest.TestCase):
         out = sys.stdout.read()[:-1]
         sys.stdout, sys.stdin = stdout, stdin
         self.assertEqual(out, output)
-    def test_入力例_1(self):
-        input = """6"""
-        output = """35000"""
+    def test_入力例1(self):
+        input = """A"""
+        output = """1"""
         self.assertIO(input, output)
-    def test_入力例_2(self):
-        input = """91"""
-        output = """460000"""
+    def test_入力例2(self):
+        input = """B"""
+        output = """2"""
+        self.assertIO(input, output)
+    def test_入力例3(self):
+        input = """C"""
+        output = """3"""
+        self.assertIO(input, output)
+    def test_入力例4(self):
+        input = """D"""
+        output = """4"""
         self.assertIO(input, output)
 
 if __name__ == "__main__":

@@ -4,7 +4,10 @@ import unittest
 
 def resolve():
     n = int(input())
-    print(int((1+n) / 2 * 10000))
+    if n % 3 == 0:
+        print("YES")
+    else:
+        print("NO")
 
 class TestClass(unittest.TestCase):
     def assertIO(self, input, output):
@@ -16,12 +19,16 @@ class TestClass(unittest.TestCase):
         sys.stdout, sys.stdin = stdout, stdin
         self.assertEqual(out, output)
     def test_入力例_1(self):
-        input = """6"""
-        output = """35000"""
+        input = """2"""
+        output = """NO"""
         self.assertIO(input, output)
     def test_入力例_2(self):
-        input = """91"""
-        output = """460000"""
+        input = """9"""
+        output = """YES"""
+        self.assertIO(input, output)
+    def test_入力例_3(self):
+        input = """3"""
+        output = """YES"""
         self.assertIO(input, output)
 
 if __name__ == "__main__":

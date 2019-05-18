@@ -2,9 +2,9 @@ import sys
 from io import StringIO
 import unittest
 
-def resolve():
-    n = int(input())
-    print(int((1+n) / 2 * 10000))
+    def resolve():
+    a,b = map(int, input().split())
+    print("{0} {1}".format(str(b), str(a)))
 
 class TestClass(unittest.TestCase):
     def assertIO(self, input, output):
@@ -15,13 +15,13 @@ class TestClass(unittest.TestCase):
         out = sys.stdout.read()[:-1]
         sys.stdout, sys.stdin = stdout, stdin
         self.assertEqual(out, output)
-    def test_入力例_1(self):
-        input = """6"""
-        output = """35000"""
+    def test_入力例1(self):
+        input = """1 2"""
+        output = """2 1"""
         self.assertIO(input, output)
-    def test_入力例_2(self):
-        input = """91"""
-        output = """460000"""
+    def test_入力例2(self):
+        input = """5 5"""
+        output = """5 5"""
         self.assertIO(input, output)
 
 if __name__ == "__main__":
