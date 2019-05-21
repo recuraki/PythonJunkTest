@@ -2,6 +2,18 @@ import sys
 from io import StringIO
 import unittest
 
+def resolve():
+    n = int(input())
+    sum = 0
+    m = 0
+    for i in range(n):
+        p = int(input())
+        sum += p
+        m = max(p, m)
+    sum -= m/2
+    print(int(sum))
+
+
 class TestClass(unittest.TestCase):
     def assertIO(self, input, output):
         stdout, stdin = sys.stdout, sys.stdin
@@ -31,5 +43,3 @@ if __name__ == "__main__":
     unittest.main()
 
 
-def resolve():
-    n = int(input())
