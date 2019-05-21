@@ -2,6 +2,14 @@ import sys
 from io import StringIO
 import unittest
 
+def resolve():
+    n, x = map(int, input().split())
+    import math
+    if x <= math.ceil(n/2):
+        print(x-1)
+    else:
+        print(n-x)
+
 
 class TestClass(unittest.TestCase):
     def assertIO(self, input, output):
