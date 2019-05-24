@@ -2,6 +2,27 @@ import sys
 from io import StringIO
 import unittest
 
+def resolve():
+    s  = input()
+    f = True
+    if s[0] != "A":
+        f = False
+    c = 0
+    for i in range(2, len(s) - 1):
+        if s[i] == "C":
+            c += 1
+    if c != 1:
+        f=False
+    ss = s[1:].replace("C", "")
+    for i in range(len(ss)):
+        if ss[i] < "a" or ss[i] > "z":
+            f = False
+    if f:
+        print("AC")
+    else:
+        print("WA")
+
+
 class TestClass(unittest.TestCase):
     def assertIO(self, input, output):
         stdout, stdin = sys.stdout, sys.stdin
@@ -35,27 +56,4 @@ class TestClass(unittest.TestCase):
 if __name__ == "__main__":
     unittest.main()
 
-
-def resolve():
-    s = input()
-
-    f = True
-
-    if s[0] != "A":
-        f = False
-
-
-    for i in range(len(ss)):
-        if ss[i] < "a" or ss[i] > "z":
-            f = False
-
-    if (s[2] == "C" and s[-2] == "C"):
-        f = False
-    if (s[2] != "C" and s[-2] != "C"):
-        f = False
-
-    if f:
-        print("AC")
-    else:
-        print("WA")
 
