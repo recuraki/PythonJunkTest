@@ -3,13 +3,23 @@ from io import StringIO
 import unittest
 
 def resolve():
+    import math
     n = int(input())
-    l = 1
-    for i in range(100):
-        if pow(i,2 ) > n:
-            break
-        l = i
-    print(l*l)
+    res = [1]
+    last = -1
+    for i in range(1, n):
+        for c in range(2, n):
+            num = pow(i, c)
+            if num == last:
+                break
+            if num <= n:
+                res.append(num)
+            else:
+                break
+            c+= 1
+            last = num
+    print(max(res))
+
 
 
 class TestClass(unittest.TestCase):
