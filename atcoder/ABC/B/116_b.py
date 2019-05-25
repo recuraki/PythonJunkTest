@@ -2,6 +2,22 @@ import sys
 from io import StringIO
 import unittest
 
+def resolve():
+    s = int(input())
+    f = lambda n: (n/2) if n%2==0 else (3*n + 1)
+    prevval = s
+    history = [s]
+    c = 2
+    while True:
+        newval = f(prevval)
+        if newval in history:
+            break
+        history.append(newval)
+        c += 1
+        prevval = newval
+    print(c)
+
+
 class TestClass(unittest.TestCase):
     def assertIO(self, input, output):
         stdout, stdin = sys.stdout, sys.stdin
@@ -28,18 +44,3 @@ if __name__ == "__main__":
     unittest.main()
 
 
-def resolve():
-    s = int(input())
-    l = [-1] * 300
-    l[1] = s
-    for i in range(2,200):
-        if i % 2 == 0:
-            l[i] = l[i - 1] / 2
-        else:
-            l[i] = 3*l[i - 1] + 1
-
-        print(str(i)+":"+str(l[i]))
-
-        if l[i] in l[:i]:
-            print(i)
-            break
