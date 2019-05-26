@@ -4,12 +4,17 @@ import unittest
 
 def resolve():
     a,b = map(int, input().split())
-    x = int(str(a) + str(b))
-    f = False
-    for i in range(1000):
-        if x == (i*i):
-            f = True
-            break
+    s = input()
+    f = True
+    for i in range(len(s)):
+        if i == a:
+            continue
+        if s[i] > "9" or s[i] < "0":
+            f=False
+
+    if s[a] != "-":
+        f= False
+
     print("Yes" if f else "No")
 
 
@@ -22,16 +27,19 @@ class TestClass(unittest.TestCase):
         out = sys.stdout.read()[:-1]
         sys.stdout, sys.stdin = stdout, stdin
         self.assertEqual(out, output)
-    def test_入力例_1(self):
-        input = """1 21"""
+    def test__1(self):
+        input = """3 4
+269-6650"""
         output = """Yes"""
         self.assertIO(input, output)
-    def test_入力例_2(self):
-        input = """100 100"""
+    def test__2(self):
+        input = """1 1
+---"""
         output = """No"""
         self.assertIO(input, output)
-    def test_入力例_3(self):
-        input = """12 10"""
+    def test__3(self):
+        input = """1 2
+7444"""
         output = """No"""
         self.assertIO(input, output)
 
