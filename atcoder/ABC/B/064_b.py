@@ -1,21 +1,14 @@
 import sys
 from io import StringIO
 import unittest
+import logging
+logging.basicConfig(level=logging.DEBUG)
 
 def resolve():
-    import math
     n = int(input())
-    n = int(math.sqrt(n))
-    n = pow(n, 2)
-    print(n)
-    """
-    n = int(input())
-    l = -1
-    for i in range(100000):
-        if n < i*i:
-            print( (i - 1) * (i - 1) )
-            break
-    """
+    dat_x = list(map(int, input().split()))
+    print(max(dat_x) - min(dat_x))
+
 class TestClass(unittest.TestCase):
     def assertIO(self, input, output):
         stdout, stdin = sys.stdout, sys.stdin
@@ -25,17 +18,17 @@ class TestClass(unittest.TestCase):
         out = sys.stdout.read()[:-1]
         sys.stdout, sys.stdin = stdout, stdin
         self.assertEqual(out, output)
-    def test_入力例_1(self):
-        input = """10"""
-        output = """9"""
+    def test_input_1(self):
+        logging.info("test_input_1")
+        input = """4
+2 3 7 9"""
+        output = """7"""
         self.assertIO(input, output)
-    def test_入力例_2(self):
-        input = """81"""
-        output = """81"""
-        self.assertIO(input, output)
-    def test_入力例_3(self):
-        input = """271828182"""
-        output = """271821169"""
+    def test_input_2(self):
+        logging.info("test_input_2")
+        input = """8
+3 1 4 1 5 9 2 6"""
+        output = """8"""
         self.assertIO(input, output)
 
 if __name__ == "__main__":

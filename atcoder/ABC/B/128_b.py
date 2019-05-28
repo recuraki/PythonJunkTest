@@ -7,8 +7,7 @@ def resolve():
     dat = []
     for i in range(n):
         s,p = input().split()
-        p = int(p)
-        dat.append((s, p, i+1))
+        dat.append((s, int(p), i+1))
     res = sorted(dat, key=lambda x: (x[0], -x[1]))
     for i in range(len(res)):
         print(res[i][2])

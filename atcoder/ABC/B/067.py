@@ -1,19 +1,16 @@
-
+import sys
+from io import StringIO
+import unittest
+import logging
+logging.basicConfig(level=logging.DEBUG)
 
 def resolve():
-    a,p = map(int, input().split())
-    p += a * 3
-    print(int(p/2))
-import sys
-from io import StringIO
-import unittest
-import logging
-logging.basicConfig(level=logging.DEBUG)
-import sys
-from io import StringIO
-import unittest
-import logging
-logging.basicConfig(level=logging.DEBUG)
+    n,k = map(int, input().split())
+    dat_l = map(int, input().split())
+    dat_l = list(dat_l)
+    dat_l.sort()
+    print(sum(dat_l[-k:]))
+
 
 class TestClass(unittest.TestCase):
     def assertIO(self, input, output):
@@ -26,18 +23,15 @@ class TestClass(unittest.TestCase):
         self.assertEqual(out, output)
     def test_input_1(self):
         logging.info("test_input_1")
-        input = """1 3"""
-        output = """3"""
+        input = """5 3
+1 2 3 4 5"""
+        output = """12"""
         self.assertIO(input, output)
     def test_input_2(self):
         logging.info("test_input_2")
-        input = """0 1"""
-        output = """0"""
-        self.assertIO(input, output)
-    def test_input_3(self):
-        logging.info("test_input_3")
-        input = """32 21"""
-        output = """58"""
+        input = """15 14
+50 26 27 21 41 7 42 35 7 5 5 36 39 1 45"""
+        output = """386"""
         self.assertIO(input, output)
 
 if __name__ == "__main__":

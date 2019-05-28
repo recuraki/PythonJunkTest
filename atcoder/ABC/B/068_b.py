@@ -1,19 +1,21 @@
-
+import sys
+from io import StringIO
+import unittest
+import logging
+logging.basicConfig(level=logging.DEBUG)
 
 def resolve():
-    a,p = map(int, input().split())
-    p += a * 3
-    print(int(p/2))
-import sys
-from io import StringIO
-import unittest
-import logging
-logging.basicConfig(level=logging.DEBUG)
-import sys
-from io import StringIO
-import unittest
-import logging
-logging.basicConfig(level=logging.DEBUG)
+    import math
+    n = int(input())
+    curnum = 1
+    curmax = 0
+    for i in range(1, n + 1):
+        c = int(math.log2(i))
+        if c > curmax:
+            curmax = c
+            curnum = i
+    print(curnum)
+
 
 class TestClass(unittest.TestCase):
     def assertIO(self, input, output):
@@ -26,18 +28,23 @@ class TestClass(unittest.TestCase):
         self.assertEqual(out, output)
     def test_input_1(self):
         logging.info("test_input_1")
-        input = """1 3"""
-        output = """3"""
+        input = """7"""
+        output = """4"""
         self.assertIO(input, output)
     def test_input_2(self):
         logging.info("test_input_2")
-        input = """0 1"""
-        output = """0"""
+        input = """32"""
+        output = """32"""
         self.assertIO(input, output)
     def test_input_3(self):
         logging.info("test_input_3")
-        input = """32 21"""
-        output = """58"""
+        input = """1"""
+        output = """1"""
+        self.assertIO(input, output)
+    def test_input_4(self):
+        logging.info("test_input_4")
+        input = """100"""
+        output = """64"""
         self.assertIO(input, output)
 
 if __name__ == "__main__":

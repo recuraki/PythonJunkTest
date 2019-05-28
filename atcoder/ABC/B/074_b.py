@@ -1,19 +1,21 @@
-
+import sys
+from io import StringIO
+import unittest
+import logging
+logging.basicConfig(level=logging.DEBUG)
 
 def resolve():
-    a,p = map(int, input().split())
-    p += a * 3
-    print(int(p/2))
-import sys
-from io import StringIO
-import unittest
-import logging
-logging.basicConfig(level=logging.DEBUG)
-import sys
-from io import StringIO
-import unittest
-import logging
-logging.basicConfig(level=logging.DEBUG)
+    n = int(input())
+    k = int(input())
+    dat_x = map(int, input().split())
+    dat_x = list(dat_x)
+    res = 0
+    for i in range(len(dat_x)):
+        x = dat_x[i]
+        res += min(x * 2, ((k - x) *2 ))
+    print(res)
+
+
 
 class TestClass(unittest.TestCase):
     def assertIO(self, input, output):
@@ -26,18 +28,24 @@ class TestClass(unittest.TestCase):
         self.assertEqual(out, output)
     def test_input_1(self):
         logging.info("test_input_1")
-        input = """1 3"""
-        output = """3"""
+        input = """1
+10
+2"""
+        output = """4"""
         self.assertIO(input, output)
     def test_input_2(self):
         logging.info("test_input_2")
-        input = """0 1"""
-        output = """0"""
+        input = """2
+9
+3 6"""
+        output = """12"""
         self.assertIO(input, output)
     def test_input_3(self):
         logging.info("test_input_3")
-        input = """32 21"""
-        output = """58"""
+        input = """5
+20
+11 12 9 17 12"""
+        output = """74"""
         self.assertIO(input, output)
 
 if __name__ == "__main__":
