@@ -5,16 +5,19 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 
 def resolve():
-    n = int(input())
-    dat_n = list(map(int, input().split()))
-    dp = [0] * n
-    dp [0]
-    for i in range(1, n):
-        if i > 1:
-            dp[i] = min(dp[i - 1] + abs(dat_n[i] - dat_n[i-1]),dp[i - 2] + abs(dat_n[i] - dat_n[i-2]) )
-        else:
-            dp[i] = dp[i - 1] + abs(dat_n[i] - dat_n[i-1])
-    print(dp[n-1])
+    k, s = map(int, input().split())
+    res = 0
+    for x in range(k + 1):
+        if (s - x) < 0:
+            break
+        for y in range(0, s - x + 1):
+            if (s - x - y) < 0:
+                break
+            z = s - y - x
+            if z >= 0 and x <= k and y <= k and z <= k:
+                #print("{0}, {1} {2}".format(str(x), str(y), str(z)))
+                res += 1
+    print(res)
 
 
 class TestClass(unittest.TestCase):
@@ -28,21 +31,13 @@ class TestClass(unittest.TestCase):
         self.assertEqual(out, output)
     def test_input_1(self):
         print("test_input_1")
-        input = """4
-10 30 40 20"""
-        output = """30"""
+        input = """2 2"""
+        output = """6"""
         self.assertIO(input, output)
     def test_input_2(self):
         print("test_input_2")
-        input = """2
-10 10"""
-        output = """0"""
-        self.assertIO(input, output)
-    def test_input_3(self):
-        print("test_input_3")
-        input = """6
-30 10 60 10 60 50"""
-        output = """40"""
+        input = """5 15"""
+        output = """1"""
         self.assertIO(input, output)
 
 if __name__ == "__main__":

@@ -5,7 +5,27 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 
 def resolve():
-    pass
+    a,b,c,d = map(int, input().split())
+    if a > c:
+        a,b,c,d = c,d,a,b
+    # aのスタートが常に最小
+
+    if b <= c:
+        print(0)
+    elif b <= d:
+        print(b - c)
+    else:
+        print(d - c)
+
+"""
+a      b
+         c d
+   c     d
+  c  d
+  
+a         b
+  c     d
+"""
 
 class TestClass(unittest.TestCase):
     def assertIO(self, input, output):

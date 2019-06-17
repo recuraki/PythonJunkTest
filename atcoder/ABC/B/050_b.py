@@ -6,15 +6,13 @@ logging.basicConfig(level=logging.DEBUG)
 
 def resolve():
     n = int(input())
-    dat_n = list(map(int, input().split()))
-    dp = [0] * n
-    dp [0]
-    for i in range(1, n):
-        if i > 1:
-            dp[i] = min(dp[i - 1] + abs(dat_n[i] - dat_n[i-1]),dp[i - 2] + abs(dat_n[i] - dat_n[i-2]) )
-        else:
-            dp[i] = dp[i - 1] + abs(dat_n[i] - dat_n[i-1])
-    print(dp[n-1])
+    dat_t = list(map(int, input().split()))
+    m = int(input())
+    dat_d = []
+    s = sum(dat_t)
+    for i in range(m):
+        p,x = map(int, input().split())
+        print(s - dat_t[p - 1] + x)
 
 
 class TestClass(unittest.TestCase):
@@ -28,21 +26,25 @@ class TestClass(unittest.TestCase):
         self.assertEqual(out, output)
     def test_input_1(self):
         print("test_input_1")
-        input = """4
-10 30 40 20"""
-        output = """30"""
+        input = """3
+2 1 4
+2
+1 1
+2 3"""
+        output = """6
+9"""
         self.assertIO(input, output)
     def test_input_2(self):
         print("test_input_2")
-        input = """2
-10 10"""
-        output = """0"""
-        self.assertIO(input, output)
-    def test_input_3(self):
-        print("test_input_3")
-        input = """6
-30 10 60 10 60 50"""
-        output = """40"""
+        input = """5
+7 2 3 8 5
+3
+4 2
+1 7
+4 13"""
+        output = """19
+25
+30"""
         self.assertIO(input, output)
 
 if __name__ == "__main__":

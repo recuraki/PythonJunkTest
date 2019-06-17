@@ -5,16 +5,14 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 
 def resolve():
-    n = int(input())
-    dat_n = list(map(int, input().split()))
-    dp = [0] * n
-    dp [0]
-    for i in range(1, n):
-        if i > 1:
-            dp[i] = min(dp[i - 1] + abs(dat_n[i] - dat_n[i-1]),dp[i - 2] + abs(dat_n[i] - dat_n[i-2]) )
-        else:
-            dp[i] = dp[i - 1] + abs(dat_n[i] - dat_n[i-1])
-    print(dp[n-1])
+    a = int(input())
+    b = int(input())
+    if a > b:
+        print("GREATER")
+    elif a < b:
+        print("LESS")
+    else:
+        print("EQUAL")
 
 
 class TestClass(unittest.TestCase):
@@ -28,21 +26,27 @@ class TestClass(unittest.TestCase):
         self.assertEqual(out, output)
     def test_input_1(self):
         print("test_input_1")
-        input = """4
-10 30 40 20"""
-        output = """30"""
+        input = """36
+24"""
+        output = """GREATER"""
         self.assertIO(input, output)
     def test_input_2(self):
         print("test_input_2")
-        input = """2
-10 10"""
-        output = """0"""
+        input = """850
+3777"""
+        output = """LESS"""
         self.assertIO(input, output)
     def test_input_3(self):
         print("test_input_3")
-        input = """6
-30 10 60 10 60 50"""
-        output = """40"""
+        input = """9720246
+22516266"""
+        output = """LESS"""
+        self.assertIO(input, output)
+    def test_input_4(self):
+        print("test_input_4")
+        input = """123456789012345678901234567890
+234567890123456789012345678901"""
+        output = """LESS"""
         self.assertIO(input, output)
 
 if __name__ == "__main__":

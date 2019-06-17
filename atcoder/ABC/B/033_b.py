@@ -6,15 +6,17 @@ logging.basicConfig(level=logging.DEBUG)
 
 def resolve():
     n = int(input())
-    dat_n = list(map(int, input().split()))
-    dp = [0] * n
-    dp [0]
-    for i in range(1, n):
-        if i > 1:
-            dp[i] = min(dp[i - 1] + abs(dat_n[i] - dat_n[i-1]),dp[i - 2] + abs(dat_n[i] - dat_n[i-2]) )
-        else:
-            dp[i] = dp[i - 1] + abs(dat_n[i] - dat_n[i-1])
-    print(dp[n-1])
+    total = 0
+    manum = 0
+    maname = ""
+    for i in range(n):
+        s, p = input().split()
+        p = int(p)
+        if p > manum:
+            manum = p
+            maname = s
+        total += p
+    print(maname if (total//2) < manum else "atcoder")
 
 
 class TestClass(unittest.TestCase):
@@ -29,20 +31,40 @@ class TestClass(unittest.TestCase):
     def test_input_1(self):
         print("test_input_1")
         input = """4
-10 30 40 20"""
-        output = """30"""
+unagi 20
+usagi 13
+snuke 42
+smeke 7"""
+        output = """snuke"""
         self.assertIO(input, output)
     def test_input_2(self):
         print("test_input_2")
-        input = """2
-10 10"""
-        output = """0"""
+        input = """5
+a 10
+b 20
+c 30
+d 40
+e 100"""
+        output = """atcoder"""
         self.assertIO(input, output)
     def test_input_3(self):
         print("test_input_3")
-        input = """6
-30 10 60 10 60 50"""
-        output = """40"""
+        input = """14
+yasuzuka 3340
+uragawara 4032
+oshima 2249
+maki 2614
+kakizaki 11484
+ogata 10401
+kubiki 9746
+yoshikawa 5142
+joetsu 100000
+nakago 4733
+itakura 7517
+kiyosato 3152
+sanwa 6190
+nadachi 3169"""
+        output = """joetsu"""
         self.assertIO(input, output)
 
 if __name__ == "__main__":
