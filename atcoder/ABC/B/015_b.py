@@ -5,15 +5,18 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 
 def resolve():
-    a,b,c = map(int, input().split())
-    if c == a+b and c == a-b:
-        print("?")
-    elif c == a + b:
-        print("+")
-    elif c == a - b:
-        print("-")
-    else:
-        print("!")
+    n = int(input())
+    dat_a = map(int, input().split())
+    dat_a = list(dat_a)
+    bug = 0
+    n = 0
+    for i in range(len(dat_a)):
+        if dat_a[i] != 0:
+            n += 1
+            bug += dat_a[i]
+    import math
+    print(math.ceil(bug/n))
+
 
 class TestClass(unittest.TestCase):
     def assertIO(self, input, output):
@@ -26,23 +29,15 @@ class TestClass(unittest.TestCase):
         self.assertEqual(out, output)
     def test_input1(self):
         print("test_input1")
-        input = """1 0 1"""
-        output = """?"""
+        input = """4
+0 1 3 8"""
+        output = """4"""
         self.assertIO(input, output)
     def test_input2(self):
         print("test_input2")
-        input = """1 1 2"""
-        output = """+"""
-        self.assertIO(input, output)
-    def test_input3(self):
-        print("test_input3")
-        input = """1 1 0"""
-        output = """-"""
-        self.assertIO(input, output)
-    def test_input4(self):
-        print("test_input4")
-        input = """1 1 1"""
-        output = """!"""
+        input = """5
+1 4 9 10 15"""
+        output = """8"""
         self.assertIO(input, output)
 
 if __name__ == "__main__":

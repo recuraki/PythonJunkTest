@@ -6,22 +6,24 @@ logging.basicConfig(level=logging.DEBUG)
 
 def resolve():
     n, t = map(int,input().split())
-
     dat_a = []
     for i in range(n):
         a = int(input())
         dat_a.append(a)
-    dat = []
-    dat = [0] * (dat_a[n-1] + t)
 
-    for i in range(n):
-        a = dat_a[i]
-        dat[a:a + t] = ([1] * t)
+    res = 0
 
-    from pprint import pprint
-    pprint(sum(dat))
+    close_t = dat_a[0] + t
+    for i in range(1, n):
+        if dat_a[i] < close_t:
+            res += dat_a[i] - dat_a[i - 1]
+        else:
+            res += t
 
+        close_t = dat_a[i] + t
 
+    res += t
+    print(res)
 
 class TestClass(unittest.TestCase):
     def assertIO(self, input, output):

@@ -18,8 +18,11 @@ def resolve():
             y1 = max(y1, y)
         elif a == 4:
             y2 = min(y2, y)
-    #print("{0} {1} {2} {3}".format(str(x1), str(y1), str(x2), str(y2)))
-    print(max((x2 - x1) * (y2 - y1), 0))
+
+    if (x2 - x1 < 0) or (y2 - y1 < 0):
+        print(0)
+    else:
+        print(max((x2 - x1) * (y2 - y1), 0))
 
 
 class TestClass(unittest.TestCase):

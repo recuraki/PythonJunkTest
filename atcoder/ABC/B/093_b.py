@@ -3,14 +3,28 @@ from io import StringIO
 import unittest
 
 def resolve():
-    a, b, k = map(int, input().split())
-    for i in range(k):
-        if (a+i) <= b:
-            print(a + i)
+    a,b,k = map(int, input().split())
+    n = a
+    c = 1
+    while n <= b:
+        print(n)
+        n += 1
+        c += 1
+        if c > k:
+            break
+    if n <= (b - k):
+        n = b - k + 1
 
-    for j in range(k - 1, -1, -1):
-        if (b-j) >= a:
-            print(b-j)
+    c = 1
+    while n <= b:
+        print(n)
+        n += 1
+        c += 1
+        if c > k:
+            break
+
+
+
 
 class TestClass(unittest.TestCase):
     def assertIO(self, input, output):
