@@ -6,38 +6,23 @@ logging.basicConfig(level=logging.DEBUG)
 
 def resolve():
     n, m = map(int, input().split())
-    dat_a = []
-    dat_b = []
+    dat_d = []
     for i in range(n):
-        dat_a.append(input())
+        a,b = map(int, input().split())
+        dat_d.append((a, b))
+    dat_d.sort(key=lambda x: x[0])
+    total = 0
     for i in range(m):
-        dat_b.append(input())
-
-    if n == 1 and m == 1:
-        if dat_a[0][0] == dat_b[0][0]:
-            t = True
-        else:
-            t = False
-
-    for i in range(n - m + 1):
-        for j in range(n - m + 1):
-            for k in range(m):
-                #print(dat_a[i + k][j : j + m])
-                if dat_a[i + k][j : j + m] != dat_b[k]:
-                    t = False
-                    break
-                t = True
-            if t:
-                break
-        if t:
+        if dat_d[i][1] >= m:
+            #print("buy {0} sum {1}-hon".format(dat_d[i][0], m))
+            total += dat_d[i][0] * m
             break
+        else:
+            #print("buy {0} sum {1}-hon".format(dat_d[i][0], dat_d[i][1]))
+            total += dat_d[i][1] * dat_d[i][0]
+            m -= dat_d[i][1]
 
-    print("Yes" if t else "No")
-
-
-
-
-
+    print(total)
 
 
 class TestClass(unittest.TestCase):
@@ -51,23 +36,25 @@ class TestClass(unittest.TestCase):
         self.assertEqual(out, output)
     def test_input_1(self):
         print("test_input_1")
-        input = """3 2
-#.#
-.#.
-#.#
-#.
-.#"""
-        output = """Yes"""
+        input = """2 5
+4 9
+2 4"""
+        output = """12"""
         self.assertIO(input, output)
     def test_input_2(self):
         print("test_input_2")
-        input = """4 1
-....
-....
-....
-....
-#"""
-        output = """No"""
+        input = """4 30
+6 18
+2 5
+3 10
+7 9"""
+        output = """130"""
+        self.assertIO(input, output)
+    def test_input_3(self):
+        print("test_input_3")
+        input = """1 100000
+1000000000 100000"""
+        output = """100000000000000"""
         self.assertIO(input, output)
 
 if __name__ == "__main__":

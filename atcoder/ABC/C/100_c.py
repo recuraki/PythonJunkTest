@@ -6,26 +6,17 @@ logging.basicConfig(level=logging.DEBUG)
 
 def resolve():
     n = int(input())
-    dat_a = map(int, input().split())
-    dat_a = list(dat_a)
-    l = [0] * n
-    r = [0] * n
-    res = [0] * n
-    import fractions
-
-    l[0] = 0
-    r[n-1] = 0
-    for i in range(1, n):
-        l[i] = fractions.gcd(l[i-1], dat_a[i-1])
-
-    for i in range(n-2, -1, -1):
-        r[i] = fractions.gcd(r[i+1], dat_a[i+1])
+    dat_a = list(map(int, input().split()))
+    total = 0
     for i in range(n):
-        res[i] = fractions.gcd(l[i], r[i])
+        x = dat_a[i]
+        while True:
+            if x % 2 == 1:
+                break
+            total += 1
+            x = x // 2
 
-    print(max(res))
-
-
+    print(total)
 
 
 
@@ -39,22 +30,22 @@ class TestClass(unittest.TestCase):
         sys.stdout, sys.stdin = stdout, stdin
         self.assertEqual(out, output)
     def test_input_1(self):
-        logging.info("test_input_1")
+        print("test_input_1")
         input = """3
-7 6 8"""
-        output = """2"""
+5 2 4"""
+        output = """3"""
         self.assertIO(input, output)
     def test_input_2(self):
-        logging.info("test_input_2")
-        input = """3
-12 15 18"""
-        output = """6"""
+        print("test_input_2")
+        input = """4
+631 577 243 199"""
+        output = """0"""
         self.assertIO(input, output)
     def test_input_3(self):
-        logging.info("test_input_3")
-        input = """2
-1000000000 1000000000"""
-        output = """1000000000"""
+        print("test_input_3")
+        input = """10
+2184 2126 1721 1800 1024 2528 3360 1945 1280 1776"""
+        output = """39"""
         self.assertIO(input, output)
 
 if __name__ == "__main__":

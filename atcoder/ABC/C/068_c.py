@@ -6,37 +6,15 @@ logging.basicConfig(level=logging.DEBUG)
 
 def resolve():
     n, m = map(int, input().split())
-    dat_a = []
-    dat_b = []
-    for i in range(n):
-        dat_a.append(input())
+    dat_m = [[] for x in range(n+1)]
     for i in range(m):
-        dat_b.append(input())
-
-    if n == 1 and m == 1:
-        if dat_a[0][0] == dat_b[0][0]:
-            t = True
-        else:
-            t = False
-
-    for i in range(n - m + 1):
-        for j in range(n - m + 1):
-            for k in range(m):
-                #print(dat_a[i + k][j : j + m])
-                if dat_a[i + k][j : j + m] != dat_b[k]:
-                    t = False
-                    break
-                t = True
-            if t:
-                break
-        if t:
-            break
-
-    print("Yes" if t else "No")
-
-
-
-
+        a, b = map(int, input().split())
+        dat_m[a].append(b)
+    c = False
+    for i in dat_m[1]:
+        if n in dat_m[i]:
+            c = True
+    print("POSSIBLE" if c else "IMPOSSIBLE")
 
 
 
@@ -52,22 +30,33 @@ class TestClass(unittest.TestCase):
     def test_input_1(self):
         print("test_input_1")
         input = """3 2
-#.#
-.#.
-#.#
-#.
-.#"""
-        output = """Yes"""
+1 2
+2 3"""
+        output = """POSSIBLE"""
         self.assertIO(input, output)
     def test_input_2(self):
         print("test_input_2")
-        input = """4 1
-....
-....
-....
-....
-#"""
-        output = """No"""
+        input = """4 3
+1 2
+2 3
+3 4"""
+        output = """IMPOSSIBLE"""
+        self.assertIO(input, output)
+    def test_input_3(self):
+        print("test_input_3")
+        input = """100000 1
+1 99999"""
+        output = """IMPOSSIBLE"""
+        self.assertIO(input, output)
+    def test_input_4(self):
+        print("test_input_4")
+        input = """5 5
+1 3
+4 5
+2 3
+2 4
+1 4"""
+        output = """POSSIBLE"""
         self.assertIO(input, output)
 
 if __name__ == "__main__":
