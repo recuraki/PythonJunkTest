@@ -9,16 +9,22 @@ def factorial_mod(n, mod):
 # 組み合わせ
 def nCr(n, r):
     import math
+    if r > n:
+        return 0
     return math.factorial(n) //  ( (math.factorial(n - r) * math.factorial(r)) )
 
 
 def nCr_with_replacement(n, r):
-    # 重複を許容するくみあわせ　
+    # 重複を許容するくみあわせ
+    if r > n:
+        return 0
     return nCr(n + r - 1, r)
 
 # 並び変えるときの組み合わせ
 def nPr(n, r):
     import math
+    if r > n:
+        return 0
     return math.factorial(n) // math.factorial(n - r)
 
 # 最小公倍数
@@ -29,7 +35,8 @@ def lcm(x, y):
 
 # https://docs.python.org/ja/3/library/bisect.html#searching-sorted-lists
 def index(a, x):
-    'Locate the leftmost value exactly equal to x'
+    'indexが存在することを前提にxという値のindexを得る。存在しない場合raise'
+    from bisect import bisect_left
     i = bisect_left(a, x)
     if i != len(a) and a[i] == x:
         return i
@@ -37,6 +44,7 @@ def index(a, x):
 
 def find_lt(a, x):
     'Find rightmost value less than x'
+    from bisect import bisect_left
     i = bisect_left(a, x)
     if i:
         return a[i-1]
@@ -44,6 +52,7 @@ def find_lt(a, x):
 
 def find_le(a, x):
     'Find rightmost value less than or equal to x'
+    from bisect import bisect_right
     i = bisect_right(a, x)
     if i:
         return a[i-1]
@@ -51,6 +60,7 @@ def find_le(a, x):
 
 def find_gt(a, x):
     'Find leftmost value greater than x'
+    from bisect import bisect_right
     i = bisect_right(a, x)
     if i != len(a):
         return a[i]
@@ -58,6 +68,7 @@ def find_gt(a, x):
 
 def find_ge(a, x):
     'Find leftmost item greater than or equal to x'
+    from bisect import bisect_left
     i = bisect_left(a, x)
     if i != len(a):
         return a[i]
