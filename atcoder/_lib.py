@@ -6,7 +6,9 @@ def factorial_mod(n, mod):
     import math
     return math.factorial(n) % mod
 
-# 約数のリスト
+# 約数のリストを表示する(因数分解ではない)
+# make_divisors(16)
+# [1, 16, 2, 8, 4]
 def make_divisors(n):
     divisors = []
     for i in range(1, int(n**0.5)+1):
@@ -17,16 +19,27 @@ def make_divisors(n):
     # divisors.sort()
     return divisors
 
+# 約数のリストを表示する(1とその数を除く)
+# make_divisors_without_own(16)
+# [2, 8, 4]
+def make_divisors_without_own(n):
+    r = make_divisors(n)
+    r.remove(1)
+    r.remove(n)
+    return r
+
 # 組み合わせ
 def nCr(n, r):
     import math
+    # nCrのr>nは組み合わせが存在しないので0を返す
+    # raiseすべきのこともあるかも
     if r > n:
         return 0
     return math.factorial(n) //  ( (math.factorial(n - r) * math.factorial(r)) )
 
 
 def nCr_with_replacement(n, r):
-    # 重複を許容するくみあわせ
+    # 重複を許容するコンビネーション
     if r > n:
         return 0
     return nCr(n + r - 1, r)
@@ -34,6 +47,7 @@ def nCr_with_replacement(n, r):
 # 並び変えるときの組み合わせ
 def nPr(n, r):
     import math
+    # nCrのr>nは組み合わせが存在しないので0を返す
     if r > n:
         return 0
     return math.factorial(n) // math.factorial(n - r)
