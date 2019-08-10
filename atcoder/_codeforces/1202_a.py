@@ -32,8 +32,8 @@ class TestClass(unittest.TestCase):
 
         def test_input_2(self):
             print("test_input_2")
-            input = """2H
-3D 4C AC KD AS"""
+            input = """
+            """
             output = """YES"""
             self.assertIO(input, output)
 

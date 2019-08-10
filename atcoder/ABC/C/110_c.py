@@ -1,4 +1,3 @@
-
 import sys
 from io import StringIO
 import unittest
@@ -6,17 +5,35 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 
 def resolve():
-    n = int(input())
     s = input()
-    import collections
-    c = collections.Counter(s)
-    num_balance = n // 3
-    c0, c1, c2 = 0,0,0
-    c0 = c["0"] - num_balance
-    c1 = c["1"] - num_balance
-    c2 = c["2"] - num_balance
+    t = input()
 
-    print("{0} {1} {2}: {3}".format(c0,c1,c2,s))
+    ds = dict()
+    dt = dict()
+    tr = dict()
+    tr2 = dict()
+    res = True
+    for i in range(len(s)):
+        ds[s[i]] = True
+        dt[s[i]] = True
+        if s[i] not in tr:
+            tr[s[i]] = t[i]
+        else:
+            if tr[s[i]] != t[i]:
+                res = False
+
+        if t[i] not in tr2:
+            tr2[t[i]] = s[i]
+        else:
+            if tr2[t[i]] != s[i]:
+                res = False
+
+    #if (len(ds) == 26 or len(dt) == 26) and ds != dt:
+    #    res = False
+
+    print("Yes" if res else "No")
+
+
 
 
 class TestClass(unittest.TestCase):
@@ -30,28 +47,21 @@ class TestClass(unittest.TestCase):
         self.assertEqual(out, output)
     def test_input_1(self):
         print("test_input_1")
-        input = """3
-121"""
-        output = """YES
-021"""
+        input = """azzel
+apple"""
+        output = """Yes"""
         self.assertIO(input, output)
     def test_input_2(self):
         print("test_input_2")
-        input = """6
-000000"""
-        output = """001122"""
+        input = """chokudai
+redcoder"""
+        output = """No"""
         self.assertIO(input, output)
     def test_input_3(self):
         print("test_input_3")
-        input = """6
-211200"""
-        output = """211200"""
-        self.assertIO(input, output)
-    def test_input_4(self):
-        print("test_input_4")
-        input = """6
-120110"""
-        output = """120120"""
+        input = """abcdefghijklmnopqrstuvwxyz
+ibyhqfrekavclxjstdwgpzmonu"""
+        output = """Yes"""
         self.assertIO(input, output)
 
 if __name__ == "__main__":

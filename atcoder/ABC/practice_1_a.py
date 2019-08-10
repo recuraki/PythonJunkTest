@@ -1,34 +1,27 @@
-import sys
-from io import StringIO
-import unittest
+m = 2
+t = ["12", "34"]
+print(t)
 
-class TestClass(unittest.TestCase):
-    def assertIO(self, input, output):
-        stdout, stdin = sys.stdout, sys.stdin
-        sys.stdout, sys.stdin = StringIO(), StringIO(input)
-        resolve()
-        sys.stdout.seek(0)
-        out = sys.stdout.read()[:-1]
-        sys.stdout, sys.stdin = stdout, stdin
-        self.assertEqual(out, output)
-    def test_入力例_1(self):
-        input = """1
-2 3
-test"""
-        output = """6 test"""
-        self.assertIO(input, output)
-    def test_入力例_2(self):
-        input = """72
-128 256
-myonmyon"""
-        output = """456 myonmyon"""
-        self.assertIO(input, output)
+p = []
+for i in range(m):
+    s = ""
+    for j in range(m):
+        s += t[m-j-1][i]
+    p.append(s)
+print(p)
 
-if __name__ == "__main__":
-    unittest.main()
-def resolve():
-    a = input()
-    a = int(a)
-    b, c = map(int, input().split())
-    s = input()
-    print("{0} {1}".format(str(a+b+c), s))
+p = []
+for i in range(m):
+    s = ""
+    for j in range(m):
+        s += t[m-i-1][m-j-1]
+    p.append(s)
+print(p)
+
+p = []
+for i in range(m):
+    s = ""
+    for j in range(m):
+        s += t[j][m-i-1]
+    p.append(s)
+print(p)

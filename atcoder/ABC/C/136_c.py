@@ -1,4 +1,3 @@
-
 import sys
 from io import StringIO
 import unittest
@@ -7,16 +6,18 @@ logging.basicConfig(level=logging.DEBUG)
 
 def resolve():
     n = int(input())
-    s = input()
-    import collections
-    c = collections.Counter(s)
-    num_balance = n // 3
-    c0, c1, c2 = 0,0,0
-    c0 = c["0"] - num_balance
-    c1 = c["1"] - num_balance
-    c2 = c["2"] - num_balance
+    dat = list(map(int, input().split()))
+    cur = dat[0]
+    can = True
+    for i in range(1, n):
+        if dat[i] > cur:
+            cur = dat[i] - 1
+            continue
+        if dat[i] == cur:
+            continue
+        can = False
+    print("Yes" if can else "No")
 
-    print("{0} {1} {2}: {3}".format(c0,c1,c2,s))
 
 
 class TestClass(unittest.TestCase):
@@ -30,28 +31,27 @@ class TestClass(unittest.TestCase):
         self.assertEqual(out, output)
     def test_input_1(self):
         print("test_input_1")
-        input = """3
-121"""
-        output = """YES
-021"""
+        input = """5
+1 2 1 1 3"""
+        output = """Yes"""
         self.assertIO(input, output)
     def test_input_2(self):
         print("test_input_2")
-        input = """6
-000000"""
-        output = """001122"""
+        input = """4
+1 3 2 1"""
+        output = """No"""
         self.assertIO(input, output)
     def test_input_3(self):
         print("test_input_3")
-        input = """6
-211200"""
-        output = """211200"""
+        input = """5
+1 2 3 4 5"""
+        output = """Yes"""
         self.assertIO(input, output)
     def test_input_4(self):
         print("test_input_4")
-        input = """6
-120110"""
-        output = """120120"""
+        input = """1
+1000000000"""
+        output = """Yes"""
         self.assertIO(input, output)
 
 if __name__ == "__main__":

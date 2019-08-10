@@ -1,4 +1,3 @@
-
 import sys
 from io import StringIO
 import unittest
@@ -6,16 +5,18 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 
 def resolve():
-    dat = map(int, input().split())
-    dat = list(dat)
-    dat.sort()
-    a = dat[3] - dat[0]
-    b = dat[3] - dat[1]
-    c = dat[3] - dat[2]
-    print("{0} {1} {2}".format(a,b,c))
+    n = int(input())
+    s = ""
+    l = []
+    for i in range(n):
+        if i %2 == 0:
+            l.append("I hate ")
+        else:
+            l.append("I love ")
+    s += "that ".join(l) + "it"
+    print(s)
 
 class TestClass(unittest.TestCase):
-    maxDiff = 100000
     def assertIO(self, input, output):
         stdout, stdin = sys.stdout, sys.stdin
         sys.stdout, sys.stdin = StringIO(), StringIO(input)
@@ -26,22 +27,21 @@ class TestClass(unittest.TestCase):
         self.assertEqual(out, output)
     def test_input_1(self):
         print("test_input_1")
-        input = """3 6 5 4"""
-        output = """2 1 3"""
+        input = """1"""
+        output = """I hate it"""
         self.assertIO(input, output)
 
-        def test_input_2(self):
-            print("test_input_2")
-            input = """2H
-3D 4C AC KD AS"""
-            output = """YES"""
-            self.assertIO(input, output)
 
-    def test_input_3(self):
-        print("test_input_2")
-        input = """4D
-AS AC AD AH 5H"""
-        output = """YES"""
+    def test_input_12(self):
+        print("test_input_12")
+        input = """2"""
+        output = """I hate that I love it"""
+        self.assertIO(input, output)
+
+    def test_input_132(self):
+        print("test_input_123")
+        input = """3"""
+        output = """I hate that I love that I hate it"""
         self.assertIO(input, output)
 
 
