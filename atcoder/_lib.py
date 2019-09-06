@@ -2,8 +2,6 @@ MOD1 = 1000000007 # 10^9 + 7
 MOD2 = 1000000009 # 10^9 + 9
 MOD3 = 100000007 # 10^8 + 7
 MOD4 = 1234567891
-alphabet_low = "abcdefghijklmnopqrstuvwxyz"
-alphabet_up = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 def factorial_mod(n, mod):
     import math
     return math.factorial(n) % mod
@@ -109,5 +107,4 @@ class TestClass(unittest.TestCase):
         self.assertEqual(r, 12)
 
 if __name__ == "__main__":
-    import math
-    print(math.gcd(100,0))
+    pass
