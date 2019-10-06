@@ -1,0 +1,157 @@
+<html>
+<head>
+<title>result</title>
+
+<style type="text/css">
+<!--
+.positivechar {background-color:#eeeeee; color:#44ff44;}
+.negativechar {background-color:#ffffff; color:#ff0000;}
+.resultlog {border-style: dashed;}
+.node {font-size: 150%;}
+.rule {font-size: 100%;}
+.contain {font-size:90%;}
+.notcontain {font-size:90%;}
+.rulecorrect {color: #000000;}
+.ruleincorrect {color: #ff0000;}
+.rulenoeval {color: #888888;}
+.nodecorrect {color: #000000;}
+.nodeincorrect {color: #cc0000;}
+.rulescorrect {color: #000000;}
+.rulesincorrect {color: #cc0000;}
+-->
+</style>
+</head>
+<body>
+
+<hr>
+
+FAIL
+
+<hr>
+
+
+
+
+ <div class="nodecorrect"><div class="node">[OK]CiscoRouter</div></div>
+
+
+
+<hr>
+
+<div class="rule"><div class="rulescorrect">[OK]SW1 is vty server</div></div>
+
+
+<div class="contain">MUST Contain</div>
+<ul>
+    
+    <li class="rulecorrect">192.168.0.1</li>
+    
+    <li class="rulecorrect">FULL</li>
+    
+</ul>
+<div class="notcontain">must NOT Contain</div>
+<ul>
+    
+    <li class="rulecorrect">192.168.0.2</li>
+    
+    <li class="rulecorrect">2WAY</li>
+    
+</ul>
+Log: show ip os nei
+<pre class="resultlog">
+
+Neighbor ID     Pri   State           Dead Time   Address         Interface
+<span class=positivechar>192.168.0.1</span>     128   <span class=positivechar>FULL</span>/DR         00:00:35    192.168.0.1     GigabitEthernet2
+</pre>
+
+
+
+
+ <div class="nodeincorrect"><div class="node">[NG]JUNOSRouter</div></div>
+
+
+
+<hr>
+
+<div class="rule"><div class="rulescorrect">[OK]ospf</div></div>
+
+
+<div class="contain">MUST Contain</div>
+<ul>
+    
+    <li class="rulecorrect">192.168.0.2</li>
+    
+    <li class="rulecorrect">Full</li>
+    
+</ul>
+<div class="notcontain">must NOT Contain</div>
+<ul>
+    
+    <li class="rulecorrect">192.168.0.1</li>
+    
+    <li class="rulecorrect">2WAY</li>
+    
+</ul>
+Log: show ospf neighbor
+<pre class="resultlog">
+
+Address          Interface              State     ID               Pri  Dead
+<span class=positivechar>192.168.0.2</span>      ge-0/0/1.0             <span class=positivechar>Full</span>      192.168.0.2        1    36
+
+</pre>
+
+<hr>
+
+<div class="rule"><div class="rulesincorrect">[NG] lldp</div></div>
+
+
+<div class="contain">MUST Contain</div>
+<ul>
+    
+    <li class="ruleincorrect">ge-0/0/1.0</li>
+    
+</ul>
+<div class="notcontain">must NOT Contain</div>
+<ul>
+    
+    <li class="ruleincorrect">ge-0/0/0.0</li>
+    
+</ul>
+Log: show lldp local-information | match ^ge
+<pre class="resultlog">
+
+<span class=negativechar>ge-0/0/0.0</span>        -                 509             ge-0/0/0.0               Up        Disabled 
+
+</pre>
+
+<hr>
+
+<div class="rule"><div class="rulesincorrect">[NG] disable evil route</div></div>
+
+
+<div class="contain">MUST Contain</div>
+<ul>
+    
+</ul>
+<div class="notcontain">must NOT Contain</div>
+<ul>
+    
+    <li class="rulecorrect">8.8.8.8</li>
+    
+    <li class="ruleincorrect">6.6.6.6</li>
+    
+    <li class="rulenoeval">7.7.7.7</li>
+    
+    <li class="rulenoeval">9.9.9.9</li>
+    
+</ul>
+Log: show route 6.6.6.6 | match 6.6.6.6
+<pre class="resultlog">
+
+<span class=negativechar>6.6.6.6</span>/32         *[BGP/170] 00:08:32, MED 0, localpref 100
+
+</pre>
+
+
+</body>
+</html>

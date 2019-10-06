@@ -1,0 +1,25 @@
+<html>
+<head>
+<title>user status</title>
+<link rel="stylesheet" href="{{ static('status.css') }}">
+<meta http-equiv="refresh" content="1"/>
+</head>
+<body>
+<table>
+<tr>
+ <td>seq</td>
+ <td>date</td>
+ <td>Result</td>
+ <td>message</td>
+</tr>
+{% for log in logs %}
+<tr>
+ <td>{{ log["seq"] }}</td>
+ <td>{{ log["date"]|strftime }}</td>
+ <td class="{{ log["category"] }}">{{ log["category"] }}</td>
+ <td>{{ log["msg"] }}</td>
+</tr>
+{% endfor %}
+</table>
+</body>
+</html>

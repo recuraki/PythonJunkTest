@@ -1,0 +1,69 @@
+<html>
+<head>
+<title>result</title>
+
+<style type="text/css">
+<!--
+.positivechar {background-color:#eeeeee; color:#44ff44;}
+.negativechar {background-color:#ffffff; color:#ff0000;}
+.resultlog {border-style: dashed;}
+.node {font-size: 150%;}
+.rule {font-size: 100%;}
+.contain {font-size:90%;}
+.notcontain {font-size:90%;}
+.rulecorrect {color: #000000;}
+.ruleincorrect {color: #ff0000;}
+.rulenoeval {color: #888888;}
+.nodecorrect {color: #000000;}
+.nodeincorrect {color: #cc0000;}
+.rulescorrect {color: #000000;}
+.rulesincorrect {color: #cc0000;}
+-->
+</style>
+</head>
+<body>
+
+<hr>
+{% if final_pass %}
+This TestResult is PASS
+{% else %}
+FAIL
+{% endif %}
+<hr>
+
+{% for node in data %}
+
+{% if node["header"]["pass"] == True %}
+ <div class="nodecorrect"><div class="node">[OK]{{ node["header"]["hostname"] }}</div></div>
+{% else %}
+ <div class="nodeincorrect"><div class="node">[NG]{{ node["header"]["hostname"] }}</div></div>
+{% endif %}
+
+{% for rule in node["test"] %}
+<hr>
+{% if rule["is_pass"] == True%}
+<div class="rule"><div class="rulescorrect">[OK]{{ rule["name"] }}</div></div>
+{% else %}
+<div class="rule"><div class="rulesincorrect">[NG] {{ rule["name"] }}</div></div>
+{% endif %}
+
+<div class="contain">MUST Contain</div>
+<ul>
+    {% for p in rule["res"]|filter_positive %}
+    <li class="{{ p|classname }}">{{ p[2] }}</li>
+    {% endfor %}
+</ul>
+<div class="notcontain">must NOT Contain</div>
+<ul>
+    {% for p in rule["res"]|filter_negative %}
+    <li class="{{ p|classname }}">{{ p[2] }}</li>
+    {% endfor %}
+</ul>
+Log: {{ rule["cmd"] }}
+<pre class="resultlog">
+{{ rule["html"] }}
+</pre>
+{% endfor %}
+{% endfor %}
+</body>
+</html>
