@@ -6,12 +6,13 @@ logging.basicConfig(level=logging.DEBUG)
 
 def resolve():
     n = int(input())
-    dat = list(map(int, input().split()))
-    res = 0
-    for i in range(len(dat)):
-        res += 1 / dat[i]
-    res = 1 / res
-    print(res)
+    r = False
+    for i in range(1, 10):
+        for j in range(1, 10):
+            if i* j == n:
+                r = True
+    print("Yes" if r else "No")
+
 
 class TestClass(unittest.TestCase):
     def assertIO(self, input, output):
@@ -24,21 +25,18 @@ class TestClass(unittest.TestCase):
         self.assertEqual(out, output)
     def test_input_1(self):
         print("test_input_1")
-        input = """2
-10 30"""
-        output = """7.5"""
+        input = """10"""
+        output = """Yes"""
         self.assertIO(input, output)
     def test_input_2(self):
         print("test_input_2")
-        input = """3
-200 200 200"""
-        output = """66.66666666666667"""
+        input = """50"""
+        output = """No"""
         self.assertIO(input, output)
     def test_input_3(self):
         print("test_input_3")
-        input = """1
-1000"""
-        output = """1000"""
+        input = """81"""
+        output = """Yes"""
         self.assertIO(input, output)
 
 if __name__ == "__main__":

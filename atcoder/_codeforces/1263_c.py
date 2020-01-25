@@ -5,13 +5,22 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 
 def resolve():
-    n = int(input())
-    dat = list(map(int, input().split()))
-    res = 0
-    for i in range(len(dat)):
-        res += 1 / dat[i]
-    res = 1 / res
-    print(res)
+    q = int(input())
+    import math
+    import collections
+    for qq in range(q):
+        n = int(input())
+        res = collections.deque([])
+        t = n
+        last = -1
+        for i in range(1, n):
+            t *= (i / (i + 1))
+            if last != math.floor(t):
+                last = math.floor(t)
+                res.append(last)
+        l = list(map(str, res))
+        print(len(l))
+        print(" ".join(l))
 
 class TestClass(unittest.TestCase):
     def assertIO(self, input, output):
@@ -24,22 +33,20 @@ class TestClass(unittest.TestCase):
         self.assertEqual(out, output)
     def test_input_1(self):
         print("test_input_1")
-        input = """2
-10 30"""
-        output = """7.5"""
+        input = """4
+5
+11
+1
+3"""
+        output = """4
+0 1 2 5
+6
+0 1 2 3 5 11
+2
+0 1
+3
+0 1 3"""
         self.assertIO(input, output)
-    def test_input_2(self):
-        print("test_input_2")
-        input = """3
-200 200 200"""
-        output = """66.66666666666667"""
-        self.assertIO(input, output)
-    def test_input_3(self):
-        print("test_input_3")
-        input = """1
-1000"""
-        output = """1000"""
-        self.assertIO(input, output)
-
 if __name__ == "__main__":
     unittest.main()
+

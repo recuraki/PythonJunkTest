@@ -7,10 +7,13 @@ logging.basicConfig(level=logging.DEBUG)
 def resolve():
     n = int(input())
     dat = list(map(int, input().split()))
+    #print(dat)
+    c = dat[0]
     res = 0
-    for i in range(len(dat)):
-        res += 1 / dat[i]
-    res = 1 / res
+    for i in range(n):
+        if dat[i] <= c:
+            res += 1
+        c = min(c, dat[i])
     print(res)
 
 class TestClass(unittest.TestCase):
@@ -24,21 +27,33 @@ class TestClass(unittest.TestCase):
         self.assertEqual(out, output)
     def test_input_1(self):
         print("test_input_1")
-        input = """2
-10 30"""
-        output = """7.5"""
+        input = """5
+4 2 5 1 3"""
+        output = """3"""
         self.assertIO(input, output)
     def test_input_2(self):
         print("test_input_2")
-        input = """3
-200 200 200"""
-        output = """66.66666666666667"""
+        input = """4
+4 3 2 1"""
+        output = """4"""
         self.assertIO(input, output)
     def test_input_3(self):
         print("test_input_3")
+        input = """6
+1 2 3 4 5 6"""
+        output = """1"""
+        self.assertIO(input, output)
+    def test_input_4(self):
+        print("test_input_4")
+        input = """8
+5 7 4 2 6 8 1 3"""
+        output = """4"""
+        self.assertIO(input, output)
+    def test_input_5(self):
+        print("test_input_5")
         input = """1
-1000"""
-        output = """1000"""
+1"""
+        output = """1"""
         self.assertIO(input, output)
 
 if __name__ == "__main__":

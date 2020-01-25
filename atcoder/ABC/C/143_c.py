@@ -5,13 +5,11 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 
 def resolve():
+    import itertools
     n = int(input())
-    dat = list(map(int, input().split()))
-    res = 0
-    for i in range(len(dat)):
-        res += 1 / dat[i]
-    res = 1 / res
-    print(res)
+    s = input()
+    d = itertools.groupby(s)
+    print(len(list(d)))
 
 class TestClass(unittest.TestCase):
     def assertIO(self, input, output):
@@ -24,21 +22,21 @@ class TestClass(unittest.TestCase):
         self.assertEqual(out, output)
     def test_input_1(self):
         print("test_input_1")
-        input = """2
-10 30"""
-        output = """7.5"""
+        input = """10
+aabbbbaaca"""
+        output = """5"""
         self.assertIO(input, output)
     def test_input_2(self):
         print("test_input_2")
-        input = """3
-200 200 200"""
-        output = """66.66666666666667"""
+        input = """5
+aaaaa"""
+        output = """1"""
         self.assertIO(input, output)
     def test_input_3(self):
         print("test_input_3")
-        input = """1
-1000"""
-        output = """1000"""
+        input = """20
+xxzaffeeeeddfkkkkllq"""
+        output = """10"""
         self.assertIO(input, output)
 
 if __name__ == "__main__":

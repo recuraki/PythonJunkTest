@@ -5,13 +5,21 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 
 def resolve():
-    n = int(input())
-    dat = list(map(int, input().split()))
-    res = 0
-    for i in range(len(dat)):
-        res += 1 / dat[i]
-    res = 1 / res
-    print(res)
+    qq = int(input())
+    for q in range(qq):
+        a, b, n, s = map(int, input().split())
+        #print("{0}, {1}, {2}, {3}".format(a,b,n,s))
+        x = s // n
+        #print("x{0}".format(x))
+        if x > a:
+            x = a
+        y = s - (x * n)
+        #print("x:{0},  y:{1}".format(x,y))
+        if y > b:
+            print("NO")
+        else:
+            print("YES")
+
 
 class TestClass(unittest.TestCase):
     def assertIO(self, input, output):
@@ -24,22 +32,18 @@ class TestClass(unittest.TestCase):
         self.assertEqual(out, output)
     def test_input_1(self):
         print("test_input_1")
-        input = """2
-10 30"""
-        output = """7.5"""
-        self.assertIO(input, output)
-    def test_input_2(self):
-        print("test_input_2")
-        input = """3
-200 200 200"""
-        output = """66.66666666666667"""
-        self.assertIO(input, output)
-    def test_input_3(self):
-        print("test_input_3")
-        input = """1
-1000"""
-        output = """1000"""
+        input = """4
+1 2 3 4
+1 2 3 6
+5 2 6 27
+3 3 5 18"""
+        output = """YES
+NO
+NO
+YES"""
         self.assertIO(input, output)
 
 if __name__ == "__main__":
     unittest.main()
+
+

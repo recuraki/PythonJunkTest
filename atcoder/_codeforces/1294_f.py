@@ -5,13 +5,18 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 
 def resolve():
-    n = int(input())
-    dat = list(map(int, input().split()))
-    res = 0
-    for i in range(len(dat)):
-        res += 1 / dat[i]
-    res = 1 / res
-    print(res)
+    from pprint import pprint
+    def dp(s):
+        if True:
+            print(s)
+
+    def dpp(s):
+        if True:
+            pprint(s)
+
+    pass
+
+
 
 class TestClass(unittest.TestCase):
     def assertIO(self, input, output):
@@ -24,21 +29,21 @@ class TestClass(unittest.TestCase):
         self.assertEqual(out, output)
     def test_input_1(self):
         print("test_input_1")
-        input = """2
-10 30"""
-        output = """7.5"""
+        input = """8
+1 2
+2 3
+3 4
+4 5
+4 6
+3 7
+3 8"""
+        output = """5
+1 8 6"""
         self.assertIO(input, output)
     def test_input_2(self):
         print("test_input_2")
-        input = """3
-200 200 200"""
-        output = """66.66666666666667"""
-        self.assertIO(input, output)
-    def test_input_3(self):
-        print("test_input_3")
-        input = """1
-1000"""
-        output = """1000"""
+        input = """xxx"""
+        output = """xxx"""
         self.assertIO(input, output)
 
 if __name__ == "__main__":
