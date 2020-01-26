@@ -168,39 +168,70 @@ class segmentTreeCharCount():
         # 値のロード
         for i in range(len(l)):
             if l[i] == self.targetChar:
-                self.dat[self.lenTreeList - 1 + i] = (l[i], 1, 1, 1, 1)
+                self.dat[self.lenTreeList - 1 + i] = [l[i], 1, 1, 1, 1]
             else:
-                self.dat[self.lenTreeList - 1 + i] = (l[i], 0, 0, 0, 0)
+                self.dat[self.lenTreeList - 1 + i] = [l[i], 0, 0, 0, 0]
         self.build()
+
+    def funcSegmentValueById(self, nodeId):
+        l = self.dat[nodeId * 2 + 1]
+        r = self.dat[nodeId * 2 + 2]
+        return self.funcSegmentValue(l, r, nodeId)
+
+    def funcSegmentValue(self, lNode, rNode, parentNodeId):
+        print("funcSegmentValue parentNode={0}".format(parentNodeId))
+        print("L:")
+        lchar, lcnt, lconsLeft, lconsRight, lconsLen = lNode
+        print(lNode)
+        print("R:")
+        rchar, rcnt, rconsLeft, rconsRight, rconsLen = rNode
+        print(rNode)
+
+        # ORにしてみた
+        if lchar is None or rchar is None:
+            nchar = None
+        elif rchar is not None:
+            nchar = rchar
+        elif lchar is not None:
+            nchar = lchar
+        ncnt = lcnt + rcnt
+
+        nconsLeft = lconsLeft
+        #print("searchdepth = {0}".format(self.depthTreeList - ((parentNodeId + 1).bit_length() - 1)))
+        if lcnt == 2 ** (self.depthTreeList - ((parentNodeId + 1).bit_length())):
+            #print("child!L!")
+            nconsLeft += rconsLeft
+
+        nconsRight = rconsRight
+        if rcnt == 2 ** (self.depthTreeList - ((parentNodeId + 1).bit_length())):
+            #print("child!R!")
+            nconsRight += lconsRight
+
+        # 右端の場合、null
+        if rchar == None:
+            nconsRight += lconsLeft
+        if lchar == None:
+            nconsLeft += rconsRight
+
+        # ルートの場合、右のノードを合算するときに右のノードの左端の連続文字列数が足りなくても
+        # パディング分と会うなら、左のノードの右端の連続文字列数と合算する
+        if parentNodeId == 0 and rconsLeft == 2 ** (self.depthTreeList - ((parentNodeId + 1).bit_length())) - self.lenPaddingEntry:
+            #print("root special cur={0} add={1}".format(nconsRight, rconsLeft))
+            #print(lNode)
+            #print(rNode)
+            nconsRight += rconsLeft
+
+        #print("update n={0}, max({1},{2},{3},{4},{5}".format(parentNodeId, nconsLeft, nconsRight, lconsLen, rconsLen, lconsRight + rconsLeft))
+        nconsLen = max(nconsLeft, nconsRight, lconsLen, rconsLen, lconsRight + rconsLeft)
+        res = [nchar, ncnt, nconsLeft, nconsRight, nconsLen]
+        print("Return{0}".format(res))
+        return res
 
     # char=入っているデータ, cnt, consLeft, consRight, consLen
     def build(self):
-        for i in range(self.lenTreeList - 2, -1, -1):
-            lchar, lcnt, lconsLeft, lconsRight, lconsLen = self.dat[i * 2  + 1]
-            rchar, rcnt, rconsLeft, rconsRight, rconsLen = self.dat[i * 2 +  2]
-            ncnt = lcnt + rcnt
-
-            nconsLeft = lconsLeft
-            print("searchdepth = {0}".format(self.depthTreeList - ( (i + 1).bit_length() - 1 )))
-            if lcnt == 2 ** (self.depthTreeList - ( (i + 1).bit_length()  )):
-                print("child!L!")
-                nconsLeft += rconsLeft
-
-            nconsRight = rconsRight
-            if rcnt == 2 ** (self.depthTreeList - ( (i + 1).bit_length()  )):
-                print("child!R!")
-                nconsRight += lconsRight
-            # 右端の場合、null
-            if rchar == None:
-                nconsRight += lconsLeft
-            # ルートの場合、右のノードを合算するときに右のノードの左端の連続文字列数が足りなくても
-            # パディング分と会うなら、左のノードの右端の連続文字列数と合算する
-            if i == 0 and rconsLeft == 2 ** (self.depthTreeList - ( (i + 1).bit_length()  )) - self.lenPaddingEntry:
-                nconsRight += lconsLeft
-
-            nconsLen = max(nconsLeft, nconsRight, lconsLen, rconsLen, lconsRight + rconsLeft)
+        for nodeId in range(self.lenTreeList - 2, -1, -1):
             # 重要：このコードはリストを生成しなおすので代入に直すこと！
-            self.dat[i] = [lchar, ncnt, nconsLeft, nconsRight, nconsLen]
+            self.dat[nodeId] = self.funcSegmentValueById(nodeId)
 
     def setValue(self, i, a):
         """
@@ -218,7 +249,8 @@ class segmentTreeCharCount():
         while nodeId != 0:
             nodeId = (nodeId - 1) // 2
             #print(" next nodeId: {0}".format(nodeId))
-            self.dat[nodeId] = self.dat[nodeId * 2 + 1] + self.dat[nodeId * 2 + 2]
+            # sum : self.dat[nodeId] = self.dat[nodeId * 2 + 1] + self.dat[nodeId * 2 + 2]
+            self.dat[nodeId] = self.funcSegmentValueById(nodeId)
 
     def querySub(self, a, b, nodeId, l, r):
         """
@@ -226,14 +258,27 @@ class segmentTreeCharCount():
         区間については、dataの添え字は0,1,2,3,4としたときに、
         [0,3)なら0,1,2の結果を返す
         """
-        # print("querySub: a={0}, b={1}, nodeId={2}, l={3}, r={4}".format(a, b, nodeId, l, r))
+        print("querySub: a={0}, b={1}, nodeId={2}, l={3}, r={4}".format(a, b, nodeId, l, r))
         if (r <= a or b <= l):
-            return self.initValue
+            print(" > None")
+            return [None, 0, 0, 0, 0]
         if a <= l and r <= b:
+            print(" > have: {0}".format(self.dat[nodeId]))
             return self.dat[nodeId]
+
+        print("querySubcalc: a={0}, b={1}, nodeId={2}, l={3}, r={4}".format(a, b, nodeId, l, r))
         resLeft = self.querySub(a, b, 2 * nodeId + 1, l, (l + r) // 2)
         resRight = self.querySub(a, b, 2 * nodeId + 2, (l + r) // 2, r)
-        return resLeft + resRight
+        print("querySubend: a={0}, b={1}, nodeId={2}, l={3}, r={4}".format(a, b, nodeId, l, r))
+        print(" > L")
+        print("  node{0}: {1}".format(2 * nodeId + 1, resLeft))
+        print(" > R")
+        print("  node{0}: {1}".format(2 * nodeId + 2, resRight))
+        print(resRight)
+        res =  self.funcSegmentValue(resLeft, resRight, nodeId)
+        print(" > res")
+        print(res)
+        return res
 
     def query(self, a, b):
         return self.querySub(a, b, 0, 0, self.lenTreeList)
@@ -250,8 +295,14 @@ print(stm.query(0, 3))
 print(stm.query(2, 6))
 """
 
-l = list("aaaaa")
+l = list("xaaxaaa")
+l = list("xaaaaa0A")
 st = segmentTreeCharCount()
 st.load(l, "a")
 st.build()
-pprint(st.dat)
+#st.setValue(2, "x")
+#st.setValue(4, "x")
+#pprint(st.dat)
+print("---")
+pprint(st.query(1,4))
+#pprint(st.dat)
