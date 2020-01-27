@@ -54,7 +54,7 @@ class UnionFindWithRank(object):
 
         if self.rank[x] < self.rank[y]:
             x, y = y, x
-
+            self.par[y] = x
         else:
             self.par[y] = x
             if self.rank[x] == self.rank[y]:
@@ -67,9 +67,6 @@ class UnionFindWithRank(object):
         for i in range(len(self.par)):
             t.append("{0} -> {1}".format(str(i), str(u.par[i])))
         self.log.append ("{{" + ",".join(t) + '},"' + action + '"}')
-
-
-
 
 if __name__ == "__main__":
     u = UnionFindWithRank(11)
