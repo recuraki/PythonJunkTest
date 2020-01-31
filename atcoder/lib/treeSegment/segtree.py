@@ -16,7 +16,9 @@ d = (len(l) - 1).bit_length() + 1 # dが1始まりならこっち
 d=(len(l) - 1).bit_length() - ( (i + 1).bit_length() - 1 )
 (これは一段上がると+1する変数)
 """
-
+"""
+https://ei1333.hateblo.jp/entry/2017/12/14/000000
+"""
 
 # 初めての実装
 # https://www.creativ.xyz/segment-tree-entrance-999/
@@ -77,6 +79,23 @@ class segmentTreeMin():
 
     def query(self, a, b):
         return self.querySub(a, b, 0, 0, self.lenTreeList)
+
+    def findLeftSub(self, x, a, b, nodeIf, l, r):
+        """
+        [a,b) 区間の中からxとなる最も左のindexを返す
+        これは、nodeIdではなくて、元のlistのindexである
+        """
+        if (r <= a or b <= l): # 範囲外の時
+            return None
+        if self.dat[nodeIf] != x: # このノードの最小がx出ないときはこのノードにxは含まれないので
+            return None
+        if nodeIf >= self.lenTreeList - 1: # nodeIfがノードのとき
+            return self.dat[nodeIf] #
+
+
+
+    def findLeft(self, x):
+        return self.findLeftSub(x, 0, self.lenTreeList, 0, 0, self.lenTreeList)
 
 # 区間和
 class segmentTreeSum():
