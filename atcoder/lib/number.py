@@ -5,6 +5,9 @@ MOD4 = 1234567891
 alphabet_low = "abcdefghijklmnopqrstuvwxyz"
 alphabet_up = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
+# 小数の表記
+format(z, '.10f')
+
 def factorial_mod(n, mod):
     import math
     return math.factorial(n) % mod
@@ -13,7 +16,7 @@ def factorial_mod(n, mod):
 # ソートされていない
 """
 make_divisors(16)
-# [1, 16, 2, 8, 4]
+# [1, 16, 2, 8, 4\]
 """
 def make_divisors(n):
     divisors = []

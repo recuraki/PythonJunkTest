@@ -45,12 +45,13 @@ def lcs_print(b, X, i, j):
 
 import itertools
 def countstrs(s):
-    """
-    >>> countstrs("1110000111")->    [('1', 3), ('0', 4), ('1', 3)]
-    >>> countstrs("") ->    []
-    >>> countstrs("aaa") ->    [('a', 3)]
-    """
     return [(k, len(list(g))) for k, g in itertools.groupby(s)]
+
+"""
+>>> countstrs("1110000111")->    [('1', 3), ('0', 4), ('1', 3)]
+>>> countstrs("") ->    []
+>>> countstrs("aaa") ->    [('a', 3)]
+"""
 
 from pprint import pprint
 str1 = "ABCBDAB"
@@ -59,3 +60,13 @@ c, b = lcs_length(str1, str2)
 #pprint(c)
 #pprint(b)
 lcs_print(b, str1, len(str1) - 1, len(str2) - 1 )
+
+
+str1 = "aabce"
+str2 = "ac"
+c, b = lcs_length(str1, str2)
+#pprint(c)
+#pprint(b)
+lcs_print(b, str1, len(str1) - 1, len(str2) - 1 )
+
+
