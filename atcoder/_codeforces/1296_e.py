@@ -1,4 +1,3 @@
-
 import sys
 from io import StringIO
 import unittest
@@ -6,13 +5,14 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 
 def resolve():
-    import sys
-    sys.setrecursionlimit(200000)
     from collections import deque
     # a-zに正方向と逆辺を張る
     def addEdge(g, a, z):
+        print("addgraph {0} {1}".format(a,z))
         g[0][a].append(z)
         g[1][z].append(a)
+        g[0][z].append(a)
+        g[1][a].append(z)
 
     # グラフの初期化
     def initGraph(g, edgenum):
@@ -65,24 +65,34 @@ def resolve():
         # pprint(vs)
         return k
 
-    vCount, e = map(int, input().split())
-
+    n = int(input())
+    s = input()
+    dat = []
+    for i in range(len(s)):
+        dat.append(ord(s[i]) - ord("a"))
+    vCount = 26 * 2  # 超点数
     g = []  # グラフ。[0] = 正方向のグラフ。 [1] = 逆方向のグラフ
     v = []  # 辺
     cmp = []
-
-    from pprint import pprint
     initGraph(g, edgenum=vCount)
-    for _ in range(e):
-        x, y = map(int, input().split())
-        addEdge(g, x, y)
+    from pprint import pprint
+    for i in range(len(s)):
+        for j in range(i+1, len(s)):
 
+            # もし、iのほうがjより大きいならこれはまたがないといけないので
+            if dat[i] > dat[j]:
+                #print("{0} > {1} ({2}, {3})".format(dat[i], dat[j],i, j))
+                # i は not j だし、
+                addEdge(g, dat[i], 26+dat[j])
+                # j は not i
+                #addEdge(g, 26+dat[i], dat[j])
+    #pprint(g)
     scc(g, cmp)
-
-    for _ in range(int(input())):
-        x, y = map(int, input().split())
-        print(1 if cmp[x] == cmp[y] else 0)
-
+    print(cmp)
+    print("is?")
+    for i in range(26):
+        if cmp[i] == cmp[26+i]:
+            print("NO")
 
 class TestClass(unittest.TestCase):
     def assertIO(self, input, output):
@@ -95,22 +105,30 @@ class TestClass(unittest.TestCase):
         self.assertEqual(out, output)
     def test_input_1(self):
         print("test_input_1")
-        input = """5 6
-0 1
-1 0
-1 2
-2 4
-4 3
-3 2
-4
-0 1
-0 3
-2 3
-3 4"""
-        output = """1
-0
-1
-1"""
+        input = """9
+abacbecfd"""
+        output = """YES
+001010101"""
+        self.assertIO(input, output)
+    def test_input_2(self):
+        print("test_input_2")
+        input = """8
+aaabbcbb"""
+        output = """YES
+01011011"""
+        self.assertIO(input, output)
+    def test_input_3(self):
+        print("test_input_3")
+        input = """7
+abcdedc"""
+        output = """NO"""
+        self.assertIO(input, output)
+    def test_input_4(self):
+        print("test_input_4")
+        input = """5
+abcde"""
+        output = """YES
+00000"""
         self.assertIO(input, output)
 
 if __name__ == "__main__":

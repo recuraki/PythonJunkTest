@@ -14,19 +14,25 @@ def resolve():
         if True:
             pprint(s)
 
-    md = 998244353
-    t = int(input())
-    for _ in range(t):
+    q = int(input())
+    for _ in range(q):
         n = int(input())
-        if n % 2 == 0:
-            res = "1" * (n // 2)
-        else:
-            res = "1" * (n // 2)
-            l = list(res)
+        dat=list(map(int, input().split()))
+        ocount = 0
+        ecount = 0
+        for i in range(len(dat)):
+            if dat[i] % 2 ==0:
+                ecount += 1
+            else:
+                ocount += 1
+        #print("e{0} o{1}".format(ecount, ocount))
+        if ocount == 0:
+            print("NO")
+        elif ocount % 2 == 0  and ecount == 0:
+            print("NO")
 
-            l[0] = "7"
-            res="".join(l)
-        print(res)
+        else:
+            print("YES")
 
 
 
@@ -42,11 +48,22 @@ class TestClass(unittest.TestCase):
         self.assertEqual(out, output)
     def test_input_1(self):
         print("test_input_1")
-        input = """2
+        input = """5
+2
+2 3
+4
+2 2 8 8
 3
-4"""
-        output = """7
-11"""
+3 3 3
+4
+5 5 5 5
+4
+1 1 1 1"""
+        output = """YES
+NO
+YES
+NO
+NO"""
         self.assertIO(input, output)
 if __name__ == "__main__":
     unittest.main()

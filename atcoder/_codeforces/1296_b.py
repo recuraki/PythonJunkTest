@@ -5,10 +5,30 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 
 def resolve():
-    n = int(input())
-    a = input().split()
-    b = a[::-1]
-    print(" ".join(b))
+    from pprint import pprint
+    def dp(s):
+        if True:
+            print(s)
+
+    def dpp(s):
+        if True:
+            pprint(s)
+
+    q = int(input())
+    for _ in range(q):
+        s = int(input())
+        res = 0
+        while s > 9:
+            sm = s % 10
+            res += (s - s % 10)
+            s = s // 10
+            s += sm
+            if s < 9:
+                break
+
+        res += s
+
+        print(res)
 
 
 class TestClass(unittest.TestCase):
@@ -22,9 +42,19 @@ class TestClass(unittest.TestCase):
         self.assertEqual(out, output)
     def test_input_1(self):
         print("test_input_1")
-        input = """8
-3 3 4 4 5 8 7 9"""
-        output = """9 7 8 5 4 4 3 3"""
+        input = """6
+1
+10
+19
+9876
+12345
+1000000000"""
+        output = """1
+11
+21
+10973
+13716
+1111111111"""
         self.assertIO(input, output)
 
 
