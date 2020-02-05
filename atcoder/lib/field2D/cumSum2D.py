@@ -1,7 +1,8 @@
 # 2次元累積和 Two-dimensional cumulative  sum
 """
 maze[h][w]2次元累積和を作成し、
-[(x0, y0), (x1, y1))の区間のクエリ
+[x0, [y0, (x1), y1)の区間のクエリ
+★x0,y0は閉区間, x1,y1は開区間です
 load: O(h*w)
 query: O(1)
 update: 未サポート
@@ -26,6 +27,10 @@ class cumSum2D():
                 self.mazeSum[y + 1][x + 1] = res
 
     def query(self, x0, y0, x1, y1):
+        """
+        [x0, [y0 からx1), y1)の2次元累積和
+        x0,y0は閉区間, x1,y1は開区間です
+        """
         # 0のほうが原点に近くあってほしい
         if x0 > x1 or y0 > y1:
             raise ValueError
