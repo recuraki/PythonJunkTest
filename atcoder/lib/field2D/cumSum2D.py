@@ -11,7 +11,7 @@ class cumSum2D():
     mazeSum = []
     h, w = 0, 0
     def __init__(self):
-        maze = []
+        self.mazeSum = []
 
     def load(self, maze):
         self.h, self.w = len(maze), len(maze[0])
@@ -33,6 +33,7 @@ class cumSum2D():
         """
         # 0のほうが原点に近くあってほしい
         if x0 > x1 or y0 > y1:
+
             raise ValueError
         res = self.mazeSum[y1][x1]
         res -= self.mazeSum[y1][x0]
@@ -41,14 +42,14 @@ class cumSum2D():
         return res
 
 maze = []
-maze.append([0, 0, 1, 0, 1])
+maze.append([1, 0, 1, 0, 1])
 maze.append([1, 0, 1, 0, 1])
 maze.append([0, 0, 0, 1, 1])
 maze.append([1, 1, 1, 1, 1])
 maze.append([0, 0, 1, 0, 1])
 from pprint import pprint
 cs = cumSum2D()
- cs.load(maze)
+cs.load(maze)
 pprint(maze)
 pprint(cs.mazeSum)
 
@@ -61,23 +62,41 @@ test1(0, 0, 2, 2)
 test1(0, 0, 3, 3)
 test1(3, 3, 5, 5)
 test1(1, 0, 3, 3)
+test1(1, 1, 3, 3)
+test1(1, 1, 4, 3)
+test1(1, 1, 1, 3)
+test1(2, 2, 2, 3)
+test1(3, 3, 3, 4)
+test1(5, 0, 5, 5)
+test1(0, 0, 5, 5)
+test1(4, 4, 5, 5)
+test1(3, 3, 5, 5)
 
 """
-[[0, 0, 1, 0, 1],
+[[1, 0, 1, 0, 1],
  [1, 0, 1, 0, 1],
  [0, 0, 0, 1, 1],
  [1, 1, 1, 1, 1],
  [0, 0, 1, 0, 1]]
 [[0, 0, 0, 0, 0, 0],
- [0, 0, 0, 1, 1, 2],
- [0, 1, 1, 3, 3, 5],
- [0, 1, 1, 3, 4, 7],
- [0, 2, 3, 6, 8, 12],
- [0, 2, 3, 7, 9, 14]]
+ [0, 1, 1, 2, 2, 3],
+ [0, 2, 2, 4, 4, 6],
+ [0, 2, 2, 4, 5, 8],
+ [0, 3, 4, 7, 9, 13],
+ [0, 3, 4, 8, 10, 15]]
 (0,0) to (0,0) = 0
-(0,0) to (1,1) = 0
-(0,0) to (2,2) = 1
-(0,0) to (3,3) = 3
+(0,0) to (1,1) = 1
+(0,0) to (2,2) = 2
+(0,0) to (3,3) = 4
 (3,3) to (5,5) = 3
 (1,0) to (3,3) = 2
+(1,1) to (3,3) = 1
+(1,1) to (4,3) = 2
+(1,1) to (1,3) = 0
+(2,2) to (2,3) = 0
+(3,3) to (3,4) = 0
+(5,0) to (5,5) = 0
+(0,0) to (5,5) = 15
+(4,4) to (5,5) = 1
+(3,3) to (5,5) = 3
 """
