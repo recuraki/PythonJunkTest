@@ -5,30 +5,19 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 
 def resolve():
-    from pprint import pprint
-    def dp(s):
-        if True:
-            print(s)
-
-    def dpp(s):
-        if True:
-            pprint(s)
-
-    q = int(input())
-    for _ in range(q):
-        s = int(input())
-        res = 0
-        while s > 9:
-            sm = s % 10
-            res += (s - s % 10)
-            s = s // 10
-            s += sm
-            if s < 9:
-                break
-
-        res += s
-
-        print(res)
+q = int(input())
+for _ in range(q):
+    s = int(input())
+    res = 0 # 買った合計
+    while s > 9:
+        sm = s % 10 # 残額
+        res += (s - s % 10) # 綺麗な金額分
+        s = s // 10 # キャッシュバック
+        s += sm # 残額と足す
+        if s < 9:
+            break
+    res += s
+    print(res)
 
 
 class TestClass(unittest.TestCase):

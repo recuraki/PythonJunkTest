@@ -5,15 +5,6 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 
 def resolve():
-    from pprint import pprint
-    def dp(s):
-        if True:
-            print(s)
-
-    def dpp(s):
-        if True:
-            pprint(s)
-
     q = int(input())
     for _ in range(q):
         n = int(input())
@@ -25,12 +16,10 @@ def resolve():
                 ecount += 1
             else:
                 ocount += 1
-        #print("e{0} o{1}".format(ecount, ocount))
         if ocount == 0:
             print("NO")
         elif ocount % 2 == 0  and ecount == 0:
             print("NO")
-
         else:
             print("YES")
 
