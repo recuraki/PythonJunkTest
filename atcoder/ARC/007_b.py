@@ -5,7 +5,31 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 
 def resolve():
-    pass
+    on, m = map(int, input().split())
+    c = 0
+    d = dict()
+    for i in range(1, on+1):
+        d[i] = i
+    for _ in range(m):
+        n = int(input())
+        if c == n:
+            continue
+        #print("next", n)
+        #print("next in", d[n])
+        #print(d)
+        d[c] = d[n]
+        d[n] = -1
+        c = n
+
+    res = []
+    for i in range(1, on+1):
+        for k in d:
+            if d[k] == i:
+                res.append(str(k))
+    for i in range(on):
+        print(res[i])
+
+
 
 class TestClass(unittest.TestCase):
     def assertIO(self, input, output):

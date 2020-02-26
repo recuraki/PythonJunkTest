@@ -19,7 +19,6 @@ print(isCross(0.5, [0,2], [1,0])) #(True, [0.75, 0.5])
 print(isCross(3, [0,2], [0,0]))   #(False, None)
 print(isCross(0, [-100, -100], [100, -100])) #(False, None)
 
-
 # ある点が凸多角形内に存在するかを判定する
 # p = (x, y)の座標
 # poly = [(x1, y1), (x2, y2)...]
@@ -39,6 +38,27 @@ def isPointInPolygon(p, poly):
         lp = cp
     return isInside
 
+
+# http://py3.hateblo.jp/entry/2014/03/07/172910
+"""
+poly = [[4, 1], [3, 4], [3, 7], [4, 8], [7, 9], [9, 6], [7, 1]]
+>>> print(list(polyToTriangle(poly)))
+[([4, 1], [3, 4], [3, 7]), ([4, 1], [3, 7], [4, 8]), ([4, 1], [4, 8], [7, 9]), ([4, 1], [7, 9], [9, 6]), ([4, 1], [9, 6], [7, 1])]
+>>> print(areaPoly(poly))
+35.5
+"""
+def polyToTriangle(poly):
+    for i in range(len(poly) - 2):
+        yield poly[0], poly[i + 1], poly[i + 2]
+def areaTriangle(pointsTriangle):
+    (x1, y1), (x2, y2), (x3, y3) = pointsTriangle
+    return abs((x1 - x3) * (y2 - y1) - (x1 - x2) * (y3 - y1)) / 2
+def areaPoly(data):
+    return sum(areaTriangle(tri) for tri in polyToTriangle(data))
+
+poly = [[4, 1], [3, 4], [3, 7], [4, 8], [7, 9], [9, 6], [7, 1]]
+print(list(polyToTriangle(poly)))
+print(areaPoly(poly))
 
 poly = [ [-100, -100], [100, -100], [100, 100], [-100, 100] ]
 print("ok" if isPointInPolygon([0,0], poly) else "ng")

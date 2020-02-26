@@ -8,9 +8,9 @@ alphabet_up = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 # 小数の表記
 format(z, '.10f')
 
-def factorial_mod(n, mod):
-    import math
-    return math.factorial(n) % mod
+# n乗
+# 基本的にpow
+# pow(n, x, mod)
 
 # 約数のリストを表示する(因数分解ではない)
 # ソートされていない

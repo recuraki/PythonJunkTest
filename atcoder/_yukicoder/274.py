@@ -202,12 +202,13 @@ class TestClass(unittest.TestCase):
         print("test_input_4")
         self.maxDiff=40000
 
-        input = """3 3
-1 2
-0 2
-0 1
-"""
-        output = """NO"""
+        input = """5 10
+8 8
+0 0
+2 4
+2 3
+8 8"""
+        output = """YES"""
         self.assertIO(input, output)
 
 if __name__ == "__main__":

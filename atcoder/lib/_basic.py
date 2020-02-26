@@ -9,11 +9,12 @@ def resolve():
     def dp(s):
         if True:
             print(s)
-
     def dpp(s):
         if True:
             pprint(s)
-
+    q = int(input())
+    s = input()
+    dat = list(map(int, input().split()))
     pass
 
 
@@ -34,6 +35,16 @@ class TestClass(unittest.TestCase):
         self.assertIO(input, output)
     def test_input_2(self):
         print("test_input_2")
+        input = """xxx"""
+        output = """xxx"""
+        self.assertIO(input, output)
+    def test_input_3(self):
+        print("test_input_3")
+        input = """xxx"""
+        output = """xxx"""
+        self.assertIO(input, output)
+    def test_input_4(self):
+        print("test_input_4")
         input = """xxx"""
         output = """xxx"""
         self.assertIO(input, output)

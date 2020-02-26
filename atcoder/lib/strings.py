@@ -13,6 +13,21 @@ str_upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 str_lower = 'abcdefghijklmnopqrstuvwxyz'
 str_digit = "0123456789"
 
+#書式関係
+s = 'abc'
+print(f'right : {s:_>8}')
+print(f'center: {s:_^8}')
+print(f'left  : {s:_<8}')
+# right : _____abc
+# center: __abc___
+# left  : abc_____
+
+i = 1234
+print(f'zero padding: {i:08}')
+# zero padding: 00001234
+
+
+
 # アルゴリズムイントロダクション 15.4 LCS
 # Longest Common Subsequenceをとり、以下を返す
 # b: 結果
@@ -92,16 +107,37 @@ def lcs_print_recurcive(b, X, i, j):
         lcs_decode(b, X, i, j - 1)
 
 
-import itertools
-def countstrs(s):
-    return [(k, len(list(g))) for k, g in itertools.groupby(s)]
+"""
+s = "123456"
+print(rotateStr(s, 0))
+>>> 123456
+print(rotateStr(s, 1))
+>>> 234561
+"""
+def rotateStr(s, i):
+    l = len(s)
+    return s[i:] + s[:i]
+
 
 """
 >>> countstrs("1110000111")->    [('1', 3), ('0', 4), ('1', 3)]
 >>> countstrs("") ->    []
 >>> countstrs("aaa") ->    [('a', 3)]
+>>> countstrs_withIndex("1110000111")-> [('1', 3, 0), ('0', 4, 3), ('1', 3, 7)]
 """
+import itertools
 
+def countstrs(s):
+    return [(k, len(list(g))) for k, g in itertools.groupby(s)]
+
+def countstrs_withIndex(s):
+    d = countstrs(s)
+    r = []
+    ind = 0
+    for i in range(len(d)):
+        r.append((d[i][0], d[i][1], ind))
+        ind += d[i][1]
+    return r
 
 """
 deque(['B', 'C', 'B', 'A'])
