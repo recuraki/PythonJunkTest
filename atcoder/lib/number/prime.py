@@ -1,44 +1,25 @@
-MOD1 = 1000000007 # 10^9 + 7
-MOD2 = 1000000009 # 10^9 + 9
-MOD3 = 100000007 # 10^8 + 7
-MOD4 = 1234567891
-alphabet_low = "abcdefghijklmnopqrstuvwxyz"
-alphabet_up = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+# 素数判定(ミラーラビンテスト)
+# https://pashango-p.hatenadiary.org/entry/20090704/1246692091
+def is_prime(q, k=50):
+    q = abs(q)
+    if q == 2: return True
+    if q < 2 or q & 1 == 0: return False
 
-# 小数の表記
-format(z, '.10f')
+    d = (q - 1) >> 1
+    while d & 1 == 0:
+        d >>= 1
 
-def factorial_mod(n, mod):
-    import math
-    return math.factorial(n) % mod
+    for i in xrange(k):
+        a = random.randint(1, q - 1)
+        t = d
+        y = pow(a, t, q)
+        while t != q - 1 and y != 1 and y != q - 1:
+            y = pow(y, 2, q)
+            t <<= 1
+        if y != q - 1 and t & 1 == 0:
+            return False
+    return True
 
-# 約数のリストを表示する(因数分解ではない)
-# ソートされていない
-"""
-make_divisors(16)
-# [1, 16, 2, 8, 4\]
-"""
-def make_divisors(n):
-    divisors = []
-    for i in range(1, int(n**0.5)+1):
-        if n % i == 0:
-            divisors.append(i)
-            if i != n // i:
-                divisors.append(n//i)
-    # divisors.sort()
-    return divisors
-
-# 約数のリストを表示する(1とその数を除く)
-# ソートされていない
-"""
-make_divisors_without_own(16)
-[2, 8, 4]
-"""
-def make_divisors_without_own(n):
-    r = make_divisors(n)
-    r.remove(1)
-    r.remove(n)
-    return r
 
 """
 >> each_prime([2,3])
@@ -61,27 +42,6 @@ def each_prime(l):
             break
     return f
 
-# 最大公約数
-"""
->> fractions.gcd(0,6)
-6
-
-import fractions
-fractions.gcd(x, y)
-"""
-
-# 最小公倍数
-"""
->> lcm(3,7)
-21
->> lcm(1, 7)
-7
->> lcm(0, 7)
-0
-"""
-import fractions
-def lcm(x, y):
-    return (x * y) // fractions.gcd(x, y)
 
 # エトラステネスのふるい
 #  https://qiita.com/fantm21/items/5e270dce9f4f1d963c1e
@@ -116,14 +76,26 @@ def prime_list_eratosthenes_from(n_from, n_to):
     i = bisect_left(data, n_from)
     return data[i:]
 
-
-
-import unittest
-class TestClass(unittest.TestCase):
-    def test_nCr_1(self):
-        r = nPr(4, 2)
-        self.assertEqual(r, 12)
-
-if __name__ == "__main__":
-    import math
-    print(math.gcd(100,0))
+# https://qiita.com/snow67675476/items/e87ddb9285e27ea555f8
+# 素因数分解
+"""
+>>> factorization(16)
+[[2, 4]]
+>>> factorization(48)
+[[2, 4], [3, 1]]
+"""
+def factorization(n):
+    arr = []
+    temp = n
+    for i in range(2, int(-(-n**0.5//1))+1):
+        if temp%i==0:
+            cnt=0
+            while temp%i==0:
+                cnt+=1
+                temp //= i
+            arr.append([i, cnt])
+    if temp!=1:
+        arr.append([temp, 1])
+    if arr==[]:
+        arr.append([n, 1])
+    return arr

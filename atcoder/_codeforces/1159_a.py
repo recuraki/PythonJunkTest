@@ -5,24 +5,18 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 
 def resolve():
-    n, k = map(int, input().split())
-    dat = []
-    hq = []
-    for i in range(k):
-        dat.append( 0 ) # count
-        hq.append( (0, i) ) # count, index
-    import heapq
-    heapq.heapify(hq)
-
-    for _ in range(n):
-        c = int(input())
-        cindex = c % k
-        dat[cindex] += 1
-        x = heapq.heappop()
-
-
-        print(r[1] * k + r[0])
-
+    n = int(input())
+    s = input()
+    mi = 0
+    c = 0
+    for i in range(n):
+        if s[i] == "+":
+            c += 1
+        else:
+            c -= 1
+            mi = min(mi, c)
+    c -= mi
+    print(c)
 
 
 
@@ -37,33 +31,28 @@ class TestClass(unittest.TestCase):
         self.assertEqual(out, output)
     def test_input_1(self):
         print("test_input_1")
-        input = """7 3
-0
-1
-2
-2
-0
-0
-10"""
-        output = """1
-2
-3
-3
-4
-4
-7"""
+        input = """3
+---
+"""
+        output = """0"""
         self.assertIO(input, output)
     def test_input_2(self):
         print("test_input_2")
-        input = """4 3
-1
-2
-1
-2"""
-        output = """0
-0
-0
-0"""
+        input = """4
+++++"""
+        output = """4"""
+        self.assertIO(input, output)
+    def test_input_3(self):
+        print("test_input_3")
+        input = """2
+-+"""
+        output = """1"""
+        self.assertIO(input, output)
+    def test_input_4(self):
+        print("test_input_4")
+        input = """5
+++-++"""
+        output = """3"""
         self.assertIO(input, output)
 
 if __name__ == "__main__":

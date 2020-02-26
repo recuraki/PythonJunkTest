@@ -5,25 +5,24 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 
 def resolve():
-    n, k = map(int, input().split())
-    dat = []
-    hq = []
-    for i in range(k):
-        dat.append( 0 ) # count
-        hq.append( (0, i) ) # count, index
-    import heapq
-    heapq.heapify(hq)
-
-    for _ in range(n):
-        c = int(input())
-        cindex = c % k
-        dat[cindex] += 1
-        x = heapq.heappop()
-
-
-        print(r[1] * k + r[0])
-
-
+    import itertools
+    def countstrs(s):
+        return [(k, len(list(g))) for k, g in itertools.groupby(s)]
+    q = int(input())
+    for i in range(q):
+        s = input()
+        c = countstrs(s)
+        #print(c)
+        if c[0][0] == "0":
+            del c[0]
+        if len(c) > 0:
+            if c[-1][0] == "0":
+                del c[-1]
+        res = 0
+        for i in range(len(c)):
+            if c[i][0] == "0":
+                res += c[i][1]
+        print(res)
 
 
 class TestClass(unittest.TestCase):
@@ -37,33 +36,9 @@ class TestClass(unittest.TestCase):
         self.assertEqual(out, output)
     def test_input_1(self):
         print("test_input_1")
-        input = """7 3
-0
-1
-2
-2
-0
-0
-10"""
-        output = """1
-2
-3
-3
-4
-4
-7"""
-        self.assertIO(input, output)
-    def test_input_2(self):
-        print("test_input_2")
-        input = """4 3
-1
-2
-1
-2"""
-        output = """0
-0
-0
-0"""
+        input = """1
+0011001"""
+        output = """"""
         self.assertIO(input, output)
 
 if __name__ == "__main__":
