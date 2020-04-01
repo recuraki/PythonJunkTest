@@ -13,6 +13,12 @@ str_upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 str_lower = 'abcdefghijklmnopqrstuvwxyz'
 str_digit = "0123456789"
 
+# 0 -> a したり、 a -> 0, b -> 1する
+calcLower2Index = lambda x: ord(x) - ord("a")
+calcUpper2Index = lambda x: ord(x) - ord("A")
+calcIndex2Lower = lambda x: chr(ord("a") + x)
+calcIndex2Upper = lambda x: chr(ord("A") + x)
+
 #書式関係
 s = 'abc'
 print(f'right : {s:_>8}')
@@ -93,7 +99,6 @@ def lcs_decode_negative(b, X, i, j):
         for i in range(1,i+1):
             res.appendleft(X[i-1])
     return res
-
 
 def lcs_print_recurcive(b, X, i, j):
     if i == 0 or j == 0:
@@ -186,5 +191,7 @@ c, b = lcs_length(str1, str2)
 #pprint(b)
 print(lcs_decode(b, str1, len(str1), len(str2)))
 print(lcs_decode_negative(b, str1, len(str1), len(str2)))
+print("".join(lcs_decode(b, str1, len(str1), len(str2))))
+
 
 

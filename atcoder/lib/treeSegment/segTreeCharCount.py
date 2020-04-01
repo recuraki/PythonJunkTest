@@ -197,6 +197,8 @@ st.build()
 
 print("----------------------------")
 test1(0,9)
+test1(0,0)
+test1(0,1)
 st.setValue(1, "a")
 test1(0,9)
 st.setValue(0, "x")
@@ -205,5 +207,6 @@ st.setValue(2, "x")
 st.setValue(3, "x")
 st.setValue(8, "x")
 test1(0,9)
+
 
 

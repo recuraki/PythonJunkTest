@@ -5,16 +5,32 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 
 def resolve():
-    from pprint import pprint
     def dp(s):
         if True:
             print(s)
     def dpp(s):
         if True:
             pprint(s)
+
+
+    from pprint import pprint
+    import sys
+    #sys.setrecursionlimit(100000)
+    input = sys.stdin.readline
+
     q = int(input())
     s = input()
+    a,b = map(int, input().split())
     dat = list(map(int, input().split()))
+
+    import math
+    math.ceil(1.2)
+    math.floor(1.2)
+    round(1.2, 3)
+
+    dat = [1, 2, 3]
+    print(" ".join(list(map(str, dat))))
+
     pass
 
 

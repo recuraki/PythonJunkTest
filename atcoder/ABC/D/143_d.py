@@ -10,19 +10,18 @@ def resolve():
     dat = list(map(int, input().split()))
     dat.sort(reverse=True)
     dat = list(map(lambda x: -x, dat))
-    print(dat)
+    #print(dat)
     res = 0
     for a in range(n):
-        print("a={0}".format(dat[a]))
+        #print("a={0}, [{1}]".format(dat[a],a))
         for b in range(a+1, n):
-            print(" b={0}, {1}".format(dat[b],b))
-            le = dat[a] - dat[b]
-            print(" le={0}".format(le))
-            y = bisect.bisect_left(dat, dat[a] - dat[b], b+1)
-            z = bisect.bisect_right(dat, dat[a] + dat[b], y)
-            print(" xxx = {0},{1}".format(y,  z ))
-            res +=  y - (b+1)
-
+            #print("b={0}, [{1}]".format(dat[b],b))
+            cind = bisect.bisect_left(dat, dat[a] - dat[b], b)
+            cannum = cind - (b+1)
+            cannum = 0 if cannum < 0 else cannum
+            #print("cind", cind)
+            #print("cannum", cannum)
+            res += cannum
     print(res)
 
 

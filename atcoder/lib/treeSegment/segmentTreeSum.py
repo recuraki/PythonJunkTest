@@ -147,3 +147,10 @@ import time
 test2()
 # k番目に小さい数値を得る O(log N)
 test3()
+
+l = [1, 0, 2, 3, 4, 0]
+st = segmentTreeSum()
+st.load(l)
+st.build()
+print(st.dat)
+print(st.query(0,1))

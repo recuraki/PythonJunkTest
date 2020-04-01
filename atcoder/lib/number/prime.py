@@ -66,7 +66,7 @@ def prime_list_eratosthenes(n):
         data = [e for e in data if e % p != 0]
 
 """
-n_from以上、n_to以下の素数を一覧する。(fromとtoを含む
+n_from以上、n_to以下の素数を一覧する。(fromとtoを含む = [from, to]
 >> prime_list_eratosthenes_from(5,9)
 [5, 7, 9]
 """

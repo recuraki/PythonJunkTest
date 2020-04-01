@@ -6,33 +6,18 @@ logging.basicConfig(level=logging.DEBUG)
 
 def resolve():
     q = int(input())
+    t = [["000"],
+         ["001"],
+         ["00"]]
     for _ in range(q):
-        a, b,c = map(int, input().split())
-        res = 0
-        if a > 3:
-            res +=1
-            a -= 1
-        if b > 3:
-            res +=1
-            a -= 1
-        if c > 3:
-            res +=1
-            a -= 1
-        if a > 0 and b > 0:
-            res +=1
-            a -= 1
-            b -= 1
-        if c > 0 and b > 0:
-            res +=1
-            c -= 1
-            b -= 1
-        if a > 0 and c > 0:
-            res +=1
-            a -= 1
-            c -= 1
-        if a > 0 and c > 0 and b > 0:
-            res +=1
-        print(res)
+        dat = list(map(int, input().split()))
+        dat = list(map(lambda x: 4 if x > 3 else x, dat))
+        dat = list(map(str, dat))
+        dat.sort()
+        s = "".join(dat)
+        print(s)
+
+
 
 
 
