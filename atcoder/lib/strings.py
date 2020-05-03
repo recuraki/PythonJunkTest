@@ -184,8 +184,8 @@ print(lcs_decode_negative(b, str1, len(str1), len(str2)))
 deque(['a', 'b', 'c', 'd'])
 deque([])
 """
-str1 = "abcd"
-str2 = "abcd"
+str1 = "12345"
+str2 = "4321"
 c, b = lcs_length(str1, str2)
 #pprint(c)
 #pprint(b)

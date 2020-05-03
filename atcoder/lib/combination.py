@@ -55,3 +55,9 @@ def combination(n, r, mod=10 ** 9 + 7):
     for i in range(r):
         res = res * (n - i) * modinv(i + 1, mod) % mod
     return res
+
+import unittest
+class TestClass(unittest.TestCase):
+    def test_nCr_1(self):
+        r = nPr(4, 2)
+        self.assertEqual(r, 12)
