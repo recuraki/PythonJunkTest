@@ -8,3 +8,4 @@ nosetests.xml
 */venv/
 */venv2/
 *.BAK
+atcoder/00_tools/cache.*.json
