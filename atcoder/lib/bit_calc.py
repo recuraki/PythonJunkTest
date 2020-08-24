@@ -33,6 +33,14 @@ bin_a="".join(["{:07b}\n".format(a) for a in range(1,7)])
 0000110
 """
 
+# ビット全探索用の基本コード
+def bit_all_find():
+    for pat in range(2 ** n):
+        tmp = [0] * m
+        for i in range(n):
+            if (pat >> i & 1) == 1:
+                tmp[i] = True
+
 # 1からnをbinaryのリストにする
 bin_a = ["{:03b}".format(a) for a in range(1,7+1)]
 bin_a = list(map(lambda x: [int(y) for y in list(x)], bin_a))

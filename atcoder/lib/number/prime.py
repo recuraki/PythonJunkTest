@@ -1,5 +1,6 @@
 # 素数判定(ミラーラビンテスト)
 # https://pashango-p.hatenadiary.org/entry/20090704/1246692091
+import random
 def is_prime(q, k=50):
     q = abs(q)
     if q == 2: return True
@@ -9,7 +10,7 @@ def is_prime(q, k=50):
     while d & 1 == 0:
         d >>= 1
 
-    for i in xrange(k):
+    for i in range(k):
         a = random.randint(1, q - 1)
         t = d
         y = pow(a, t, q)
@@ -51,16 +52,17 @@ nまでの素数を一覧する。(nを含む)
 [2, 3, 5, 7, 9]
 """
 def prime_list_eratosthenes(n):
-    if not isinstance(n, int):
-        raise TypeError('n is int type.')
-    if n < 2:
-        raise ValueError('n is more than 2')
+    import math
+    if n == 1:
+        return []
+    if n == 2:
+        return [2]
     prime = [2]
-    limit = int(n**0.5)
+    limit = math.sqrt(n)
     data = [i + 1 for i in range(2, n, 2)]
     while True:
         p = data[0]
-        if limit <= p:
+        if limit < p:
             return prime + data
         prime.append(p)
         data = [e for e in data if e % p != 0]
@@ -99,3 +101,18 @@ def factorization(n):
     if arr==[]:
         arr.append([n, 1])
     return arr
+# [2, 5, 5]
+def factorization_expand(n):
+    l = factorization(n)
+    dat = []
+    for a,b in l:
+        dat += [a] * b
+    return dat
+
+print(prime_list_eratosthenes(100009))
+
+l = factorization(50)
+print(l)
+l = factorization_expand(50)
+print(l)
+print(is_prime(13))

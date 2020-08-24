@@ -5,8 +5,16 @@ MOD4 = 1234567891
 alphabet_low = "abcdefghijklmnopqrstuvwxyz"
 alphabet_up = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
+
+
 # 小数の表記
-format(z, '.10f')
+# 0.1200000000
+print(format(0.12, '.10f'))
+
+# 0010
+print(format(10, '04d'))
+
+
 
 # n乗
 # 基本的にpow
@@ -62,14 +70,53 @@ import fractions
 def lcm(x, y):
     return (x * y) // fractions.gcd(x, y)
 
+"""
+>> print(sumdigits(12345))
+ 15
+>> print(sumdigits(10000))
+ 1
+>> print(sumdigits(20000))
+ 2
+"""
+# 各桁の和を得る 123なら 1+2+3 = 6
+def sumdigits(n):
+    res = 0
+    while n > 0:
+        res += n % 10
+        n //= 10
+    return res
+
+"""
+>> print(isDiffrentDigits(12345))
+ True
+>> print(isDiffrentDigits(12341))
+ False
+>> print(isDiffrentDigits(12344))
+ False
+>> print(isDiffrentDigits(1))
+ True
+>> print(isDiffrentDigits(0))
+ True
+"""
+def isDiffrentDigits(n):
+    used = 0
+    while n > 0:
+        x = n % 10
+        n //= 10
+        if used & (1 << x) != 0:
+            return False
+        used |= 1 << x
+    return True
 
 
-import unittest
-class TestClass(unittest.TestCase):
-    def test_nCr_1(self):
-        r = nPr(4, 2)
-        self.assertEqual(r, 12)
+
+
 
 if __name__ == "__main__":
     import math
-    print(math.gcd(100,0))
+    print(isDiffrentDigits(12345))
+    print(isDiffrentDigits(12341))
+    print(isDiffrentDigits(12344))
+    print(isDiffrentDigits(1))
+    print(isDiffrentDigits(0))
+    print(make_divisors(100000006))

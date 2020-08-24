@@ -61,7 +61,7 @@ Log: show ip os nei
 <pre class="resultlog">
 
 Neighbor ID     Pri   State           Dead Time   Address         Interface
-<span class=positivechar>192.168.0.1</span>     128   <span class=positivechar>FULL</span>/DR         00:00:35    192.168.0.1     GigabitEthernet2
+<span class=positivechar>192.168.0.1</span>     128   <span class=positivechar>FULL</span>/DR         00:00:34    192.168.0.1     GigabitEthernet2
 </pre>
 
 
@@ -96,7 +96,7 @@ Log: show ospf neighbor
 <pre class="resultlog">
 
 Address          Interface              State     ID               Pri  Dead
-<span class=positivechar>192.168.0.2</span>      ge-0/0/1.0             <span class=positivechar>Full</span>      192.168.0.2        1    36
+<span class=positivechar>192.168.0.2</span>      ge-0/0/1.0             <span class=positivechar>Full</span>      192.168.0.2        1    31
 
 </pre>
 
@@ -108,7 +108,7 @@ Address          Interface              State     ID               Pri  Dead
 <div class="contain">MUST Contain</div>
 <ul>
     
-    <li class="ruleincorrect">ge-0/0/1.0</li>
+    <li class="rulecorrect">ge-0/0/1.0</li>
     
 </ul>
 <div class="notcontain">must NOT Contain</div>
@@ -121,12 +121,13 @@ Log: show lldp local-information | match ^ge
 <pre class="resultlog">
 
 <span class=negativechar>ge-0/0/0.0</span>        -                 509             ge-0/0/0.0               Up        Disabled 
+<span class=positivechar>ge-0/0/1.0</span>        -                 518             ge-0/0/1.0               Up        Disabled 
 
 </pre>
 
 <hr>
 
-<div class="rule"><div class="rulesincorrect">[NG] disable evil route</div></div>
+<div class="rule"><div class="rulescorrect">[OK]disable evil route</div></div>
 
 
 <div class="contain">MUST Contain</div>
@@ -138,17 +139,16 @@ Log: show lldp local-information | match ^ge
     
     <li class="rulecorrect">8.8.8.8</li>
     
-    <li class="ruleincorrect">6.6.6.6</li>
+    <li class="rulecorrect">6.6.6.6</li>
     
-    <li class="rulenoeval">7.7.7.7</li>
+    <li class="rulecorrect">7.7.7.7</li>
     
-    <li class="rulenoeval">9.9.9.9</li>
+    <li class="rulecorrect">9.9.9.9</li>
     
 </ul>
 Log: show route 6.6.6.6 | match 6.6.6.6
 <pre class="resultlog">
 
-<span class=negativechar>6.6.6.6</span>/32         *[BGP/170] 00:08:32, MED 0, localpref 100
 
 </pre>
 

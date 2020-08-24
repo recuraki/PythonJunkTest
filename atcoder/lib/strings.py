@@ -13,6 +13,23 @@ str_upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 str_lower = 'abcdefghijklmnopqrstuvwxyz'
 str_digit = "0123456789"
 
+# 文字は３－２０で、英数字のみ？
+def do():
+    if len(u) < 3 or len(u) > 20:
+        print("INVALID")
+        return
+    can = True
+    for i in range(len(u)):
+        if ord("a") <= ord(u[i]) <= ord("z"):
+            continue
+        if ord("A") <= ord(u[i]) <= ord("Z"):
+            continue
+        if ord("0") <= ord(u[i]) <= ord("9"):
+            continue
+        can = False
+    print("VALID" if can else "INVALID")
+
+
 # 0 -> a したり、 a -> 0, b -> 1する
 calcLower2Index = lambda x: ord(x) - ord("a")
 calcUpper2Index = lambda x: ord(x) - ord("A")

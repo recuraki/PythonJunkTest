@@ -17,7 +17,7 @@ headers = {
     'Content-Type': 'application/json',
 }
 
-requrl = url + "lights/1/state"
+requrl = url + "lights/2/state"
 print(requrl)
 bri = 0
 x = 0
