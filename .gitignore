@@ -10,3 +10,5 @@ nosetests.xml
 *.BAK
 atcoder/00_tools/cache.*.json
 atcoder/_codeforces/.ipynb_checkpoints/
+topcoder/*/CutTheCube.html
+topcoder/*/*.html
