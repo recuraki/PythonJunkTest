@@ -16,15 +16,13 @@ def resolve():
             if s.find(">") == -1:
                 print(n)
                 continue
-            s = s + s + s
-            cnt = 0
-            for i in range(n):
-                x = n + i
-                if s[n] == "-" or s[n-1] == "-":
-                    cnt += 1
-            if s[0] == "-" and s[-1] == "-":
-                cnt -= 1
-            print(cnt)
+            s = s[-1] + s + s[0]
+            res = 0
+            for i in range(1, n+1):
+                if s[i-1] == "-" or s[i] == "-":
+                    res += 1
+            print(res)
+
 
     do()
 

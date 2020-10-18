@@ -1,37 +1,35 @@
-def findLexSmallest( s):
-    l = len(s)
-    dat = []
-    for n in range(300):
-        a, b, c = -1, -1, -1
-        for i in range(l):
-            print(i, s[i])
-            if a == -1:
-                if s[i] == ")":
-                    print("seta")
-                    a = i
-            if a != -1 and b == -1:
-                if s[i] == "(":
-                    print("setb")
-                    b = i - 1
-            if b != -1 and c == -1:
-                if s[i] == ")":
-                    print("setc")
-                    c = i - 1
-                elif i ==l-1 and s[i] == "(":
-                    print("setc")
-                    c = i
-        if c == -1:
-            break
-        print(a, b, c)
-        dat.append(a)
-        dat.append(b)
-        dat.append(c)
-        print(a, b, c)
-        print("b", s)
-        s = s[:a] + s[b + 1:c + 1] + s[a:b + 1] + s[c + 1:]
-        print("a", s)
+cache = dict()
+def score(seg, turn, offset):
+    ls = len(seg)
+    maxval = 0
 
-    return (tuple(dat))
+    if turn == 0:
+        if len(seg) == 0:
+            return 0
+        if len(seg) == 1:
+            return seg[0]
+        if len(seg) == 2:
+            return max(seg)
+        s = map(str, seg)
+        s = ",".join(s)
+
+        index = 1000*offset + ls
+        if index in cache:
+            return cache[index]
+
+        for i in range(ls):
+            maxval = max(maxval, seg[i] + score(seg[:i], 1, offset + i) + score(seg[i+1:], 1, offset + i))
+        cache[s] = maxval
+        return maxval
+
+    elif turn == 1:
+        if len(seg) == 0:
+            return 0
+        if len(seg) == 1:
+            return 0
+        if len(seg) == 2:
+            return min(seg)
+        return (sum(seg) - score(seg, 0, offset))
 
 
-print(findLexSmallest("))(("))
+print(score([1,2,3,4,5]*100, 0, 0))

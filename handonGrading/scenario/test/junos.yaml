@@ -1,0 +1,25 @@
+- "hostname": "JUNOSRouter"
+  "device_type": "juniper_junos"
+  "ipaddr": "192.168.153.10"
+  "tests":
+   - "name": "ospf"
+     "cmd": "show ospf neighbor"
+     "include": 
+       - "192.168.0.2"
+       - "Full"
+     "notinclude": 
+       - "192.168.0.1"
+       - "2WAY"
+   - "name": "lldp"
+     "cmd": "show lldp local-information | match ^ge"
+     "include": 
+       - "ge-0/0/1.0"
+     "notinclude": 
+       - "ge-0/0/0.0"
+   - "name": "disable evil route"
+     "cmd": "show route 6.6.6.6 | match 6.6.6.6"
+     "notinclude":
+       - "8.8.8.8"
+       - "6.6.6.6"
+       - "7.7.7.7"
+       - "9.9.9.9"

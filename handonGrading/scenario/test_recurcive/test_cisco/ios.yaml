@@ -1,0 +1,11 @@
+- "hostname": "CiscoRouter"
+  "ipaddr": "192.168.153.20"
+  "tests":
+   - "name": "SW1 is vty server"
+     "cmd": "show ip os nei"
+     "include": 
+       - "192.168.0.1"
+       - "FULL"
+     "notinclude": 
+       - "192.168.0.2"
+       - "2WAY"

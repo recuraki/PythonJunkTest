@@ -14,56 +14,16 @@ def resolve():
         q = int(input())
         for _ in range(q):
             s = input()
-            s = "A" + s + "B"
-            c = countstrs(s)
-            import collections
-            q = []
-            for x,y in c:
-                q.append(y)
-            q[0] -= 1
-            q[-1] -= 1
-            loop = 0
-            while True:
-                loop += 1
-                if loop > 10:
-                    break
-                isChange = False
-                nokoria = nokorib = 0
-                newq = []
-                cnta = 0
-                for i in range(0, len(q), 2):
-                    cnta += q[i]
-                    cntb = q[i+1]
-                    if cntb == 0:
-                        continue
-                    if cnta >= cntb:
-                        cnta, cntb = cnta-cntb, 0
-                        isChange = True
+            cntA, cntB = 0, 0
+            for i in range(len(s)):
+                if s[i] == "A":
+                    cntA += 1
+                else:
+                    if cntA > 0:
+                        cntA -= 1
                     else:
-                        cnta, cntb = 0, cntb - cnta
-                        newq.append(cnta)
-                        newq.append(cntb)
-                        isChange = True
-
-                if cnta > 0:
-                    newq.append(cnta)
-                    newq.append(0)
-
-                q = newq
-                if len(q) < 2:
-                    break
-                if isChange is True:
-                    break
-            sumb = 0
-            suma = 0
-            for i in range(0, len(q), 2):
-                suma += q[i]
-                sumb += q[i+1]
-            print(suma + sumb%2)
-
-
-
-
+                        cntB += 1
+            print(cntA + (cntB % 2))
     do()
 
 
