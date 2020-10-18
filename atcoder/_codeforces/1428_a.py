@@ -6,11 +6,25 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 
 def resolve():
-    a, b = map(int, input().split())
-    xx = a + b
-    x = xx // 2
-    y = a - x
-    print(x,y)
+
+    def do():
+        import math
+        q = int(input())
+        for _ in range(q):
+            x1,y1,x2,y2 = map(int, input().split())
+            if x1 == x2:
+                print(abs(y1-y2))
+                continue
+            if y1 == y2:
+                print(abs(x1 - x2))
+                continue
+            res = abs(y1-y2) + 2 + abs(x1 - x2)
+            print(res)
+            continue
+    do()
+
+
+
 
 class TestClass(unittest.TestCase):
     def assertIO(self, input, output):
@@ -23,14 +37,13 @@ class TestClass(unittest.TestCase):
         self.assertEqual(out, output)
     def test_input_1(self):
         print("test_input_1")
-        input = """2 -2"""
-        output = """0 2"""
+        input = """2
+1 2 2 2
+1 1 2 2"""
+        output = """1
+4"""
         self.assertIO(input, output)
-    def test_input_2(self):
-        print("test_input_2")
-        input = """3 1"""
-        output = """2 1"""
-        self.assertIO(input, output)
+
 
 if __name__ == "__main__":
     unittest.main()

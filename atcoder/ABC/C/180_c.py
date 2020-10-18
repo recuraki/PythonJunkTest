@@ -1,4 +1,3 @@
-
 import sys
 from io import StringIO
 import unittest
@@ -6,11 +5,21 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 
 def resolve():
-    a, b = map(int, input().split())
-    xx = a + b
-    x = xx // 2
-    y = a - x
-    print(x,y)
+    def make_divisors(n):
+        divisors = []
+        for i in range(1, int(n ** 0.5) + 1):
+            if n % i == 0:
+                divisors.append(i)
+                if i != n // i:
+                    divisors.append(n // i)
+        # divisors.sort()
+        return divisors
+
+    n = int(input())
+    l = make_divisors(n)
+    l.sort()
+    for i in range(len(l)):
+        print(l[i])
 
 class TestClass(unittest.TestCase):
     def assertIO(self, input, output):
@@ -21,16 +30,11 @@ class TestClass(unittest.TestCase):
         out = sys.stdout.read()[:-1]
         sys.stdout, sys.stdin = stdout, stdin
         self.assertEqual(out, output)
-    def test_input_1(self):
-        print("test_input_1")
-        input = """2 -2"""
-        output = """0 2"""
-        self.assertIO(input, output)
-    def test_input_2(self):
-        print("test_input_2")
-        input = """3 1"""
-        output = """2 1"""
-        self.assertIO(input, output)
+
+    def test_input_12(self):
+        print("test_input_21")
+        input = str(10**12)
+        output = """"""
 
 if __name__ == "__main__":
     unittest.main()
