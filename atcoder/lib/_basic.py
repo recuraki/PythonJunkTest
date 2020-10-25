@@ -6,27 +6,26 @@ logging.basicConfig(level=logging.DEBUG)
 
 def resolve():
 
-    def do():
-        q = int(input())
-        for _ in range(q):
-            s = input()
-            n = int(input())
-            n, k = map(int, input().split())
-            dat = list(map(int, input().split()))
-
-    do()
-
-
-    ###############################################
     #input = sys.stdin.readline
     from pprint import pprint
-    #import sys
-    #sys.setrecursionlimit(100000)
+    import sys
+    def do():
+        s = input()
+        n = int(input())
+        n, k = map(int, input().split())
+        dat = list(map(int, input().split()))
+
+    q = int(input())
+    for _ in range(q):
+        do()
+    # do()
+
 
     dat = [1, 2, 3]
     print(" ".join(list(map(str, res))))
 
     pass
+    #sys.setrecursionlimit(100000)
     import math
     math.ceil(1.2)
     math.floor(1.2)
