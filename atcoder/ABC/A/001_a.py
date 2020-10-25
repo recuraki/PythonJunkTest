@@ -2,6 +2,11 @@ import sys
 from io import StringIO
 import unittest
 
+def resolve():
+    a = int(input())
+    b = int(input())
+    print(a-b)
+
 class TestClass(unittest.TestCase):
     def assertIO(self, input, output):
         stdout, stdin = sys.stdout, sys.stdin
