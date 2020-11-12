@@ -45,7 +45,7 @@ async def web_log(request: web.Request):
 
 
 async def web_reset(request: web.Request):
-    # TODO 現状単なるモック
+    # TODO 現状単なるstubです。実装されていません。
     args = dict()
     args["logs"] = logs.get_logs()
     return aiohttp_jinja2.render_template("templ/status.templ", request, args)
@@ -67,6 +67,13 @@ async def web_detail_scenarios(request: web.Request):
     return web.json_response(text=json.dumps(args, indent=2))
 
 async def web_run_by_id(request: web.Request):
+    """
+    idで指定されたテストを実行する。
+    テストに含まれるnode単位ごとにcheckConfigのタスクを作り、asyncで終了を待ちます。(asyncio.wait)
+    結果はresultに出力されます。
+    :param request:
+    :return:
+    """
     id = request.match_info["id"]
     if not id:
         return web.Response(text="plz input id", status=404)

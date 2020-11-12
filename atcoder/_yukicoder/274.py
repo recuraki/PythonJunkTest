@@ -66,7 +66,7 @@ def resolve():
                 rdfs(g, vs[i], visited, cmp, k)
                 k += 1
         # pprint(vs)
-        return k
+        return k # 何個の強連結成分に分かれたか？
 
 
     n, m = map(int, input().split())
@@ -81,7 +81,7 @@ def resolve():
     # 0-n-1が各要素のx, n - n*2-1がnot x の 領域
 
     g = []  # グラフ。[0] = 正方向のグラフ。 [1] = 逆方向のグラフ
-    cmp = []
+    cmp = [] # 強連結成分を記録する
 
     from pprint import pprint
     initGraph(g, edgenum=vCount)
@@ -102,18 +102,19 @@ def resolve():
     for i in range(n):
         if f is False:
             break
-        # あくまで縦のほかとの一致なので
+        # 自分より上のブロックに対する制約をすべて確認する
         for j in range(i+1, n):
 
             if isSafe(dat[i][0], dat[i][1], dat[j][0], dat[j][1]) is False:
-                # もし、そのままで通らない場合、
+                # もし、そのままで衝突する場合、
                 if isSafe((m-1) - dat[i][0], (m-1) - dat[i][1], dat[j][0], dat[j][1]):
-                    # 自分を反転して通るのであれば not x → y, あるいはx → not yなのだから
+                    # 自分を反転して通るのであれば not x → y, あるいはx → not yを満たさないとならないので制約を張る
                     addEdge(g, n + i, j)
                     addEdge(g, i, n + j)
                 else:
-                    # 何をしても通らないので通らないダミーパスを作る
-                    f = False
+                    # 何をしても通らない制約を張る x → not xを張る(絶対にこれは満たせない)
+                    addEdge(g, i, n+i)
+                    # 続けてもいいがどうせ満たせないので抜ける
                     break
 
             else: # そのままで通る場合で
@@ -122,33 +123,25 @@ def resolve():
                     addEdge(g, i, j)
                     addEdge(g, n + i, n + j)
                 else:
-                    pass # 回転させても通るならなにをしても通るので制約は要らない
+                    # 回転させても通るならなにをしても通るので制約は要らない
+                    pass
 
-
-                """
-                if isSafe(dat[i][0], dat[i][1], dat[pi][0], dat[pi][1]) is False:
-                    addEdge(g, n + i, n + pi)
-                if isSafe(m - dat[i][0], m - dat[i][1], dat[pi][0], dat[pi][1]) is False:
-                    addEdge(g, i, n + pi)
-                if isSafe(dat[i][0], dat[i][1], m - dat[pi][0], m - dat[pi][1]) is False:
-                    addEdge(g, n + i, pi)
-                if isSafe(m - dat[i][0], m - dat[i][1], m - dat[pi][0], m - dat[pi][1]) is False:
-                    addEdge(g, i, pi)
-                """
-
-    if f is False:
-        print("NO")
-    else:
-        k = scc(g, cmp)
-        #pprint(g)
-        f = True
-        for i in range(n):
-            if cmp[i] == cmp[n+i]:
-                #print("hit{0} {1}, by {2} {3}".format(cmp[i], cmp[n+i], i, n+i))
-                f = False
-                break
-        #print(cmp)
-        print("YES" if f else "NO")
+    k = scc(g, cmp)
+    l = []
+    f = True
+    for i in range(n):
+        if cmp[i] == cmp[n+i]:
+            f = False
+            break
+        if cmp[i] > cmp[n+i]:
+            l.append(True)
+        else:
+            l.append(False)
+    #print(cmp)
+    # 判定結果
+    print("YES" if f else "NO")
+    # 結果の復元
+    #print(l)
 
 
 class TestClass(unittest.TestCase):
@@ -183,6 +176,17 @@ class TestClass(unittest.TestCase):
 
     def test_input_3(self):
         print("test_input_3")
+        self.maxDiff = 40000
+
+        input = """2 4
+0 1
+0 1"""
+        output = """YES"""
+        self.assertIO(input, output)
+
+
+    def test_input_33(self):
+        print("test_input_33")
         input = """12 1009
 632 683
 895 962

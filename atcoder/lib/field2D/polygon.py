@@ -13,11 +13,35 @@ def isCross(y, p1, p2):
     else:
         return (False, None)
 
+
 print(isCross(0.5, [1, 2], [1,0])) #(True, [0.5, 0.5])
 print(isCross(0.5, [0,1], [1,0])) #(True, [0.5, 0.5])
 print(isCross(0.5, [0,2], [1,0])) #(True, [0.75, 0.5])
 print(isCross(3, [0,2], [0,0]))   #(False, None)
 print(isCross(0, [-100, -100], [100, -100])) #(False, None)
+
+
+
+
+# [x,y]で与えられる3直線が同一線上にあるか？
+# Verify: https://atcoder.jp/contests/abc181/tasks/abc181_c
+def sameLine(p1, p2, p3):
+    return (p3[0] - p1[0]) * (p2[1] - p1[1]) == (p2[0] - p1[0]) * (p3[1] - p1[1]) and \
+        (p2[0] - p1[0]) ** 2 + (p2[1] - p1[1]) ** 2 < (p3[0] - p1[0]) ** 2 + (p3[1] - p1[1]) ** 2
+
+# 2つの直線が交わるかの判定 p=[x,y]のp1-p2を繋ぐ線とp3-p4を繋ぐせんを調べる
+def intersect(p1, p2, p3, p4):
+    tc1 = (p1[0] - p2[0]) * (p3[1] - p1[1]) + (p1[1] - p2[1]) * (p1[0] - p3[0])
+    tc2 = (p1[0] - p2[0]) * (p4[1] - p1[1]) + (p1[1] - p2[1]) * (p1[0] - p4[0])
+    td1 = (p3[0] - p4[0]) * (p1[1] - p3[1]) + (p3[1] - p4[1]) * (p3[0] - p1[0])
+    td2 = (p3[0] - p4[0]) * (p2[1] - p3[1]) + (p3[1] - p4[1]) * (p3[0] - p2[0])
+    return tc1 * tc2 < 0 and td1*td2 < 0
+
+print("Inter")
+print(intersect([0, 0], [0, 1], [-1, 0.5], [1, 0.5])) # True
+print(intersect([0, 0], [0, 1], [0, 0], [0, 1])) # False(被る)
+
+
 
 # ある点が凸多角形内に存在するかを判定する
 # p = (x, y)の座標

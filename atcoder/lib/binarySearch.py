@@ -14,3 +14,17 @@ def abc146_c():
             h = mid - 1 # 買えないのでそれ以下の数をトライ
     print(h if ( pl(h) <= x ) else l)
 
+
+#やりたいこと「一番近い数字を探す」
+from bisect import bisect_left, bisect_right
+def mindiffsearch(x):
+    l = [1, 5, 10, 100, 200]
+    ll = len(l)
+    indl = bisect_left(l, x)
+    if indl == 0:
+        return abs(x-l[0])
+    if indl == ll:
+        return abs(x-l[-1])
+    else:
+        return min(abs(x-l[indl]), abs(x - l[indl-1]))
+print(mindiffsearch(-1))

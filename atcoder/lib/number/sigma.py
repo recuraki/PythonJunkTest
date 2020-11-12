@@ -14,7 +14,35 @@ def sigma3(n, a, r):
 
 # 累積和
 import itertools
+# 注意: あくまで、bは開区間
+squery = lambda a,b: sdat[b] - sdat[a] # query [a, b)
+def createSDAT(l):
+    return list(itertools.accumulate(itertools.chain([0], l)))
+
+# 愚直に作る場合
 dat = [1,2,3]
-sdat = list(itertools.accumulate(itertools.chain([0], dat)))
+sdat = list(itertools.accumulate(itertools.chain([0], dat))) # RMQ
 print(sdat) # [0, 1, 3, 6]
 print(sdat[2 +1] - sdat[0]) # queryは[a, b)なので注意
+
+# wrapper
+dat = [1,2,3]
+sdat = createSDAT(dat)
+print(sdat)
+print(squery(0,2+1)) # 6
+print(squery(0,0))  # 0
+print(squery(0,0+1)) # 1
+print(squery(1,1+1)) # 2
+
+
+# zipを使って、特定のキーの累積和を作る
+dat = []
+dat.append([1, 10, "data1"])
+dat.append([3, 100, "data3"])
+dat.append([2, 1000, "data2"])
+dat.sort(key=lambda x: x[0])
+print(dat) # [[1, 10, 'data1'], [2, 1000, 'data2'], [3, 100, 'data3']]
+print(list(zip(*dat))[1]) # (10, 1000, 100)
+sdat = createSDAT(list(zip(*dat))[1])
+print(sdat) # [0, 10, 1010, 1110]
+print(squery(0,1))
