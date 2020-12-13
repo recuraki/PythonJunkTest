@@ -1,6 +1,8 @@
 # http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=ALDS1_7_C&lang=jp
 # のグラフを用いる
 """
+https://maspypy.com/euler-tour-%E3%81%AE%E3%81%8A%E5%8B%89%E5%BC%B7
+
 PreOrder: 上から辿りたい時に使える。上からコストを落としたい時など。
 PostOrder: 下から辿りたい時に使える。下からコストを集約したい時など。
 
@@ -15,7 +17,7 @@ PostOrder: 下から辿りたい時に使える。下からコストを集約し
 
 Path: [0, 1, 2, 1, 3, 1, 0, 4, 5, 6, 5, 7, 5, 4, 8, 4, 0]
 Parent: [None, 0, 1, 1, 0, 4, 5, 5, 4]
-Nodein: [0, 1, 2, 4, 7, 8, 9, 3, 6]
+Nodein:  [0,  1, 2, 4,  7, 8, 9, 3, 6]
 Nodeout: [16, 5, 2, 4, 15, 12, 9, 11, 14]
 Preorder: [0, 1, 2, 3, 4, 5, 6, 7, 8]
 Postorder: [2, 3, 1, 6, 7, 5, 8, 4, 0]
@@ -66,12 +68,14 @@ preorder = []
 postordercnt = [-1] * N
 postorder = []
 parent = [None] * N
+
+
 while len(q) != 0:
     curtime += 1
     curnode, curdepth = q.pop()
-    if nodein[curnode] == -1:
-        nodein[curnode] = curtime
     if curnode >= 0: # 行き掛け
+        if nodein[curnode] == -1:
+            nodein[curnode] = curtime
         depth[curnode] = curdepth
         preorder.append(curnode)
         path.append(curnode)
@@ -86,6 +90,8 @@ while len(q) != 0:
             parent[nextnode] = curnode
     else: # もどりがけ
         curnode = ~curnode
+        if nodein[curnode] == -1:
+            nodein[curnode] = curtime
         path.append(curnode)
         nodeout[curnode] = curtime
         postordercnt[curnode] -= 1

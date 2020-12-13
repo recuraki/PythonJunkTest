@@ -137,12 +137,12 @@ def resolve():
             l.append(True)
         else:
             l.append(False)
-    #print(cmp)
     # 判定結果
     print("YES" if f else "NO")
+    # 強連結成分の列挙
+    print(cmp)
     # 結果の復元
-    #print(l)
-
+    print(l)
 
 class TestClass(unittest.TestCase):
 
@@ -212,6 +212,23 @@ class TestClass(unittest.TestCase):
 2 4
 2 3
 8 8"""
+        output = """YES"""
+        self.assertIO(input, output)
+    def test_input_5(self):
+        print("test_input_5")
+        self.maxDiff=40000
+
+        input = """5 10
+0 0
+1 1
+2 2
+3 3
+4 4
+5 5
+6 6
+7 7
+8 8
+9 9"""
         output = """YES"""
         self.assertIO(input, output)
 
