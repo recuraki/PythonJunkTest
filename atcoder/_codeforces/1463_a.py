@@ -5,18 +5,24 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 
 def resolve():
-    def do():
-        n = int(input())
-        dat = []
-        for i in range(n-1):
-            dat.append(i+2)
-        dat.append(1)
 
-        print(" ".join(list(map(str, dat))))
+    #input = sys.stdin.readline
+    from pprint import pprint
+    import sys
+    def do():
+        a,b,c = map(int, input().split())
+        t = a+ b+ c
+        x = t // 9
+        if t % 9 == 0 and min(a, b, c)  > x:
+            print("YES")
+            return
+        print("NO")
+
 
     q = int(input())
-    for qq in range(q):
+    for _ in range(q):
         do()
+
 
 
 
@@ -31,8 +37,14 @@ class TestClass(unittest.TestCase):
         self.assertEqual(out, output)
     def test_input_1(self):
         print("test_input_1")
-        input = """2
-2
-5"""
-        output = """xxx"""
+        input = """3
+3 3 12
+1 1 1
+10 1 7"""
+        output = """YES
+NO
+NO"""
         self.assertIO(input, output)
+
+if __name__ == "__main__":
+    unittest.main()
