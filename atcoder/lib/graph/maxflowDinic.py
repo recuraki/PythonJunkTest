@@ -1,6 +1,5 @@
-
 from collections import deque
-class Dinic(object):
+class DinicRecurcive(object):
     INF = 2**60
     def __init__(self, n):
         """
@@ -68,17 +67,21 @@ class Dinic(object):
                 flow += res
 
 
-#mf = Dinic(4)
-#mf.makeEdge(0,1,2)
-#mf.makeEdge(0,2,1)
-#mf.makeEdge(1,2,1)
-#mf.makeEdge(1,3,1)
-#mf.makeEdge(2,3,2)
-#print(mf.e)
-#print(mf.solve(0, 4-1))
-n, m = map(int, input().split())
-mf = Dinic(n)
-for _ in range(m):
-    a,b,c = map(int,input().split())
-    mf.makeEdge(a,b,c)
-print(mf.solve(0, n-1))
+def test():
+    mf = DinicRecurcive(4)
+    mf.makeEdge(0,1,2)
+    mf.makeEdge(0,2,1)
+    mf.makeEdge(1,2,1)
+    mf.makeEdge(1,3,1)
+    mf.makeEdge(2,3,2)
+    print(mf.solve(0, 4-1))
+
+def aoj():
+    n, m = map(int, input().split())
+    mf = DinicRecurcive(n)
+    for _ in range(m):
+        a,b,c = map(int,input().split())
+        mf.makeEdge(a,b,c)
+    print(mf.solve(0, n-1))
+
+test()

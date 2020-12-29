@@ -9,30 +9,25 @@ def resolve():
     import sys
     #input = sys.stdin.readline
 
+    import itertools
+    # 注意: あくまで、bは開区間
+    squery = lambda a, b: sdat[b] - sdat[a]  # query [a, b)
+    def createSDAT(l):
+        return list(itertools.accumulate(itertools.chain([0], l)))
 
     from pprint import pprint
     def do():
-        s = input()
         n = int(input())
-        n, k = map(int, input().split())
-        dat = list(map(int, input().split()))
-
+        datn = list(map(int, input().split()))
+        m = int(input())
+        datm = list(map(int, input().split()))
+        s1=createSDAT(datn)
+        s2=createSDAT(datm)
+        print(max(0,max(s1)+max(s2)))
     q = int(input())
     for _ in range(q):
         do()
     # do()
-
-
-    dat = [1, 2, 3]
-    print(" ".join(list(map(str, res))))
-
-    pass
-    #sys.setrecursionlimit(100000)
-    import math
-    math.ceil(1.2)
-    math.floor(1.2)
-    round(1.2, 3)
-
 
 
 class TestClass(unittest.TestCase):
@@ -46,23 +41,27 @@ class TestClass(unittest.TestCase):
         self.assertEqual(out, output)
     def test_input_1(self):
         print("test_input_1")
-        input = """xxx"""
-        output = """xxx"""
-        self.assertIO(input, output)
-    def test_input_2(self):
-        print("test_input_2")
-        input = """xxx"""
-        output = """xxx"""
-        self.assertIO(input, output)
-    def test_input_3(self):
-        print("test_input_3")
-        input = """xxx"""
-        output = """xxx"""
-        self.assertIO(input, output)
-    def test_input_4(self):
-        print("test_input_4")
-        input = """xxx"""
-        output = """xxx"""
+        input = """4
+4
+6 -5 7 -3
+3
+2 3 -4
+2
+1 1
+4
+10 -3 2 2
+5
+-1 -2 -3 -4 -5
+5
+-1 -2 -3 -4 -5
+1
+0
+1
+0"""
+        output = """13
+13
+0
+0"""
         self.assertIO(input, output)
 
 if __name__ == "__main__":
