@@ -48,16 +48,22 @@ class UnionFindAtCoder():
     def Count(self, x):
         return -self.root[self.Find_Root(x)]
 
+    # Listing all nodes same as group of x
+    # O(N)
     def members(self, x):
         root = self.Find_Root(x)
         return [i for i in range(self.n) if self.Find_Root(i) == root]
 
+    # List all root
+    #O(N)
     def roots(self):
         return [i for i, x in enumerate(self.root) if x < 0]
 
+    # root Count
     def group_count(self):
         return len(self.roots())
 
+    # {4: [0, 1, 2, 3, 4, 5, 6, 8, 9], 7: [7], 10: []}
     def all_group_members(self):
         return {r: self.members(r) for r in self.roots()}
 
@@ -65,7 +71,7 @@ class UnionFindAtCoder():
         return -self.root[self.Find_Root(x)]
 
 
-class UnionFind(object):
+class UnionFindDONTUSETooSlow(object):
     par = []
 
     def __init__(self, n):
@@ -136,19 +142,18 @@ class UnionFindWithRank(object):
         self.log.append ("{{" + ",".join(t) + '},"' + action + '"}')
 
 if __name__ == "__main__":
-    u = UnionFindWithRank(11)
+    u = UnionFindAtCoder(10)
     res = []
-    u.unite(0,1)
-    u.unite(1,2)
-    u.unite(3,4)
-    u.unite(4,5)
-    u.unite(2,3)
-    u.unite(9,10)
-    u.unite(9,8)
-    u.unite(3,8)
-    u.unite(6,7)
-    u.unite(6,3)
-    u.root(8)
-    u.root(10)
-    print('gs = {' + ",".join(u.log) +'}')
-    print('Manipulate[TreePlot[gs[[a]][[1]],  VertexLabels -> Automatic, PlotLabel -> gs[[a]][[2]]], {a, 1, ' + str(len(u.log)) + ' , 1}]')
+    u.Unite(0,1)
+    u.Unite(1,2)
+    u.Unite(3,4)
+    u.Unite(4,5)
+    u.Unite(2,3)
+    u.Unite(9,8)
+    u.Unite(9,8)
+    u.Unite(3,8)
+    u.Unite(6,3)
+    print(u.all_group_members())
+    print(u.size(10))
+    #print('gs = {' + ",".join(u.log) +'}')
+    #print('Manipulate[TreePlot[gs[[a]][[1]],  VertexLabels -> Automatic, PlotLabel -> gs[[a]][[2]]], {a, 1, ' + str(len(u.log)) + ' , 1}]')

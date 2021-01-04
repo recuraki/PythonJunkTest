@@ -1,13 +1,14 @@
 # Pow
 # 基本的にpowで十分(愚直に^xされず、ちゃんと内部で工夫してくれる
+# Python3.8以降ではpow(x, -1, mod)で逆元を求められる
 
 # n乗
 # 基本的にpow
 # pow(n, x, mod)
 
-
 # https://nagiss.hateblo.jp/entry/2019/07/01/185421
 # d,x,y: d = bx + (a mod b) y
+# 解が存在しない場合はb,0,1を返す
 def egcd(a, b):
     if a == 0:
         return b, 0, 1
@@ -26,6 +27,7 @@ def modinv(a, m):
         return x % m
 
 # https://nagiss.hateblo.jp/entry/2019/07/01/185421
+# キャッシュを用いないので必要があるなら後述のものを使う
 # nCr mod m
 # modinvが必要
 # rがn/2に近いと非常に重くなる
@@ -52,6 +54,7 @@ def modularLinearEquationSolver(a, b, m):
     return res
 
 # https://qiita.com/drken/items/ae02240cd1f8edfc86fd
+# 2元だけを対象にする関数。特にこれを使う意味はない。(移植しただけ。習作
 def crtSimple(b1, m1, b2, m2):
     d, x, y = egcd(m1, m2)
     if (b2 - b1) % d != 0:
@@ -70,8 +73,22 @@ def crt(bList, mList):
         tmp = (bList[i] - r) // d * x % (mList[i] // d)
         r += m * tmp
         m *= mList[i] // d
-
     return [r, m]
+
+# Garnerする
+def garner(bList: list, mList: list, MOD: int):
+    mList.append(MOD)
+    coeffs = [1 for _ in range(len(mList))]
+    constants = [0 for _ in range(len(mList))]
+    for k in range(len(bList)):
+        t = ((bList[k] - constants[k]) * modinv(coeffs[k], mList[k])) % mList[k]
+        for i in range(k + 1, len(mList)):
+            constants[i] += t * coeffs[i]
+            constants[i] %= mList[i]
+            coeffs[i] *= mList[k]
+            coeffs[i] %= mList[i]
+    return constants[-1]
+
 ##############
 #■ 高速cmb mod (cacheする
 ##############
@@ -96,6 +113,7 @@ print(fact[:10])
 print(inv[:10])
 print(factinv[:10])
 print(cmb(10,5,p))
+# ここまで
 
 a,b,c = 14,30,100
 print("modularLinearEquationSolver", a,b,c, "=", modularLinearEquationSolver(a,b,c))
@@ -120,3 +138,15 @@ print(" RES -> x = 8 (mod15)")
 blist = [2,4]
 mlist = [3,5]
 print("CRT",blist, mlist, "=", crt(blist, mlist))
+
+blist = [2,4]
+mlist = [3,5]
+print("garner",blist, mlist, "=", garner(blist, mlist, mod))
+
+blist = [80712, 320302, 140367]
+mlist = [221549, 699312, 496729]
+print("CRT",blist, mlist, "=", crt(blist, mlist))
+
+print(modinv(2**10, 10**9+7))  # 71289063
+# print(pow(2**10, -1, 10**9+7)) # 71289063
+

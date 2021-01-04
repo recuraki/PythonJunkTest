@@ -5,7 +5,6 @@ def addEdge(g, a, z):
     g[0][a].append(z)
     g[1][z].append(a)
 
-
 # グラフの初期化
 def initGraph(g, edgenum):
     g.append([]) # [0] 正方向のグラフ

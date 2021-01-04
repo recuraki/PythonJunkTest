@@ -6,6 +6,35 @@ Prim法
 全ての点を探索するまで繰り返す
 高速化していないのでO(N^2) 
 """
+
+from heapq import heappush, heappop, heapify
+class mstPrim():
+    INF = float("inf")
+    def __init__(self, numv):
+        self.numv = numv
+        self.e = [[] for _ in range(numv)]
+    def makeEdge(self, a, b, w=1):
+        self.e[a].append([b, w])
+        self.e[b].append([a, w])
+
+    def solve(self, root=0):
+        q = []
+        res = 0
+        visited = [False] * self.numv
+        visited[root] = True
+        for t, w in self.e[root]:
+            heappush(q, (w, t))
+        while len(q) > 0:
+            cost, nextNode = heappop(q)
+            if visited[nextNode]:
+                continue
+            visited[nextNode] = True
+            res += cost
+            for t, w in self.e[nextNode]:
+                if visited[t]: continue
+                heappush(q, (w, t))
+        return res
+
 def ALDS1_12_A():
     n = int(input())
     primINF = 2000000000
@@ -44,3 +73,12 @@ def ALDS1_12_A():
             res += matrix[i][parent[i]]
 
     print(res)
+def GRL_2_A():
+    v, e = map(int, input().split())
+    mst = mstPrim(v)
+    for _ in range(e):
+        a, b, w = map(int, input().split())
+        mst.makeEdge(a, b, w)
+    res = mst.solve()
+    print(res)
+GRL_2_A()
