@@ -72,12 +72,15 @@ poly = [[4, 1], [3, 4], [3, 7], [4, 8], [7, 9], [9, 6], [7, 1]]
 35.5
 """
 def polyToTriangle(poly):
+    # ポリゴンを三角形に分割します。
     for i in range(len(poly) - 2):
         yield poly[0], poly[i + 1], poly[i + 2]
 def areaTriangle(pointsTriangle):
+    # 三点から面積を求める
     (x1, y1), (x2, y2), (x3, y3) = pointsTriangle
     return abs((x1 - x3) * (y2 - y1) - (x1 - x2) * (y3 - y1)) / 2
 def areaPoly(data):
+    # 任意のポリゴンの面積を求める
     return sum(areaTriangle(tri) for tri in polyToTriangle(data))
 
 poly = [[4, 1], [3, 4], [3, 7], [4, 8], [7, 9], [9, 6], [7, 1]]

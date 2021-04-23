@@ -10,7 +10,7 @@ class bellmanFord():
         self.e = [[] for _ in range(v)]
 
     def makeEdge(self, s, t, cost):
-        self.e[s].append([t, cost])
+        self.e[s].append((t, cost))
 
     def solve(self, s):
         self.distance[s] = 0
@@ -57,7 +57,7 @@ def test_inf():
     res = bf.solve(0)
     print(res)
 
-def aoj_1_a():
+def GRL_1_B():
     v,e,r = map(int, input().split())
     bf = bellmanFord(v)
     for _ in range(e):
@@ -74,4 +74,4 @@ def aoj_1_a():
             print("INF")
             continue
         print(bf.distance[i])
-aoj_1_a()
+GRL_1_B()

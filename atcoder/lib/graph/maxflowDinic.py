@@ -1,4 +1,6 @@
 from collections import deque
+
+
 class DinicRecurcive(object):
     INF = 2**60
     def __init__(self, n):
@@ -29,7 +31,6 @@ class DinicRecurcive(object):
                 if edgeCap > 0 and self.dist[nextNode] == -1:
                     self.dist[nextNode] = self.dist[curNode] + 1
                     q.appendleft(nextNode)
-
 
     def dfs(self, curNode, g, flow):
         if curNode == g:
@@ -66,6 +67,29 @@ class DinicRecurcive(object):
                     break
                 flow += res
 
+def arc111_b():
+    nmax = 2 * 10 ** 5
+    colormax = 4 * 10 ** 5
+    import sys
+    input = sys.stdin.readline
+
+    n = int(input())
+    node = nmax + colormax + 10
+    snode = node - 3
+    tnode = node - 2
+    mf = DinicRecurcive(node)
+    for i in range(n):
+        a, b = map(int, input().split())
+        a += nmax
+        b += nmax
+        mf.makeEdge(snode, i, 1)
+        mf.makeEdge(i, a, 1)
+        mf.makeEdge(i, b, 1)
+
+    for i in range(nmax, nmax + colormax + 2):
+        mf.makeEdge(i, tnode, 1)
+
+    print(mf.solve(snode, tnode))
 
 def test():
     mf = DinicRecurcive(4)
@@ -76,6 +100,7 @@ def test():
     mf.makeEdge(2,3,2)
     print(mf.solve(0, 4-1))
 
+
 def aoj():
     n, m = map(int, input().split())
     mf = DinicRecurcive(n)
@@ -84,4 +109,18 @@ def aoj():
         mf.makeEdge(a,b,c)
     print(mf.solve(0, n-1))
 
-test()
+def GRL_7_A():
+    x,y,e = map(int, input().split())
+    mf = DinicRecurcive(x+y+2)
+    for _ in range(e):
+        a,b = map(int,input().split())
+        mf.makeEdge(a+1, x+1+b,1)
+    for i in range(x):
+        mf.makeEdge(0, i+1,1)
+    for i in range(y):
+        mf.makeEdge(x+i+1,x+y+1,1)
+    print(mf.solve(0, x+y+1))
+
+
+#test()
+GRL_7_A()

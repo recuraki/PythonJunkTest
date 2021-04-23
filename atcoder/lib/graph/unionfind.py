@@ -141,6 +141,33 @@ class UnionFindWithRank(object):
             t.append("{0} -> {1}".format(str(i), str(u.par[i])))
         self.log.append ("{{" + ",".join(t) + '},"' + action + '"}')
 
+def arc111_b():
+    lma = 400000
+    n = int(input())
+    uf = UnionFindAtCoder(lma + 10)
+    count = [0] * (lma + 10)
+    dat = []
+    for i in range(n):
+        a, b = map(int, input().split())
+        a -= 1
+        b -= 1
+        count[a] += 1
+        count[b] += 1
+        uf.Unite(a, b)
+        dat.append((a, b))
+    rcount = [0] * (lma + 10)
+    for a, b in dat:
+        rcount[uf.Find_Root(a)] += 1
+    res = 0
+    for i in range(lma):
+        if uf.Find_Root(i) == i:
+            if uf.size(i) == rcount[i] + 1:
+                res += uf.size(i) - 1
+            else:
+                res += uf.size(i)
+    print(res)
+
+
 if __name__ == "__main__":
     u = UnionFindAtCoder(10)
     res = []
