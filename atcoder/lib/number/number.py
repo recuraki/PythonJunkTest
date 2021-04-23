@@ -66,9 +66,9 @@ fractions.gcd(x, y)
 >> lcm(0, 7)
 0
 """
-import fractions
+import math
 def lcm(x, y):
-    return (x * y) // fractions.gcd(x, y)
+    return (x * y) // math.gcd(x, y)
 
 """
 >> print(sumdigits(12345))
@@ -108,6 +108,22 @@ def isDiffrentDigits(n):
         used |= 1 << x
     return True
 
+
+# 平方数で割れる数
+import math
+mnum = 10 ** 6 + 1000
+mnumsqr = math.ceil(math.sqrt(mnum)) + 10
+# mCanDivSqrt[x]  x can div max(sqrt num)
+# ex. 80 can be dived 4(2^2) or 16(4^2)
+#     this table ret maxnum = 16
+mCanDivSqrt = [-1] * (mnum + 10)
+for i in range(2, mnumsqr):
+    if i ** 2 < mnum + 1:
+        cur = i**2
+        x = cur
+        while x <= mnum:
+            mCanDivSqrt[x] = i**2
+            x += cur
 
 
 

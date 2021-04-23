@@ -3,6 +3,10 @@ class sparseTable(object):
     depthTreeList: int = 0
     table = []
 
+    def __init__(self):
+        self.table = []
+        self.depthTreeList = 0
+
     def load(self, l):
         self.n = len(l)
         self.depthTreeList = (self.n - 1).bit_length() # Level

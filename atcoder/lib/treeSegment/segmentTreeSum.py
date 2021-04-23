@@ -29,12 +29,13 @@ class segmentTree():
             self.dat[i] = self.func(self.dat[2 * i + 1], self.dat[2 * i + 2])
             #print("build: node", i, "child is ", self.dat[2 * i + 1], self.dat[2 * i + 2] ,"then I am ", self.dat[i])
 
-    # just wrapper
+    # just wrapper, get node value and op and put it
     def addValue(self, ind, value):
         nodeId = (self.lenTreeLeaf - 1) + ind
         self.dat[nodeId] += value
         self.setValue(ind, self.dat[nodeId])
 
+    # set value to node, recalc parents NODEs
     def setValue(self, ind, value):
         nodeId = (self.lenTreeLeaf - 1) + ind
         self.dat[nodeId] = value
