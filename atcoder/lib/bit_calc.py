@@ -1,10 +1,20 @@
+#https://qiita.com/zawawahoge/items/8bbd4c2319e7f7746266
+def popcount(x):
+    x = x - ((x >> 1) & 0x5555555555555555)
+    x = (x & 0x3333333333333333) + ((x >> 2) & 0x3333333333333333)
+    x = (x + (x >> 4)) & 0x0f0f0f0f0f0f0f0f
+    x = x + (x >> 8)
+    x = x + (x >> 16)
+    x = x + (x >> 32)
+    return x & 0x0000007f
+
 # 高速にpopcountする。1の数を数える。
 # https://atcoder.jp/contests/abc157/submissions/10434154
-def popcount(i):
-    assert 0 <= i < 0x100000000
-    i = i - ((i >> 1) & 0x55555555)
-    i = (i & 0x33333333) + ((i >> 2) & 0x33333333)
-    return (((i + (i >> 4) & 0xF0F0F0F) * 0x1010101) & 0xffffffff) >> 24
+#def popcount(i):
+#    assert 0 <= i < 0x100000000
+#    i = i - ((i >> 1) & 0x55555555)
+#    i = (i & 0x33333333) + ((i >> 2) & 0x33333333)
+#    return (((i + (i >> 4) & 0xF0F0F0F) * 0x1010101) & 0xffffffff) >> 24
 
 """
 >>> popcount(2)
