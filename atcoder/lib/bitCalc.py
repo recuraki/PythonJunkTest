@@ -1,3 +1,4 @@
+
 #https://qiita.com/zawawahoge/items/8bbd4c2319e7f7746266
 def popcount(x):
     x = x - ((x >> 1) & 0x5555555555555555)

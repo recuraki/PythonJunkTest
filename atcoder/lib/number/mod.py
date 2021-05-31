@@ -63,7 +63,12 @@ def crtSimple(b1, m1, b2, m2):
     tmp = (b2 - b1) // d * x % (m2 // d)
     r = (b1 + m1 * tmp) % m
     return [r, m]
+
 # https://qiita.com/drken/items/ae02240cd1f8edfc86fd
+# a = b1 (mod m1)
+# a = b2 (mod m2)
+# となるような、 a = r (mod m) を返す
+# r=0
 def crt(bList, mList):
     r, m = 0, 1
     for i in range(len(bList)):
@@ -76,6 +81,10 @@ def crt(bList, mList):
     return [r, m]
 
 # Garnerする
+# 制約: m1, m2...は互いに素である必然性がある
+# a = b1 (mod m1)
+# a = b2 (mod m2)
+# となるような 最小の a mod MOD(入力する)を求める
 def garner(bList: list, mList: list, MOD: int):
     mList.append(MOD)
     coeffs = [1 for _ in range(len(mList))]
@@ -150,3 +159,6 @@ print("CRT",blist, mlist, "=", crt(blist, mlist))
 print(modinv(2**10, 10**9+7))  # 71289063
 # print(pow(2**10, -1, 10**9+7)) # 71289063
 
+print(egcd(111, 30))
+print(egcd(111, 7))
+print(egcd(13, 1))

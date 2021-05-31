@@ -1,3 +1,5 @@
+# CのNextPermutationだが、
+
 # https://www.nayuki.io/page/next-lexicographical-permutation-algorithm
 def next_permutation(case):
     for index in range(1, len(case)):

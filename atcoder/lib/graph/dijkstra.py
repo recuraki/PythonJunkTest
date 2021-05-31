@@ -19,6 +19,8 @@ class dijkstra():
         heapq.heapify(q)
         while len(q) > 0:
             curcost, curnode = heapq.heappop(q)
+            # 打ち切り。ゴールが明確ならここに入れる。
+            #if curnode == nodeT: return
             if curcost > self.cost[curnode]:
                 continue
             for nextnode, edgecost in self.e[curnode]:

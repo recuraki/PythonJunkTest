@@ -1,4 +1,3 @@
-
 # https://atcoder.jp/contests/abc146/tasks/abc146_c
 # 条件を満たせるなるべく大きな数を探したい
 def abc146_c():
@@ -8,23 +7,25 @@ def abc146_c():
     h = 1000000000
     while l <= h:
         mid = (l + h) // 2
-        if pl(mid) <= x: # 買うことができるなら
-            l = mid + 1 # 買えるのでそれ以上の数
-        else: # 買えないなら
-            h = mid - 1 # 買えないのでそれ以下の数をトライ
-    print(h if ( pl(h) <= x ) else l)
+        if pl(mid) <= x:  # 買うことができるなら
+            l = mid + 1  # 買えるのでそれ以上の数
+        else:  # 買えないなら
+            h = mid - 1  # 買えないのでそれ以下の数をトライ
+    print(h if (pl(h) <= x) else l)
 
 
-#やりたいこと「一番近い数字を探す」
+# lからxに一番近い数字を探し距離(絶対値)を返す
 from bisect import bisect_left, bisect_right
-def mindiffsearch(x):
-    l = [1, 5, 10, 100, 200]
+def mindiffsearch(l, x):
     ll = len(l)
     indl = bisect_left(l, x)
     if indl == 0:
-        return abs(x-l[0])
-    if indl == ll:
-        return abs(x-l[-1])
+        return abs(x - l[0])
+    elif indl == ll:
+        return abs(x - l[-1])
     else:
-        return min(abs(x-l[indl]), abs(x - l[indl-1]))
-print(mindiffsearch(-1))
+        return min(abs(x - l[indl]), abs(x - l[indl - 1]))
+l = [1, 5, 10, 100, 200]
+print(mindiffsearch(l, -10)) # 11
+print(mindiffsearch(l, 3)) # 2
+print(mindiffsearch(l, 40)) # 30

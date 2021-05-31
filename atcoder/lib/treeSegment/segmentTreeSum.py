@@ -72,12 +72,16 @@ class segmentTree():
             if R & 1:
                 R -= 1
                 #print(">>> updateR", R-1, value)
-                self.lazy[R - 1] = self.func(self.lazy[R - 1], value)
-                self.dat[R - 1] = self.func(self.dat[R - 1], value)
+                #self.lazy[R - 1] = self.func(self.lazy[R - 1], value)
+                #self.dat[R - 1] = self.func(self.dat[R - 1], value)
+                self.lazy[R - 1] = self.lazy[R - 1] + value
+                self.dat[R - 1] = self.dat[R - 1] + value
             if L & 1:
                 #print(">>> updateL", L-1, value)
-                self.lazy[L - 1] = self.func(self.lazy[L - 1], value)
-                self.dat[L - 1] = self.func(self.dat[L - 1], value)
+                #self.lazy[L - 1] = self.func(self.lazy[L - 1], value)
+                #self.dat[L - 1] = self.func(self.dat[L - 1], value)
+                self.lazy[L - 1] = self.lazy[L - 1] + value
+                self.dat[L - 1] = self.dat[L - 1] + value
                 L += 1
             L = L >> 1
             R = R >> 1
@@ -97,10 +101,15 @@ class segmentTree():
             if nodeId < (self.lenTreeLeaf - 1): # if this node has childs
                 propageteValue = self.funcPropagateToChild(self.lazy[nodeId])
                 #print(" > propagate to node")
-                self.lazy[2 * nodeId + 1] = self.func(self.lazy[2 * nodeId + 1], propageteValue)
-                self.lazy[2 * nodeId + 2] = self.func(self.lazy[2 * nodeId + 2], propageteValue)
-                self.dat[2 * nodeId  + 1] = self.func(self.dat[2 * nodeId + 1], propageteValue)
-                self.dat[2 * nodeId  + 2] = self.func(self.dat[2 * nodeId + 2], propageteValue)
+                #self.lazy[2 * nodeId + 1] = self.func(self.lazy[2 * nodeId + 1], propageteValue)
+                #self.lazy[2 * nodeId + 2] = self.func(self.lazy[2 * nodeId + 2], propageteValue)
+                #self.dat[2 * nodeId  + 1] = self.func(self.dat[2 * nodeId + 1], propageteValue)
+                #self.dat[2 * nodeId  + 2] = self.func(self.dat[2 * nodeId + 2], propageteValue)
+                self.lazy[2 * nodeId + 1] = self.lazy[2 * nodeId + 1]+ propageteValue
+                self.lazy[2 * nodeId + 2] = self.lazy[2 * nodeId + 2]+ propageteValue
+                self.dat[2 * nodeId  + 1] = self.dat[2 * nodeId + 1]+ propageteValue
+                self.dat[2 * nodeId  + 2] = self.dat[2 * nodeId + 2]+ propageteValue
+
             else:
                 #print(" > do nothing")
                 pass
@@ -162,7 +171,7 @@ class segmentTreeMin(segmentTree):
         self.func = lambda x,y: min(x, y)
         self.funcPropagateToChild = lambda parentValue: parentValue
         self.funcRangePropagetToParent = lambda currentValue: currentValue
-        self.initValue = 2 * 10**9
+        self.initValue = 0
 
 import sys
 
@@ -214,6 +223,37 @@ def DSL_2_G():
     write("\n".join(ans))
     write("\n")
 
+
+def DSL_2_H():
+    import sys
+    input = sys.stdin.readline
+    readline = sys.stdin.readline
+    write = sys.stdout.write
+    n, q = map(int,input().split())
+    st = segmentTreeMin()
+    l = [0] * n
+    st.load(l)
+    ans = []
+    for _ in range(q):
+        dat = map(int, input().split())
+        dat = list(dat)
+        print("-----------")
+        for i in range(n):
+            print(i, st.query(i, i+1))
+
+        if dat[0] == 0:
+            l, r = dat[1], dat[2]+1
+            x = dat[3]
+            st.rangeAdd(l, r, x)
+        elif dat[0] == 1:
+            l, r = dat[1], dat[2]+1
+            ans.append(str(st.query(l, r)))
+        for i in range(n):
+            print(i, st.query(i, i + 1))
+
+    write("\n".join(ans))
+    write("\n")
+
 def RSA_test():
     l = [1, 0, 2, 3, 4, 0, 1]
     st = segmentTreeSum()
@@ -253,7 +293,8 @@ def RMQ_RMA():
     print(st.dat)
 
 #DSL_2_E()
-DSL_2_G()
+#DSL_2_G()
+DSL_2_H()
 #sys.exit()
 #RSA_test()
 #RMQ_RMA()
