@@ -7,6 +7,7 @@ logging.basicConfig(level=logging.DEBUG)
 """
 TLEのポイント:
 - 入力高速化(*dat)
+- グラフをsetでたどろうとしていませんか？
 REの時のポイント
 - inputしきっていますか？
 
@@ -14,21 +15,22 @@ REの時のポイント
 
 def resolve():
 
+
     import sys
-    #input = sys.stdin.readline
-
-
+    input = sys.stdin.readline
     from pprint import pprint
+
+    INF = 1 << 63
     def do():
         s = input()
         n = int(input())
         n, k = map(int, input().split())
         dat = list(map(int, input().split()))
-
     q = int(input())
     for _ in range(q):
         do()
-    # do()
+
+    do()
 
 
     dat = [1, 2, 3]
@@ -48,6 +50,17 @@ def resolve():
     n, *indata = map(int, read().split())
     dat = []
     offset = 0
+
+    dh = [-1, 0, 0, 1]
+    dw = [0, -1, 1, 0]
+    maze = []
+    oh , ow = 0,0
+    for h in range(oh):
+        l = list(input().split())
+        maze.append(l)
+
+
+
 
 
 
@@ -75,7 +88,8 @@ class TestClass(unittest.TestCase):
         print("test_input_3")
         input = """xxx"""
         output = """xxx"""
-        self.assertIO(input, output)
+        self.assertIO(input
+                      , output)
     def test_input_4(self):
         print("test_input_4")
         input = """xxx"""

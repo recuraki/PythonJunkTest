@@ -65,10 +65,43 @@ fractions.gcd(x, y)
 7
 >> lcm(0, 7)
 0
+>>> lcmList([1])
+1
+>>> lcmList([2,3])
+6
+>>> lcmList([2,3,3])
+6
+>>> lcmList([2,3,3,5])
+30
 """
 import math
 def lcm(x, y):
     return (x * y) // math.gcd(x, y)
+
+def lcmList(l):
+    x = 1
+    for i in range(len(l)):
+        x = lcm(x, l[i])
+    return x
+
+"""
+>>> gcdList([3])
+3
+>>> gcdList([3,6])
+3
+>>> gcdList([12, 18])
+6
+>>> gcdList([12, 18, 7])
+1"""
+def gcdList(l):
+    x = 0
+    for i in range(len(l)):
+        x = math.gcd(x, l[i])
+    return x
+
+
+
+
 
 """
 >> print(sumdigits(12345))
@@ -107,6 +140,12 @@ def isDiffrentDigits(n):
             return False
         used |= 1 << x
     return True
+
+import math
+# nを含むそれまでに、xで割り切れる数は何個ありますか？
+def warerukazu(n, x):
+    n // x
+
 
 
 # 平方数で割れる数

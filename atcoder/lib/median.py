@@ -10,7 +10,7 @@ L側の一番大きいのを中央値にしたい
  [1,2,3,10], [4,5,6] などにしてから、l,rをswapして、
  [1,2,3,4], [5,6,10] にすればいい(swap=互いにpop,push)
 """
-from heapq import heappop, heappush, heapify,heapreplace
+from heapqtempl import heappop, heappush, heapify,heapreplace
 l, r = [], []
 # どんどん値を追加していきながら、中央値を-l[0]にする。
 def addmedianq(x):

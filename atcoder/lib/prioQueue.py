@@ -1,5 +1,5 @@
 import queue
-import heapq
+import heapqtempl
 
 import time
 import random
@@ -16,20 +16,20 @@ resheapq = []
 
 print("--- Heapq, poppush")
 start = time.time()
-heapq.heapify(inheapq)
+heapqtempl.heapify(inheapq)
 for i in range(n):
-    x = heapq.heappushpop(inheapq, data[i])
+    x = heapqtempl.heappushpop(inheapq, data[i])
     resheapq.append(x)
 elapsed_time = time.time() - start
 print("elapsed_time:{0}".format(elapsed_time) + "[sec]")
 
 print("--- Heapq, pop then push")
 start = time.time()
-heapq.heapify(inheapq)
+heapqtempl.heapify(inheapq)
 for i in range(n):
-    x = heapq.heappop(inheapq)
+    x = heapqtempl.heappop(inheapq)
     resheapq.append(x)
-    heapq.heappush(inheapq, data[i])
+    heapqtempl.heappush(inheapq, data[i])
 elapsed_time = time.time() - start
 print("elapsed_time:{0}".format(elapsed_time) + "[sec]")
 

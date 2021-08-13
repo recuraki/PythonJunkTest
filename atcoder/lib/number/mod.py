@@ -65,10 +65,12 @@ def crtSimple(b1, m1, b2, m2):
     return [r, m]
 
 # https://qiita.com/drken/items/ae02240cd1f8edfc86fd
+# https://qiita.com/recuraki/items/11fd78580e03a5a6d58c
 # a = b1 (mod m1)
 # a = b2 (mod m2)
 # となるような、 a = r (mod m) を返す
 # r=0
+
 def crt(bList, mList):
     r, m = 0, 1
     for i in range(len(bList)):
@@ -118,6 +120,7 @@ for i in range(2, N + 1):
     fact.append((fact[-1] * i) % p)
     inv.append((-inv[p % i] * (p // i)) % p)
     factinv.append((factinv[-1] * inv[-1]) % p)
+print("fac")
 print(fact[:10])
 print(inv[:10])
 print(factinv[:10])

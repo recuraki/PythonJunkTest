@@ -1,4 +1,4 @@
-from PIL import Image
+from PIL.PIL import Image
 im = Image.open("1331_E.png")
 
 #RGBに変換

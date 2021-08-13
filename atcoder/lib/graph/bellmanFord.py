@@ -74,4 +74,5 @@ def GRL_1_B():
             print("INF")
             continue
         print(bf.distance[i])
+
 GRL_1_B()

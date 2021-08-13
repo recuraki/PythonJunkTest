@@ -1,3 +1,9 @@
+# is_prime
+# each_prime
+# prime_list_eratosthenes
+# factorization
+
+
 # 素数判定(ミラーラビンテスト)
 # https://pashango-p.hatenadiary.org/entry/20090704/1246692091
 import random

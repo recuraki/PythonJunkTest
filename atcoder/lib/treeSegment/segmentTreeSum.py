@@ -173,6 +173,15 @@ class segmentTreeMin(segmentTree):
         self.funcRangePropagetToParent = lambda currentValue: currentValue
         self.initValue = 0
 
+class segmentTreeMax(segmentTree):
+    def __init__(self):
+        mINF = -(1 << 62)
+        self.func = lambda x,y: max(x, y)
+        self.funcPropagateToChild = lambda parentValue: parentValue
+        self.funcRangePropagetToParent = lambda currentValue: currentValue
+        self.initValue = mINF
+
+
 import sys
 
 def DSL_2_E():

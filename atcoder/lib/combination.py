@@ -56,6 +56,9 @@ def combination(n, r, mod=10 ** 9 + 7):
         res = res * (n - i) * modinv(i + 1, mod) % mod
     return res
 
+def nHrMod(n, r, mod=10 ** 9 + 7):
+    return combination((n+r-1), r, mod = mod)
+
 import unittest
 class TestClass(unittest.TestCase):
     def test_nCr_1(self):

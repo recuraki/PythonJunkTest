@@ -11,7 +11,6 @@ class dijkstra():
         self.e[s].append((t, cost))
 
     def solve(self, nodeS, nodeT):
-        self.distance = [self.INF] * self.numV
         self.cost = [self.INF] * self.numV # cost
         self.parent = [-1] * self.numV # parent node
         q = [(0, nodeS)]  # 初期ノード(cost 0)
@@ -19,6 +18,7 @@ class dijkstra():
         heapq.heapify(q)
         while len(q) > 0:
             curcost, curnode = heapq.heappop(q)
+            #print("Curcost:{0}, Curnode{1}".format(curcost, curnode))
             # 打ち切り。ゴールが明確ならここに入れる。
             #if curnode == nodeT: return
             if curcost > self.cost[curnode]:
@@ -65,5 +65,5 @@ def aoj_1_a():
             print("INF")
             continue
         print(dj.cost[i])
-test()
-#aoj_1_a()
+#test()
+aoj_1_a()

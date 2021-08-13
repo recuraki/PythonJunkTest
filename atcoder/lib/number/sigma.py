@@ -18,6 +18,17 @@ import itertools
 squery = lambda a, b: sdat[b] - sdat[a] # query [a, b)
 def createSDAT(l):
     return list(itertools.accumulate(itertools.chain([0], l)))
+
+
+import itertools
+class CumSum1D():
+    def __init__(self):
+        pass
+    def load(self, a):
+        self.sdat = list(itertools.accumulate(itertools.chain([0], a)))
+    def queru(self, l ,r):
+        return self.sdat[r] - self.sdat[l]
+
 """
 dat = [1,2,3,4,5,6,7,8,9]
 sdat = createSDATXor(dat)
