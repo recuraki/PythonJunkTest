@@ -20,48 +20,37 @@ def resolve():
     input = sys.stdin.readline
     from pprint import pprint
 
-    import math
     INF = 1 << 63
     def do():
         s = input()
         n = int(input())
         n, k = map(int, input().split())
         dat = list(map(int, input().split()))
-
-    # n questions
     q = int(input())
     for _ in range(q):
         do()
-    # 1 time
+
     do()
 
-    # list output [1,2,3] -> 1 2 3
+
     dat = [1, 2, 3]
-    print(" ".join(list(map(str, dat))))
+    print(" ".join(list(map(str, res))))
 
     pass
     #sys.setrecursionlimit(100000)
+    import math
+    math.ceil(1.2)
+    math.floor(1.2)
+    round(1.2, 3)
 
-    # very fast read
+
+
     import sys
     read = sys.stdin.read
     n, *indata = map(int, read().split())
     dat = []
     offset = 0
-    # pat1
-    a, b, c = dat[offset:offset+3]
-    offset += 3
-    # pat2
-    querytype = dat[offset]
-    offset += 1
-    if querytype == 1:
-        a, b, c = dat[offset:offset + 3]
-        offset += 3
-    elif querytype == 2:
-        a, b = dat[offset:offset + 2]
-        offset += 2
 
-    # for maze
     dh = [-1, 0, 0, 1]
     dw = [0, -1, 1, 0]
     maze = []
