@@ -1,5 +1,5 @@
 # -*- coding:utf-8 -*-
-from PIL import Image
+from PIL.PIL import Image
 
 # 透過したい画像を読み込み
 org = Image.open('nc97468.png')

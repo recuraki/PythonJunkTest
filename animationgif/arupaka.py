@@ -1,6 +1,6 @@
 # https://note.nkmk.me/python-pillow-gif/
 # https://note.nkmk.me/python-pillow-rotate/
-from PIL import Image, ImageDraw
+from PIL.PIL import Image
 from copy import deepcopy
 images = []
 colorWhite = (255, 255, 255,0)
