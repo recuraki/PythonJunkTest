@@ -5,9 +5,10 @@
              10
 
 pre = [3, 9, 1, 2, 20, 15, 7, 10]
-pre = [3, 9, 1, 2, 20, 15, 7, 10]
 
+pre = [3, 9, 1, 2, 20, 15, 7, 10]
 in  = [1, 9 2, 3,  15, 20, 10,7]
+
 in  = [1, 9 2,---- 15, 20, 10,7]
 
 
@@ -51,18 +52,21 @@ in  = [1, 9 2, 3,  15, 20, 10,7]
 class Solution:
     def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
         if len(preorder) == 0: return None
-        ans = TreeNode()
+        ans = TreeNode() # これが消すべきルートノードです
         rootnum = preorder[0]  # これが一番若いので、ルートになるノードのvalです
+        # inorderでこれが見つかる場所を探す。
+        # こうすると、そこを中心に左がleft, 右がrightと分かる
         for i in range(len(preorder)):
             if inorder[i] != rootnum: continue
             rootind = i
             break
-        ans.val = rootnum
-        # 次に、左右に分割します。
+        ans.val = rootnum # なんで値を入れる
+        # 次に、inorderを左右に分割します。これはシンプル。
         intreeL = inorder[:rootind]
         intreeR = inorder[rootind + 1:]
         intreeLset = set(inorder[:rootind])
         intreeRset = set(inorder[rootind + 1:])
+        # で、pretreeを復元する。preorderは順序を維持しながら左右に分けたい。
         pretreeL = []
         pretreeR = []
         for x in preorder:
