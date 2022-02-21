@@ -16,12 +16,15 @@ REの時のポイント
 def resolve():
 
 
+
+
     import sys
     input = sys.stdin.readline
     from pprint import pprint
 
     import math
     INF = 1 << 63
+    ceil = lambda a, b: (((a) + ((b) - 1)) // (b))
     def do():
         s = input()
         n = int(input())
@@ -34,6 +37,11 @@ def resolve():
         do()
     # 1 time
     do()
+
+
+
+
+
 
     # list output [1,2,3] -> 1 2 3
     dat = [1, 2, 3]
@@ -70,6 +78,15 @@ def resolve():
         l = list(input().split())
         maze.append(l)
 
+    # maze wall
+    maze = []
+    oh , ow = 3,3
+    maze.append(["#"] * (ow + 2))
+    for h in range(oh):
+        l = ["#"] + list(input()) + ["#"]
+        maze.append(l)
+    maze.append(["#"] * (ow + 2))
+    print(maze)
 
 
 

@@ -12,6 +12,10 @@ def sigma2(n):
 def sigma3(n, a, r):
     return (a * ( r ** n - 1)  ) // (r-1)
 
+# a:初項, 公差d, 項数n, 末項lの 1-nまでの和
+def sigma4(a, d, n, l):
+    return n * (2*a + (n-1) * d) // 2
+
 # 累積和
 import itertools
 # 注意: あくまで、bは開区間
@@ -26,7 +30,7 @@ class CumSum1D():
         pass
     def load(self, a):
         self.sdat = list(itertools.accumulate(itertools.chain([0], a)))
-    def queru(self, l ,r):
+    def queru(self, l ,r): # query [a, b)
         return self.sdat[r] - self.sdat[l]
 
 """
@@ -38,6 +42,7 @@ squeryXor = lambda a, b: sdat[b] ^ sdat[a] # query [a, b)
 def createSDATXor(l):
     f = lambda x, y: x ^ y
     return list(itertools.accumulate(itertools.chain([0], l), func=f))
+
 
 # 愚直に作る場合
 dat = [1,2,3]

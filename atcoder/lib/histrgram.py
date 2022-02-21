@@ -10,7 +10,7 @@ class Rect:
         self.pos = pos
 def solve(h: [int]):
     stack: Deque[Rect] = deque()
-    histogram = h + [0]
+    histogram = h + [0] # これがポイント！最後に清算する (番兵的な考え方)
     max_area = 0
     for idx, height in enumerate(histogram):
         if not stack or stack[-1].height < height:
