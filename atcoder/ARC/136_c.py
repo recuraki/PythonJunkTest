@@ -4,19 +4,7 @@ import unittest
 import logging
 logging.basicConfig(level=logging.DEBUG)
 
-"""
-TLEのポイント:
-- 入力高速化(*dat)
-- グラフをsetでたどろうとしていませんか？
-REの時のポイント
-- inputしきっていますか？
-
-"""
-
 def resolve():
-
-
-
 
     import sys
     input = sys.stdin.readline
@@ -28,22 +16,26 @@ def resolve():
     INF = 1 << 63
     ceil = lambda a, b: (((a) + ((b) - 1)) // (b))
     def do():
-        s = input()
         n = int(input())
-        n, k = map(int, input().split())
         dat = list(map(int, input().split()))
+        cnt = [0] * 1000000
+        for x in dat:
+            a = 999999 - x
+            cnt[a] += 1
+        ans = 0
+        for i in range(999999, -1, -1):
+            s = str(i).zfill(6)
+            for ind in range(6):
+                if s[ind] == "0": continue
+                ns = s[:ind] + str(int(s[ind])-1) + s[ind+1:]
+                x = int(ns)
+                cnt[x] += cnt[i]
+        for x in dat:
+            ans += cnt[x]
+        print(ans)
+        print(cnt)
 
-    # n questions
-    q = int(input())
-    for _ in range(q):
-        do()
-    # 1 time
     do()
-
-
-
-
-
 
 
 class TestClass(unittest.TestCase):
@@ -58,33 +50,20 @@ class TestClass(unittest.TestCase):
     def test_input_1(self):
         print("test_input_1")
         input = """4
-2
-5 7
-2
-5 5
-6
-1 3 1 2 2 3
-6
-3 2 1 1 2 3"""
-        output = """-1
-0
-1
-2
-4
-1 3
-5 3
-5 3
-10 3
-2
-8 6 
-5
-0 3
-8 3
-5 3 
-6 2 
-7 1
-4
-2 6 6 2"""
+4 8 12 90"""
+        output = """3"""
+        self.assertIO(input, output)
+    def test_input_2(self):
+        print("test_input_2")
+        input = """20
+313923 246114 271842 371982 284858 10674 532090 593483 185123 364245 665161 241644 604914 645577 410849 387586 732231 952593 249651 36908"""
+        output = """6"""
+        self.assertIO(input, output)
+    def test_input_3(self):
+        print("test_input_3")
+        input = """5
+1 1 1 1 1"""
+        output = """10"""
         self.assertIO(input, output)
 
 if __name__ == "__main__":

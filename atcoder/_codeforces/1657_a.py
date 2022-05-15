@@ -1,3 +1,4 @@
+
 import sys
 from io import StringIO
 import unittest
@@ -27,18 +28,26 @@ def resolve():
     import math
     INF = 1 << 63
     ceil = lambda a, b: (((a) + ((b) - 1)) // (b))
+    sq = set()
+    for i in range(100000):
+        sq.add(i ** 2)
+
     def do():
-        s = input()
-        n = int(input())
-        n, k = map(int, input().split())
-        dat = list(map(int, input().split()))
+        x, y = map(int, input().split())
+        if x == y == 0:
+            print(0)
+            return
+        a = x ** 2 + y ** 2
+        if a in sq:
+            print(1)
+            return
+        print(2)
 
     # n questions
     q = int(input())
     for _ in range(q):
         do()
-    # 1 time
-    do()
+
 
 
 
@@ -57,35 +66,13 @@ class TestClass(unittest.TestCase):
         self.assertEqual(out, output)
     def test_input_1(self):
         print("test_input_1")
-        input = """4
-2
-5 7
-2
-5 5
-6
-1 3 1 2 2 3
-6
-3 2 1 1 2 3"""
-        output = """-1
+        input = """3
+8 6
+0 0
+9 15"""
+        output = """1
 0
-1
-2
-4
-1 3
-5 3
-5 3
-10 3
-2
-8 6 
-5
-0 3
-8 3
-5 3 
-6 2 
-7 1
-4
-2 6 6 2"""
+2"""
         self.assertIO(input, output)
-
 if __name__ == "__main__":
     unittest.main()

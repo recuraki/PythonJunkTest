@@ -18,27 +18,38 @@ def resolve():
 
 
 
-    import sys
-    input = sys.stdin.readline
     from pprint import pprint
-    #import pypyjit
-    #pypyjit.set_param('max_unroll_recursion=-1')
 
     import math
     INF = 1 << 63
     ceil = lambda a, b: (((a) + ((b) - 1)) // (b))
     def do():
-        s = input()
+        dat = []
         n = int(input())
-        n, k = map(int, input().split())
-        dat = list(map(int, input().split()))
+        from collections import defaultdict
+        cnt = defaultdict(int)
+        for _ in range(n):
+            s = input()
+            cnt[s] += 1
+        for s in cnt.keys():
+            a = ord(s[0]) - ord("a")
+            b = ord(s[1]) - ord("a")
+            dat.append( (a, b, cnt[s]) )
+        n = len(dat)
+        ans = 0
+        for i in range(n):
+            a1, a2, acnt = dat[i]
+            for j in range(i + 1, n):
+                b1, b2, bcnt = dat[j]
+                if a1!=b1 and a2!=b2: continue
+                ans += acnt * bcnt
+        print(ans)
+
 
     # n questions
     q = int(input())
     for _ in range(q):
         do()
-    # 1 time
-    do()
 
 
 
@@ -58,33 +69,36 @@ class TestClass(unittest.TestCase):
     def test_input_1(self):
         print("test_input_1")
         input = """4
-2
-5 7
-2
-5 5
 6
-1 3 1 2 2 3
-6
-3 2 1 1 2 3"""
-        output = """-1
-0
-1
-2
+ab
+cb
+db
+aa
+cc
+ef
+7
+aa
+bb
+cc
+ac
+ca
+bb
+aa
 4
-1 3
-5 3
-5 3
-10 3
-2
-8 6 
+kk
+kk
+ab
+ab
 5
-0 3
-8 3
-5 3 
-6 2 
-7 1
-4
-2 6 6 2"""
+jf
+jf
+jk
+jk
+jk"""
+        output = """5
+6
+0
+6"""
         self.assertIO(input, output)
 
 if __name__ == "__main__":

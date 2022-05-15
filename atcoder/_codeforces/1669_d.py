@@ -18,8 +18,6 @@ def resolve():
 
 
 
-    import sys
-    input = sys.stdin.readline
     from pprint import pprint
     #import pypyjit
     #pypyjit.set_param('max_unroll_recursion=-1')
@@ -28,17 +26,38 @@ def resolve():
     INF = 1 << 63
     ceil = lambda a, b: (((a) + ((b) - 1)) // (b))
     def do():
-        s = input()
         n = int(input())
-        n, k = map(int, input().split())
-        dat = list(map(int, input().split()))
+        s = input()
+        t = []
+        buf = []
+        for x in s:
+            if x == "W":
+                if len(t) != 0:
+                    buf.append(t)
+                t = []
+                continue
+            t.append(x)
+        if len(t) != 0:
+            buf.append(t)
+        for cur in buf:
+            if len(cur) == 1:
+                print("NO")
+                return
+            a = cur[0]
+            diff = False
+            for x in cur:
+                if a != x:
+                    diff = True
+                    break
+            if diff is False:
+                print("NO")
+                return
+        print("YES")
 
     # n questions
     q = int(input())
     for _ in range(q):
         do()
-    # 1 time
-    do()
 
 
 
@@ -57,35 +76,45 @@ class TestClass(unittest.TestCase):
         self.assertEqual(out, output)
     def test_input_1(self):
         print("test_input_1")
-        input = """4
-2
-5 7
-2
-5 5
-6
-1 3 1 2 2 3
-6
-3 2 1 1 2 3"""
-        output = """-1
-0
-1
-2
-4
-1 3
-5 3
-5 3
-10 3
-2
-8 6 
+        input = """12
 5
-0 3
-8 3
-5 3 
-6 2 
-7 1
-4
-2 6 6 2"""
+BRBBW
+1
+B
+2
+WB
+2
+RW
+3
+BRB
+3
+RBB
+7
+WWWWWWW
+9
+RBWBWRRBW
+10
+BRBRBRBRRB
+12
+BBBRWWRRRWBR
+10
+BRBRBRBRBW
+5
+RBWBW"""
+        output = """YES
+NO
+NO
+NO
+YES
+YES
+YES
+NO
+YES
+NO
+YES
+NO"""
         self.assertIO(input, output)
+
 
 if __name__ == "__main__":
     unittest.main()

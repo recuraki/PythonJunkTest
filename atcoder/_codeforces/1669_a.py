@@ -1,3 +1,4 @@
+
 import sys
 from io import StringIO
 import unittest
@@ -20,25 +21,22 @@ def resolve():
 
     import sys
     input = sys.stdin.readline
-    from pprint import pprint
-    #import pypyjit
-    #pypyjit.set_param('max_unroll_recursion=-1')
-
-    import math
-    INF = 1 << 63
-    ceil = lambda a, b: (((a) + ((b) - 1)) // (b))
     def do():
-        s = input()
         n = int(input())
-        n, k = map(int, input().split())
-        dat = list(map(int, input().split()))
+        if 1900 <= n:
+            ans = 1
+        elif 1600 <= n <= 1899:
+            ans = 2
+        elif 1400 <= n <= 1599:
+            ans = 3
+        else:
+            ans = 4
+        print("Division", ans)
 
     # n questions
     q = int(input())
     for _ in range(q):
         do()
-    # 1 time
-    do()
 
 
 
@@ -57,34 +55,21 @@ class TestClass(unittest.TestCase):
         self.assertEqual(out, output)
     def test_input_1(self):
         print("test_input_1")
-        input = """4
-2
-5 7
-2
-5 5
-6
-1 3 1 2 2 3
-6
-3 2 1 1 2 3"""
-        output = """-1
-0
-1
-2
-4
-1 3
-5 3
-5 3
-10 3
-2
-8 6 
-5
-0 3
-8 3
-5 3 
-6 2 
-7 1
-4
-2 6 6 2"""
+        input = """7
+-789
+1299
+1300
+1399
+1400
+1679
+2300"""
+        output = """Division 4
+Division 4
+Division 4
+Division 4
+Division 3
+Division 2
+Division 1"""
         self.assertIO(input, output)
 
 if __name__ == "__main__":

@@ -1,3 +1,4 @@
+
 import sys
 from io import StringIO
 import unittest
@@ -15,8 +16,10 @@ REの時のポイント
 
 def resolve():
 
-
-
+    # 2以上しかないとき-> 絶対YES -> 上からやれば絶対0
+    # 0と1があるとき -> 絶対NO
+    # 0があるとき -> (1はないので) 絶対OK
+    # 1がある時 -> 隣接がなければOK
 
     import sys
     input = sys.stdin.readline
@@ -28,18 +31,29 @@ def resolve():
     INF = 1 << 63
     ceil = lambda a, b: (((a) + ((b) - 1)) // (b))
     def do():
-        s = input()
         n = int(input())
-        n, k = map(int, input().split())
         dat = list(map(int, input().split()))
+        if dat.count(0) == 0 and dat.count(1) == 0:
+            print("YES")
+            return
+        if dat.count(0) > 0:
+            if dat.count(1) > 0:
+                print("NO")
+                return
+            else:
+                print("YES")
+                return
+        dat.sort()
+        for i in range(n-1):
+            if dat[i+1] - dat[i] == 1:
+                print("NO")
+                return
+        print("YES")
 
     # n questions
     q = int(input())
     for _ in range(q):
         do()
-    # 1 time
-    do()
-
 
 
 
@@ -58,33 +72,18 @@ class TestClass(unittest.TestCase):
     def test_input_1(self):
         print("test_input_1")
         input = """4
-2
-5 7
-2
-5 5
-6
-1 3 1 2 2 3
-6
-3 2 1 1 2 3"""
-        output = """-1
-0
-1
-2
 4
-1 3
-5 3
-5 3
-10 3
-2
-8 6 
+2 5 6 8
+3
+1 1 1
 5
-0 3
-8 3
-5 3 
-6 2 
-7 1
+4 1 7 0 8
 4
-2 6 6 2"""
+5 9 17 5"""
+        output = """YES
+YES
+NO
+YES"""
         self.assertIO(input, output)
 
 if __name__ == "__main__":

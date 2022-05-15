@@ -1,3 +1,4 @@
+
 import sys
 from io import StringIO
 import unittest
@@ -15,11 +16,6 @@ REの時のポイント
 
 def resolve():
 
-
-
-
-    import sys
-    input = sys.stdin.readline
     from pprint import pprint
     #import pypyjit
     #pypyjit.set_param('max_unroll_recursion=-1')
@@ -29,18 +25,25 @@ def resolve():
     ceil = lambda a, b: (((a) + ((b) - 1)) // (b))
     def do():
         s = input()
-        n = int(input())
-        n, k = map(int, input().split())
-        dat = list(map(int, input().split()))
+        n = len(s)
+        dat = list(map(lambda x: ord(x) - ord("a"), s))
+        dp = [[None] * 2 for _ in range(n)]
+        pos = [[] for _ in range(26)]
+        for i in range(n):
+            pos[dat[i]].append(i)
+        # init
+        from bisect import bisect_left
+        dp[dat[0]][0] = 0
+
+
+
+
+        print(dat)
 
     # n questions
     q = int(input())
     for _ in range(q):
         do()
-    # 1 time
-    do()
-
-
 
 
 
@@ -57,34 +60,19 @@ class TestClass(unittest.TestCase):
         self.assertEqual(out, output)
     def test_input_1(self):
         print("test_input_1")
-        input = """4
+        input = """6
+aabbdabdccc
+zyx
+aaababbb
+aabbcc
+oaoaaaoo
+bmefbmuyw"""
+        output = """3
+3
 2
-5 7
-2
-5 5
-6
-1 3 1 2 2 3
-6
-3 2 1 1 2 3"""
-        output = """-1
 0
-1
 2
-4
-1 3
-5 3
-5 3
-10 3
-2
-8 6 
-5
-0 3
-8 3
-5 3 
-6 2 
-7 1
-4
-2 6 6 2"""
+7"""
         self.assertIO(input, output)
 
 if __name__ == "__main__":

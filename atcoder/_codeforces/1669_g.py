@@ -15,11 +15,7 @@ REの時のポイント
 
 def resolve():
 
-
-
-
-    import sys
-    input = sys.stdin.readline
+    
     from pprint import pprint
     #import pypyjit
     #pypyjit.set_param('max_unroll_recursion=-1')
@@ -28,18 +24,35 @@ def resolve():
     INF = 1 << 63
     ceil = lambda a, b: (((a) + ((b) - 1)) // (b))
     def do():
-        s = input()
-        n = int(input())
-        n, k = map(int, input().split())
-        dat = list(map(int, input().split()))
+        maze = []
+        oh, ow = map(int, input().split())
+        for h in range(oh):
+            l = list(input())
+            maze.append(l)
+        #print(maze)
+        for w in range(ow):
+            canh = oh - 1
+            for h in range(oh - 1, -1, -1):
+                if maze[h][w] == ".":
+                    pass
+                elif maze[h][w] == "o":
+                    canh = h - 1
+                elif maze[h][w] == "*":
+                    maze[h][w] = "."
+                    maze[canh][w] = "*"
+                    canh -= 1
+                else:
+                    assert False
+        for l in maze:
+            print("".join(l))
+
+
 
     # n questions
     q = int(input())
-    for _ in range(q):
+    for i in range(q):
         do()
-    # 1 time
-    do()
-
+        #if i != (q-1): print()
 
 
 
@@ -57,34 +70,38 @@ class TestClass(unittest.TestCase):
         self.assertEqual(out, output)
     def test_input_1(self):
         print("test_input_1")
-        input = """4
-2
-5 7
-2
+        input = """3
+6 10
+.*.*....*.
+.*.......*
+...o....o.
+.*.*....*.
+..........
+.o......o*
+2 9
+...***ooo
+.*o.*o.*o
 5 5
-6
-1 3 1 2 2 3
-6
-3 2 1 1 2 3"""
-        output = """-1
-0
-1
-2
-4
-1 3
-5 3
-5 3
-10 3
-2
-8 6 
-5
-0 3
-8 3
-5 3 
-6 2 
-7 1
-4
-2 6 6 2"""
+*****
+*....
+*****
+....*
+*****"""
+        output = """..........
+...*....*.
+.*.o....o.
+.*........
+.*......**
+.o.*....o*
+
+....**ooo
+.*o**o.*o
+
+.....
+*...*
+*****
+*****
+*****"""
         self.assertIO(input, output)
 
 if __name__ == "__main__":

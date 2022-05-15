@@ -1,21 +1,11 @@
+
 import sys
 from io import StringIO
 import unittest
 import logging
 logging.basicConfig(level=logging.DEBUG)
 
-"""
-TLEのポイント:
-- 入力高速化(*dat)
-- グラフをsetでたどろうとしていませんか？
-REの時のポイント
-- inputしきっていますか？
-
-"""
-
 def resolve():
-
-
 
 
     import sys
@@ -28,22 +18,24 @@ def resolve():
     INF = 1 << 63
     ceil = lambda a, b: (((a) + ((b) - 1)) // (b))
     def do():
-        s = input()
         n = int(input())
-        n, k = map(int, input().split())
+        ma = 2 * 10**5 + 10
+        ans = 0
         dat = list(map(int, input().split()))
+        dat.sort()
+        from collections import defaultdict
+        cnt = defaultdict(int)
+        for x in dat: cnt[x] += 1
+        n = len(cnt)
+        for i in range(n):
+            for j in range(n):
 
-    # n questions
-    q = int(input())
-    for _ in range(q):
-        do()
+
+
+
+
     # 1 time
     do()
-
-
-
-
-
 
 
 class TestClass(unittest.TestCase):
@@ -57,34 +49,21 @@ class TestClass(unittest.TestCase):
         self.assertEqual(out, output)
     def test_input_1(self):
         print("test_input_1")
-        input = """4
-2
-5 7
-2
-5 5
-6
-1 3 1 2 2 3
-6
-3 2 1 1 2 3"""
-        output = """-1
-0
-1
-2
-4
-1 3
-5 3
-5 3
-10 3
-2
-8 6 
-5
-0 3
-8 3
-5 3 
-6 2 
-7 1
-4
-2 6 6 2"""
+        input = """3
+6 2 3"""
+        output = """2"""
+        self.assertIO(input, output)
+    def test_input_2(self):
+        print("test_input_2")
+        input = """1
+2"""
+        output = """0"""
+        self.assertIO(input, output)
+    def test_input_3(self):
+        print("test_input_3")
+        input = """10
+1 3 2 4 6 8 2 2 3 7"""
+        output = """62"""
         self.assertIO(input, output)
 
 if __name__ == "__main__":

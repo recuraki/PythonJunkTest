@@ -28,19 +28,37 @@ def resolve():
     INF = 1 << 63
     ceil = lambda a, b: (((a) + ((b) - 1)) // (b))
     def do():
-        s = input()
-        n = int(input())
-        n, k = map(int, input().split())
-        dat = list(map(int, input().split()))
+        l, r, a = map(int, input().split())
+        can = [l, r]
+        can.append(l // a)
+        can.append(a*(l // a) + 1)
+        can.append(a*(r // a) - 1)
+        can.append(a*(l // a) - 1)
+        can.append(a*(r // a) + 1)
+        can.append(a*(l // a + 1))
+        can.append(a*(r // a - 1))
+        can.append(a*(l // a - 1))
+        can.append(a*(r // a + 1))
+        can.append(a*(r // a))
+        can.append(a*(r // a))
+
+        can.append(l + 1)
+        can.append(r - 1)
+        can.append(l + 2)
+        can.append(r - 2)
+
+        ans = -INF
+        for x in can:
+            if l <= x <= r:
+                x = x // a + x%a
+                ans = max(ans, x)
+        print(ans)
+
 
     # n questions
     q = int(input())
     for _ in range(q):
         do()
-    # 1 time
-    do()
-
-
 
 
 
@@ -57,35 +75,17 @@ class TestClass(unittest.TestCase):
         self.assertEqual(out, output)
     def test_input_1(self):
         print("test_input_1")
-        input = """4
-2
-5 7
-2
-5 5
-6
-1 3 1 2 2 3
-6
-3 2 1 1 2 3"""
-        output = """-1
-0
-1
-2
+        input = """5
+1 4 3
+5 8 4
+6 10 6
+1 1000000000 1000000000
+10 12 8"""
+        output = """2
 4
-1 3
-5 3
-5 3
-10 3
-2
-8 6 
 5
-0 3
-8 3
-5 3 
-6 2 
-7 1
-4
-2 6 6 2"""
+999999999
+5"""
         self.assertIO(input, output)
-
 if __name__ == "__main__":
     unittest.main()

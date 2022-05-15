@@ -28,19 +28,37 @@ def resolve():
     INF = 1 << 63
     ceil = lambda a, b: (((a) + ((b) - 1)) // (b))
     def do():
-        s = input()
         n = int(input())
-        n, k = map(int, input().split())
-        dat = list(map(int, input().split()))
+        dat = [0] + list(map(int, input().split())) + [0]
+        n += 2
+        a = b = 0
+        l = 0
+        r = n-1
+        ans = 0
+        #print(dat,n)
+        while l < r:
+            #print(l, r)
+            if a == b: # ok!
+                ans = (l + 1) + (n- r)
+                l += 1
+                a += dat[l]
+                continue
+            elif a < b:
+                l += 1
+                a += dat[l]
+                continue
+            elif a > b:
+                r -= 1
+                b += dat[r]
+                continue
+            else:
+                assert False
+        print(ans - 2)
 
     # n questions
     q = int(input())
     for _ in range(q):
         do()
-    # 1 time
-    do()
-
-
 
 
 
@@ -58,33 +76,18 @@ class TestClass(unittest.TestCase):
     def test_input_1(self):
         print("test_input_1")
         input = """4
-2
-5 7
-2
-5 5
+3
+10 20 10
 6
-1 3 1 2 2 3
-6
-3 2 1 1 2 3"""
-        output = """-1
-0
-1
-2
-4
-1 3
-5 3
-5 3
-10 3
-2
-8 6 
+2 1 4 2 4 1
 5
-0 3
-8 3
-5 3 
-6 2 
-7 1
-4
-2 6 6 2"""
+1 2 4 8 16
+9
+7 3 20 5 15 1 11 8 10"""
+        output = """2
+6
+0
+7"""
         self.assertIO(input, output)
 
 if __name__ == "__main__":

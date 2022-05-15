@@ -21,25 +21,36 @@ def resolve():
     import sys
     input = sys.stdin.readline
     from pprint import pprint
-    #import pypyjit
-    #pypyjit.set_param('max_unroll_recursion=-1')
 
     import math
     INF = 1 << 63
     ceil = lambda a, b: (((a) + ((b) - 1)) // (b))
     def do():
-        s = input()
-        n = int(input())
         n, k = map(int, input().split())
         dat = list(map(int, input().split()))
+        dat.sort(reverse=True)
+        from collections import defaultdict
+        d = defaultdict(int)
+        for x in dat: d[x] += 1
+        ans = 0
+        for x in dat:
+            if d[x] == 0: continue # もう使われている
+            d[x] -= 1 # 何が何でも使う
+            if x % k != 0: #割り切れない場合は足すしかないので
+                ans += 1
+                continue
+            target = x // k
+            if d[target] > 0:
+                d[target] -= 1
+            else: #数がない
+                ans += 1
+        print(ans)
+
 
     # n questions
     q = int(input())
     for _ in range(q):
         do()
-    # 1 time
-    do()
-
 
 
 
@@ -58,33 +69,18 @@ class TestClass(unittest.TestCase):
     def test_input_1(self):
         print("test_input_1")
         input = """4
-2
-5 7
-2
-5 5
-6
-1 3 1 2 2 3
-6
-3 2 1 1 2 3"""
-        output = """-1
-0
-1
-2
-4
-1 3
+4 4
+1 16 4 4
+6 2
+1 2 2 2 4 7
 5 3
-5 3
-10 3
+5 2 3 5 15
+9 10
+10 10 10 20 1 100 200 2000 3"""
+        output = """0
 2
-8 6 
-5
-0 3
-8 3
-5 3 
-6 2 
-7 1
-4
-2 6 6 2"""
+3
+3"""
         self.assertIO(input, output)
 
 if __name__ == "__main__":

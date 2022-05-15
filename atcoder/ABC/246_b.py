@@ -1,21 +1,11 @@
+
 import sys
 from io import StringIO
 import unittest
 import logging
 logging.basicConfig(level=logging.DEBUG)
 
-"""
-TLEのポイント:
-- 入力高速化(*dat)
-- グラフをsetでたどろうとしていませんか？
-REの時のポイント
-- inputしきっていますか？
-
-"""
-
 def resolve():
-
-
 
 
     import sys
@@ -28,22 +18,17 @@ def resolve():
     INF = 1 << 63
     ceil = lambda a, b: (((a) + ((b) - 1)) // (b))
     def do():
-        s = input()
-        n = int(input())
-        n, k = map(int, input().split())
-        dat = list(map(int, input().split()))
+        a, b = map(int, input().split())
+        r = math.sqrt(a*a+b*b)
+        print(a/r, b/r)
 
-    # n questions
-    q = int(input())
-    for _ in range(q):
-        do()
+
     # 1 time
     do()
-
-
-
-
-
+    # n questions
+    #q = int(input())
+    #for _ in range(q):
+    #    do()
 
 
 class TestClass(unittest.TestCase):
@@ -57,34 +42,18 @@ class TestClass(unittest.TestCase):
         self.assertEqual(out, output)
     def test_input_1(self):
         print("test_input_1")
-        input = """4
-2
-5 7
-2
-5 5
-6
-1 3 1 2 2 3
-6
-3 2 1 1 2 3"""
-        output = """-1
-0
-1
-2
-4
-1 3
-5 3
-5 3
-10 3
-2
-8 6 
-5
-0 3
-8 3
-5 3 
-6 2 
-7 1
-4
-2 6 6 2"""
+        input = """3 4"""
+        output = """0.600000000000 0.800000000000"""
+        self.assertIO(input, output)
+    def test_input_2(self):
+        print("test_input_2")
+        input = """1 0"""
+        output = """1.000000000000 0.000000000000"""
+        self.assertIO(input, output)
+    def test_input_3(self):
+        print("test_input_3")
+        input = """246 402"""
+        output = """0.521964870245 0.852966983083"""
         self.assertIO(input, output)
 
 if __name__ == "__main__":

@@ -28,18 +28,35 @@ def resolve():
     INF = 1 << 63
     ceil = lambda a, b: (((a) + ((b) - 1)) // (b))
     def do():
-        s = input()
         n = int(input())
-        n, k = map(int, input().split())
+        from collections import deque
         dat = list(map(int, input().split()))
+        ans = []
+        for i in range(n):
+            dat[i] -= 1
+        dat = deque(dat)
+        #print(dat)
+        for i in range(n-1, -1, -1): # from back
+            x = dat.index(i)
+            #print(i, "x", x, dat)
+            if x == i:
+                dat.pop()
+                ans.append(0)
+                continue
+            t = (x+1)
+            #print("beforerot",dat, t)
+            dat.rotate(-t)
+            #print("afrot",dat, t)
+            ans.append(t)
+            dat.pop()
+        #print(ans)
+        ans.reverse()
+        print(*ans)
 
-    # n questions
+
     q = int(input())
     for _ in range(q):
         do()
-    # 1 time
-    do()
-
 
 
 
@@ -57,35 +74,18 @@ class TestClass(unittest.TestCase):
         self.assertEqual(out, output)
     def test_input_1(self):
         print("test_input_1")
-        input = """4
-2
-5 7
-2
-5 5
+        input = """3
 6
-1 3 1 2 2 3
-6
-3 2 1 1 2 3"""
-        output = """-1
-0
-1
-2
-4
-1 3
-5 3
-5 3
-10 3
-2
-8 6 
-5
-0 3
-8 3
-5 3 
-6 2 
-7 1
-4
-2 6 6 2"""
+3 2 5 6 1 4
+3
+3 1 2
+8
+5 8 1 3 2 6 4 7"""
+        output = """0 1 1 2 0 4
+0 0 1
+0 1 2 0 2 5 6 2"""
         self.assertIO(input, output)
+
 
 if __name__ == "__main__":
     unittest.main()

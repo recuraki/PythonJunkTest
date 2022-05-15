@@ -1,3 +1,4 @@
+
 import sys
 from io import StringIO
 import unittest
@@ -28,17 +29,40 @@ def resolve():
     INF = 1 << 63
     ceil = lambda a, b: (((a) + ((b) - 1)) // (b))
     def do():
-        s = input()
         n = int(input())
-        n, k = map(int, input().split())
         dat = list(map(int, input().split()))
+        dat.sort(reverse=True)
+        r = n-1
+        if dat.count(0) == n:
+            print(0)
+            return
+        for l in range(n):
+            if dat[l] == 0: continue
+            if dat[l] == 1:
+                dat[l] = 0
+                continue
+            if l >= r: break
+            while dat[l] > 1:
+                canusel = dat[l] - 1
+                if l >= r: break
+                while dat[r] > 0:
+                    use = min(canusel, dat[r])
+                    dat[l] -= use
+                    dat[r] -= use
+                r -= 1
+            if l >= r: break
 
-    # n questions
+        if sum(dat) == 0:
+            print(1)
+            return
+        if dat.count(1) == 2:
+            print(1)
+            return
+        print(1 + sum(dat)-1)
+
     q = int(input())
     for _ in range(q):
         do()
-    # 1 time
-    do()
 
 
 
@@ -55,36 +79,22 @@ class TestClass(unittest.TestCase):
         out = sys.stdout.read()[:-1]
         sys.stdout, sys.stdin = stdout, stdin
         self.assertEqual(out, output)
-    def test_input_1(self):
-        print("test_input_1")
+
+    def test_input_11(self):
+        print("test_input_11")
         input = """4
+4
+2 3 3 2
+3
+1 5 2
 2
-5 7
+0 0
+4
+1000000000 1000000000 1000000000 1000000000"""
+        output = """1
 2
-5 5
-6
-1 3 1 2 2 3
-6
-3 2 1 1 2 3"""
-        output = """-1
 0
-1
-2
-4
-1 3
-5 3
-5 3
-10 3
-2
-8 6 
-5
-0 3
-8 3
-5 3 
-6 2 
-7 1
-4
-2 6 6 2"""
+1"""
         self.assertIO(input, output)
 
 if __name__ == "__main__":
