@@ -1,11 +1,21 @@
-
 import sys
 from io import StringIO
 import unittest
 import logging
 logging.basicConfig(level=logging.DEBUG)
 
+"""
+TLEのポイント:
+- 入力高速化(*dat)
+- グラフをsetでたどろうとしていませんか？
+REの時のポイント
+- inputしきっていますか？
+
+"""
+
 def resolve():
+
+
 
 
     import sys
@@ -18,15 +28,24 @@ def resolve():
     INF = 1 << 63
     ceil = lambda a, b: (((a) + ((b) - 1)) // (b))
     def do():
+        s = input()
         n = int(input())
-        print(chr(n))
+        n, k = map(int, input().split())
+        dat = list(map(int, input().split()))
+
 
     # 1 time
     do()
+
     # n questions
-    #q = int(input())
-    #for _ in range(q):
-    #    do()
+    q = int(input())
+    for _ in range(q):
+        do()
+
+
+
+
+
 
 
 class TestClass(unittest.TestCase):
@@ -40,14 +59,38 @@ class TestClass(unittest.TestCase):
         self.assertEqual(out, output)
     def test_input_1(self):
         print("test_input_1")
-        input = """97"""
-        output = """a"""
+        input = """2
+2
+a
+ab
+b
+cd
+acd
+3
+z
+a
+a
+aa
+yakumo
+ran
+yakumoran"""
+        output = """2
+2
+a
+ab
+b
+cd
+acd
+3
+z
+a
+a
+aa
+yakumo
+ran
+yakumoran"""
         self.assertIO(input, output)
-    def test_input_2(self):
-        print("test_input_2")
-        input = """122"""
-        output = """z"""
-        self.assertIO(input, output)
+
 
 if __name__ == "__main__":
     unittest.main()

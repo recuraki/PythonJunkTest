@@ -1,4 +1,3 @@
-
 import sys
 from io import StringIO
 import unittest
@@ -18,8 +17,11 @@ def resolve():
     INF = 1 << 63
     ceil = lambda a, b: (((a) + ((b) - 1)) // (b))
     def do():
+        s = input()
         n = int(input())
-        print(chr(n))
+        n, k = map(int, input().split())
+        dat = list(map(int, input().split()))
+
 
     # 1 time
     do()
@@ -40,13 +42,38 @@ class TestClass(unittest.TestCase):
         self.assertEqual(out, output)
     def test_input_1(self):
         print("test_input_1")
-        input = """97"""
-        output = """a"""
+        input = """3 5
+1 3
+1 4
+2 5"""
+        output = """0 1 3 2 1"""
         self.assertIO(input, output)
     def test_input_2(self):
         print("test_input_2")
-        input = """122"""
-        output = """z"""
+        input = """1 2
+1 2"""
+        output = """2 1"""
+        self.assertIO(input, output)
+    def test_input_3(self):
+        print("test_input_3")
+        input = """5 9
+1 5
+1 7
+5 6
+5 8
+2 6"""
+        output = """0 0 1 2 4 4 3 2 1"""
+        self.assertIO(input, output)
+
+    def test_input_4(self):
+        print("test_input_3")
+        input = """5 9
+1 5
+1 7
+5 6
+5 8
+2 6"""
+        output = """0 0 1 2 4 4 3 2 1"""
         self.assertIO(input, output)
 
 if __name__ == "__main__":

@@ -1,4 +1,3 @@
-
 import sys
 from io import StringIO
 import unittest
@@ -8,8 +7,6 @@ logging.basicConfig(level=logging.DEBUG)
 def resolve():
 
 
-    import sys
-    input = sys.stdin.readline
     from pprint import pprint
     #import pypyjit
     #pypyjit.set_param('max_unroll_recursion=-1')
@@ -18,15 +15,23 @@ def resolve():
     INF = 1 << 63
     ceil = lambda a, b: (((a) + ((b) - 1)) // (b))
     def do():
+        maze = []
         n = int(input())
-        print(chr(n))
+        for _ in range(n):
+            l = list(input())
+            maze.append(l)
 
-    # 1 time
+        for i in range(n):
+            for j in range(n):
+                if i == j: continue
+                if maze[i][j] == 'W' and maze[j][i] == 'L': continue
+                if maze[j][i] == 'W' and maze[i][j] == 'L': continue
+                if maze[j][i] == 'D' and maze[i][j] == 'D': continue
+                print("incorrect")
+                return
+        print("correct")
+
     do()
-    # n questions
-    #q = int(input())
-    #for _ in range(q):
-    #    do()
 
 
 class TestClass(unittest.TestCase):
@@ -40,13 +45,19 @@ class TestClass(unittest.TestCase):
         self.assertEqual(out, output)
     def test_input_1(self):
         print("test_input_1")
-        input = """97"""
-        output = """a"""
+        input = """4
+-WWW
+L-DD
+LD-W
+LDW-"""
+        output = """incorrect"""
         self.assertIO(input, output)
     def test_input_2(self):
         print("test_input_2")
-        input = """122"""
-        output = """z"""
+        input = """2
+-D
+D-"""
+        output = """correct"""
         self.assertIO(input, output)
 
 if __name__ == "__main__":

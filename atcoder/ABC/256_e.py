@@ -1,4 +1,3 @@
-
 import sys
 from io import StringIO
 import unittest
@@ -19,14 +18,26 @@ def resolve():
     ceil = lambda a, b: (((a) + ((b) - 1)) // (b))
     def do():
         n = int(input())
-        print(chr(n))
+        datx = list(map(lambda x: int(x) - 1, input().split()))
+        datc = list(map(int, input().split()))
+        buf = [0] * n
+        for i in range(n):
+            buf[datx[i]] += datc[i]
+        #print(buf)
+        tmp = []
+        for i in range(n):
+            tmp.append( (buf[i], i) )
+        tmp.sort()
+        #print(tmp)
+        visited = [False] * n
+        ans = 0
+        for cost, ind in tmp:
+            if visited[datx[ind]]: ans += datc[ind]
+            visited[ind] = True
+        print(ans)
 
-    # 1 time
     do()
-    # n questions
-    #q = int(input())
-    #for _ in range(q):
-    #    do()
+
 
 
 class TestClass(unittest.TestCase):
@@ -40,13 +51,17 @@ class TestClass(unittest.TestCase):
         self.assertEqual(out, output)
     def test_input_1(self):
         print("test_input_1")
-        input = """97"""
-        output = """a"""
+        input = """3
+2 3 2
+1 10 100"""
+        output = """10"""
         self.assertIO(input, output)
     def test_input_2(self):
         print("test_input_2")
-        input = """122"""
-        output = """z"""
+        input = """8
+7 3 5 5 8 4 1 2
+36 49 73 38 30 85 27 45"""
+        output = """57"""
         self.assertIO(input, output)
 
 if __name__ == "__main__":

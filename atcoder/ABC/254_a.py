@@ -1,3 +1,4 @@
+
 import sys
 from io import StringIO
 import unittest
@@ -6,11 +7,9 @@ logging.basicConfig(level=logging.DEBUG)
 
 def resolve():
 
-    s = input()
-    for i in range(6):
-        print(s[i % len(s)], end="")
-    print()
 
+    s = input()
+    print(s[1] + s[2])
 
 class TestClass(unittest.TestCase):
     def assertIO(self, input, output):
@@ -23,13 +22,13 @@ class TestClass(unittest.TestCase):
         self.assertEqual(out, output)
     def test_input_1(self):
         print("test_input_1")
-        input = """abc"""
-        output = """abcabc"""
+        input = """254"""
+        output = """54"""
         self.assertIO(input, output)
     def test_input_2(self):
         print("test_input_2")
-        input = """zz"""
-        output = """zzzzzz"""
+        input = """101"""
+        output = """01"""
         self.assertIO(input, output)
 
 if __name__ == "__main__":

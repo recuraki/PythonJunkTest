@@ -6,42 +6,24 @@ logging.basicConfig(level=logging.DEBUG)
 
 def resolve():
 
-
-    import sys
-    input = sys.stdin.readline
-    from pprint import pprint
-    #import pypyjit
-    #pypyjit.set_param('max_unroll_recursion=-1')
-
-    import math
-    INF = 1 << 63
-    ceil = lambda a, b: (((a) + ((b) - 1)) // (b))
-    def do():
-        n = int(input())
-        dat = list(map(int, input().split()))
-        if n == 2:
-            print(min(dat))
-            return
-        finalres = INF
-
-        ans = [INF] * n
-        ans[0] = dat[-1]
-        ans[1] = dat[0]
-        for i in range(2, n):
-            ans[i] = min(ans[i], ans[i-2] + dat[i-1]) # Pat1
-            ans[i] = min(ans[i], ans[i-1] + dat[i-1]) # Pat2
-            ans[i] = min(ans[i], ans[i-1] + dat[i]) # Pat3
-        finalres = min(finalres, ans[n-1])
-
-
-        print(finalres)
-
-    # 1 time
-    do()
-    # n questions
-    #q = int(input())
-    #for _ in range(q):
-    #    do()
+    n = int(input())
+    indat = list(map(int, input().split()))
+    def func(dat):
+        # この関数は「巡回がないとして」動物1 (dat[0])に餌をやったときの動物Nまで餌をやるのに最小のコストを計算する
+        ans = [1<<61] * n
+        ans[0] = dat[0] # 動物1に餌をやった
+        ans[1] = dat[0] # 動物1に餌をやった(ので、動物2まで届く)
+        for i in range(2, n): # その先をシミュレート
+            ans[i] = min(ans[i], ans[i - 2] + dat[i - 1])  # Pat1
+            ans[i] = min(ans[i], ans[i - 1] + dat[i - 1])  # Pat2
+            ans[i] = min(ans[i], ans[i - 1] + dat[i])      # Pat3
+        return ans[n-1] # 最後まで餌をやるのにかかるコスト
+    ans1 = func(indat) # 初期状態のコスト
+    import collections
+    indat = collections.deque(indat)
+    indat.rotate(1) # 初期状態を一個ローテート [1,2,3] -> [2,3,1]にする
+    ans2 = func(list(indat)) # またDP計算。これは実質、動物Nに餌を挙げることで動物1に餌をあげたパターン
+    print(min(ans1, ans2)) # その最小が応え
 
 
 class TestClass(unittest.TestCase):

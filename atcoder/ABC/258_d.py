@@ -1,4 +1,3 @@
-
 import sys
 from io import StringIO
 import unittest
@@ -18,15 +17,25 @@ def resolve():
     INF = 1 << 63
     ceil = lambda a, b: (((a) + ((b) - 1)) // (b))
     def do():
-        n = int(input())
-        print(chr(n))
+        n, x = map(int, input().split())
+        ans = INF
+        dat = []
+        for i in range(n):
+            a, b = map(int, input().split())
+            dat.append( (a, b) )
+        mingame = INF
+        base = 0
+        for i in range(n): # ステージiまでクリアしたとする
+            story, game = dat[i]
+            base += story + game # これが基本出かかる
+            mingame = min(mingame, game)
+            nokori = x - i - 1
+            cur = base + mingame * nokori
+            ans = min(ans, cur)
+            if nokori <= 0: break
+        print(ans)
 
-    # 1 time
     do()
-    # n questions
-    #q = int(input())
-    #for _ in range(q):
-    #    do()
 
 
 class TestClass(unittest.TestCase):
@@ -40,13 +49,26 @@ class TestClass(unittest.TestCase):
         self.assertEqual(out, output)
     def test_input_1(self):
         print("test_input_1")
-        input = """97"""
-        output = """a"""
+        input = """3 4
+3 4
+2 3
+4 2"""
+        output = """18"""
         self.assertIO(input, output)
     def test_input_2(self):
         print("test_input_2")
-        input = """122"""
-        output = """z"""
+        input = """10 1000000000
+3 3
+1 6
+4 7
+1 8
+5 7
+9 9
+2 4
+6 4
+5 1
+3 1"""
+        output = """1000000076"""
         self.assertIO(input, output)
 
 if __name__ == "__main__":

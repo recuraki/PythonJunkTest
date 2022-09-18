@@ -6,10 +6,24 @@ logging.basicConfig(level=logging.DEBUG)
 
 def resolve():
 
-    s = input()
-    for i in range(6):
-        print(s[i % len(s)], end="")
-    print()
+
+    import sys
+    input = sys.stdin.readline
+    from pprint import pprint
+    #import pypyjit
+    #pypyjit.set_param('max_unroll_recursion=-1')
+
+    import math
+    INF = 1 << 63
+    ceil = lambda a, b: (((a) + ((b) - 1)) // (b))
+    def do():
+        n = int(input())
+        print(pow(2, n))
+
+
+    # 1 time
+    do()
+
 
 
 class TestClass(unittest.TestCase):
@@ -23,13 +37,13 @@ class TestClass(unittest.TestCase):
         self.assertEqual(out, output)
     def test_input_1(self):
         print("test_input_1")
-        input = """abc"""
-        output = """abcabc"""
+        input = """3"""
+        output = """8"""
         self.assertIO(input, output)
     def test_input_2(self):
         print("test_input_2")
-        input = """zz"""
-        output = """zzzzzz"""
+        input = """30"""
+        output = """1073741824"""
         self.assertIO(input, output)
 
 if __name__ == "__main__":

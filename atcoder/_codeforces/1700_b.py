@@ -4,12 +4,31 @@ import unittest
 import logging
 logging.basicConfig(level=logging.DEBUG)
 
+"""
+TLEのポイント:
+- 入力高速化(*dat)
+- グラフをsetでたどろうとしていませんか？
+REの時のポイント
+- inputしきっていますか？
+
+"""
+
 def resolve():
 
-    s = input()
-    for i in range(6):
-        print(s[i % len(s)], end="")
-    print()
+
+
+
+
+
+
+
+    q = int(input())
+    for _ in range(q):
+        n,s = int(input()), int(input())
+        if str(s)[0] != "9": print(int("9" * n) - s)
+        else: print(int("1" * (n+1)) - s)
+
+
 
 
 class TestClass(unittest.TestCase):
@@ -23,13 +42,26 @@ class TestClass(unittest.TestCase):
         self.assertEqual(out, output)
     def test_input_1(self):
         print("test_input_1")
-        input = """abc"""
-        output = """abcabc"""
+        input = """3
+2
+99
+4
+1023
+3
+385"""
+        output = """32
+8646
+604"""
         self.assertIO(input, output)
-    def test_input_2(self):
-        print("test_input_2")
-        input = """zz"""
-        output = """zzzzzz"""
+    def test_input_12(self):
+        print("test_input_12")
+        input = """2
+1
+0
+1
+9"""
+        output = """9
+2"""
         self.assertIO(input, output)
 
 if __name__ == "__main__":

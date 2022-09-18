@@ -16,12 +16,8 @@ def resolve():
     import math
     INF = 1 << 63
     ceil = lambda a, b: (((a) + ((b) - 1)) // (b))
-
     def do():
-        class BinaryIndexTreeSum:
-            #
-            # BE
-            #
+        class Bit:
             def __init__(self, n):
                 self.size = n
                 self.tree = [0] * (n + 1)
@@ -38,33 +34,47 @@ def resolve():
                     self.tree[i] += x
                     i += i & -i
 
-        class Solution:
-            def countTriplets(self, nums):
-                N = 1000000
-                bitLeft = BinaryIndexTreeSum(1000000)
-                bitRight = BinaryIndexTreeSum(1000000)
-                ans = 0
-                for val in nums:
-                    bitLeft.add(val, 1)
-                for i in range(len(nums) - 1, -1, -1):
-                    # center val = nums[i]
-                    valC = nums[i]
-                    numSmaller = bitLeft.sum(valC - 1)
-                    numGreater = bitRight.sum(N) - bitRight.sum(valC)
-                    # print(i, numSmaller, numGreater)
-                    ans += numSmaller * numGreater
-                    # leave this [i] val
-                    bitLeft.add(valC, -1)
-                    bitRight.add(valC, 1)
-                return (ans)
+        class RangeUpdate:
+            def __init__(self, n):
+                self.p = Bit(n + 1)
+                self.q = Bit(n + 1)
+
+            def add(self, s, t, x):
+                t += 1
+                self.p.add(s, -x * s)
+                self.p.add(t, x * t)
+                self.q.add(s, x)
+                self.q.add(t, -x)
+
+            def sum(self, s, t):
+                t += 1
+                return self.p.sum(t) + self.q.sum(t) * t - \
+                       self.p.sum(s) - self.q.sum(s) * s
+
 
         n = int(input())
-        dat = list(map(int, input().split()))
-        dat.sort()
-        st = Solution()
-        print(st.countTriplets(dat))
+        bit = RangeUpdate(200000 + 10)
+        for _ in range(n):
+            l, r = map(int, input().split())
+            bit.add(l, r-1, 1)
+        ans = []
+        l = None
+        for i in range(200000 + 10):
+            if bit.sum(i, i) > 0:
+                if l == None:
+                    l = i
+                else:
+                    continue
+            else: # = 0
+                if l == None:
+                    continue
+                else:
+                    ans.append((l, i))
+                    l = None
+        for x in ans:
+            print(*x)
+    # 1 time
     do()
-
 
 class TestClass(unittest.TestCase):
     def assertIO(self, input, output):
@@ -77,22 +87,28 @@ class TestClass(unittest.TestCase):
         self.assertEqual(out, output)
     def test_input_1(self):
         print("test_input_1")
-        input = """4
-3 1 4 1"""
-        output = """2"""
+        input = """3
+10 20
+20 30
+40 50"""
+        output = """10 30
+40 50"""
         self.assertIO(input, output)
     def test_input_2(self):
         print("test_input_2")
-        input = """10
-99999 99998 99997 99996 99995 99994 99993 99992 99991 99990"""
-        output = """120"""
-        self.assertIO(input, output)
-    def test_input_3(self):
-        print("test_input_3")
-        input = """15
-3 1 4 1 5 9 2 6 5 3 5 8 9 7 9"""
-        output = """355"""
+        input = """3
+10 40
+30 60
+20 50"""
+        output = """10 60"""
         self.assertIO(input, output)
 
+    def test_input_3(self):
+        print("test_input_")
+        input = """2
+1 2
+2 3"""
+        output = """1 3"""
+        self.assertIO(input, output)
 if __name__ == "__main__":
     unittest.main()
