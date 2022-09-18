@@ -110,6 +110,7 @@ def cmb(n, r, p):
         return 0
     r = min(r, n - r)
     return fact[n] * factinv[r] * factinv[n - r] % p
+
 p = mod
 N = 5 * 10 ** 5  # N は必要分だけ用意する
 N = 20
@@ -120,6 +121,8 @@ for i in range(2, N + 1):
     fact.append((fact[-1] * i) % p)
     inv.append((-inv[p % i] * (p // i)) % p)
     factinv.append((factinv[-1] * inv[-1]) % p)
+
+
 print("fac")
 print(fact[:10])
 print(inv[:10])
@@ -165,3 +168,4 @@ print(modinv(2**10, 10**9+7))  # 71289063
 print(egcd(111, 30))
 print(egcd(111, 7))
 print(egcd(13, 1))
+

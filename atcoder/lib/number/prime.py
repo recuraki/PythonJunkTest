@@ -123,3 +123,5 @@ l = factorization_expand(50)
 print(l)
 print(is_prime(4))
 print(is_prime(13))
+
+print(factorization(1))

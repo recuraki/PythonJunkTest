@@ -1,17 +1,18 @@
 # https://tjkendev.github.io/procon-library/python/range_query/rsq_ruq_segment_tree_lp.html
 class segmentTree():
-    initValue = 0
-    dat = []
-    lenTreeLeaf = -1
-    depthTreeList = 0
-    lenOriginalList = -1
-    func = None
-    funcPropagateToChild = None
-    lazy = None
-    N = -1
 
 
     def load(self, l):
+        self.initValue = 0
+        self.dat = []
+        self.lenTreeLeaf = -1
+        self.depthTreeList = 0
+        self.lenOriginalList = -1
+        self.func = None
+        self.funcPropagateToChild = None
+        self.lazy = None
+        self.N = -1
+
         self.N = len(l)
         self.lenOriginalList = self.N # original nodes
         self.depthTreeList = (self.N - 1).bit_length() # Level of Tree

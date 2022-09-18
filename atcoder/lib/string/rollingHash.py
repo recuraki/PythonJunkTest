@@ -1,12 +1,17 @@
 # Mersenne 2^61
 # 2^61 - 1
-# https://qiita.com/keymoon/items/11fac5627672a6d6a9f6
+# Original C++: https://qiita.com/keymoon/items/11fac5627672a6d6a9f6
 # Verify: https://atcoder.jp/contests/abc141/submissions/me
+"""
+rollingHash61
+init(s) O(N)でハッシュを取る
+calc hash [l, r)  r = OPEN
+"""
 class rollingHash61():
     MOD = (1<<61) - 1
     BASE = 20200213
-    MASK30 = (1<<30) - 1
-    MASK31 = (1<<31) - 1
+    MASK30 = (1 << 30) - 1
+    MASK31 = (1 << 31) - 1
     hashTable = []
     pow = []
     slen = -1
@@ -41,9 +46,9 @@ class rollingHash61():
         return self.mod(xu * yu * 2 + mu + (md << 31) + xd * yd)
 
     def xorshift(self, x):
-        return x ^ (x<<13) ^ (x>>17) ^ (x<<5)
+        return x ^ (x << 13) ^ (x >> 17) ^ (x << 5)
 
-def test():
+def libtest():
     s = "abcdabcd"
     rh = rollingHash61(s)
     print(rh.sdat)   # DEBUG
@@ -65,5 +70,27 @@ def abc141():
                 res += 1
     print(res)
 
-test()
+def ftest():
+    # ソートO(NlogN) してから ロリハ O(L*N) とその比較 O(L*N)
+    l = ["/usr", "/tmp", "/usr/local/bin", "/var/log", "/bin", "/var/log/hoge", ]
+    l.sort() # 短い順に出す
+    ans = [] # 答え
+    deleted = set() # 消すハッシュ値
+    for p in l:
+        if p == "/": p = ""
+        ok = True
+        rh = rollingHash61(p + "/") # 各パスの最後に"/"を含めてローリングハッシュ
+        for h in rh.hashTable: # このパスの各文字のハッシュ値を確認し
+            if h in deleted: ok = False #１回でも含まれていたらアウト
+        if ok is False: continue
+        # もし、エラーじゃなかった場合
+        deleted.add(rh.hashTable[-1]) # このパス(の”/"を追加したhash値を記録して)
+        if p == "":
+            ans.append("/")
+        else:
+            ans.append(p)
+    print(ans)
+
+#libtest()
 #abc141()
+ftest()
