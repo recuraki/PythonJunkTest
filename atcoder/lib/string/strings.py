@@ -146,6 +146,9 @@ def rotateStr(s, i):
 >>> countstrs("") ->    []
 >>> countstrs("aaa") ->    [('a', 3)]
 >>> countstrs_withIndex("1110000111")-> [('1', 3, 0), ('0', 4, 3), ('1', 3, 7)]
+
+Array ok:
+>>> countstrs([1,1,1,2,2,1,3,3,3,3,3])) -> [(1, 3), (2, 2), (1, 1), (3, 5)]
 """
 import itertools
 
