@@ -15,10 +15,8 @@ request
 import cv2
 import pyocr
 import sys
-from PIL import Image
+from PIL.PIL import Image
 import dns.resolver
-import re
-import os
 
 import ipaddress
 def is_ipaddr(s: str):

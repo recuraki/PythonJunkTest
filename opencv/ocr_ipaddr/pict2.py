@@ -15,10 +15,7 @@ request
 import cv2
 import pyocr
 import sys
-from PIL import Image
-import dns.resolver
-import re
-import os
+from PIL.PIL import Image
 
 fn = "./pict2.jpg"
 im = cv2.imread(fn)

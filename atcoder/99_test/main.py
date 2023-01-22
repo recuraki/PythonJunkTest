@@ -1,9 +1,16 @@
 
-n, m = map(int, input().split())
-g = [set() for _ in range(n)]
-for _ in range(m):
-    a, b = map(int, input().split())
-    g[a].append(b)
-    g[b].append(a)
-for i in range(m):
-    print(len(g[i]))
+from pprint import pprint
+# import pypyjit
+# pypyjit.set_param('max_unroll_recursion=-1')
+
+import math
+INF = 1 << 63
+ceil = lambda a, b: (((a) + ((b) - 1)) // (b))
+def do():
+    s = input()
+    ans = 1 * s.count("v") + 2 * s.count("w")
+    print(ans)
+
+
+# 1 time
+do()

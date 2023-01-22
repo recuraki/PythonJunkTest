@@ -14,7 +14,7 @@ def isCross(y, p1, p2):
         return (False, None)
 
 
-print(isCross(0.5, [1, 2], [1,0])) #(True, [0.5, 0.5])
+print(isCross(0.5, [1, 2], [1,0])) #(True, [1.0, 0.5])
 print(isCross(0.5, [0,1], [1,0])) #(True, [0.5, 0.5])
 print(isCross(0.5, [0,2], [1,0])) #(True, [0.75, 0.5])
 print(isCross(3, [0,2], [0,0]))   #(False, None)

@@ -32,7 +32,7 @@ def main():
         parentlist[node] = parent
         distlist[node] = d
         for nextnode in e[node]:
-            if parentlist[nextnode] is not None: continue # visited
+            if parentlist[nextnode] is not None: continue # parent
             q.append( (nextnode, node, d + 1) )
 
     # doubling calc

@@ -15,28 +15,29 @@ REの時のポイント
 
 def resolve():
 
-
-
-
     import sys
     input = sys.stdin.readline
     from pprint import pprint
+    #import pypyjit
+    #pypyjit.set_param('max_unroll_recursion=-1')
 
     import math
     INF = 1 << 63
     ceil = lambda a, b: (((a) + ((b) - 1)) // (b))
     def do():
-        s = input()
         n = int(input())
-        n, k = map(int, input().split())
         dat = list(map(int, input().split()))
+        n, k = map(int, input().split())
+        s = input()
+
+
+    # 1 time
+    do()
 
     # n questions
     q = int(input())
     for _ in range(q):
         do()
-    # 1 time
-    do()
 
 
 
@@ -70,8 +71,11 @@ def resolve():
         offset += 2
 
     # for maze
+    dh = [-1, -1, -1, 0, 0, 1, 1, 1]
+    dw = [-1, 0, 1,  -1, 1,-1, 0, 1]
     dh = [-1, 0, 0, 1]
     dw = [0, -1, 1, 0]
+
     maze = []
     oh , ow = 0,0
     for h in range(oh):
@@ -87,8 +91,6 @@ def resolve():
         maze.append(l)
     maze.append(["#"] * (ow + 2))
     print(maze)
-
-
 
 
 

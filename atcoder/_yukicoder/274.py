@@ -60,7 +60,7 @@ def resolve():
         # pprint(vs)
         for i in range(len(vs) - 1, -1, -1):
             # print("vited: i={0} vs[i] = {1}".format(i, vs[i]))
-            # print(visited)
+            # print(parent)
             if visited[vs[i]] is False:
                 # print("rdfs [{0}]".format(i))
                 rdfs(g, vs[i], visited, cmp, k)

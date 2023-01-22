@@ -1,7 +1,7 @@
 # CのNextPermutationだが、
 
 # https://www.nayuki.io/page/next-lexicographical-permutation-algorithm
-def next_permutation(case):
+def next_permutation2(case):
     for index in range(1, len(case)):
         Px_index = len(case) - 1 - index
         # Start travelling from the end of the Data Structure
@@ -43,6 +43,37 @@ def next_permutation(case):
             return False
 
 
+
+def next_permutation(case):
+    n = len(case)
+    i = n - 1
+    while 0 < i and case[i-1] >= case[i]: i -= 1
+    if i <= 0: return False
+    j = n - 1
+    while case[i-1] >= case[j]: j -= 1
+    case[i-1], case[j] = case[j], case[i-1]
+    j = n - 1
+    while i < j:
+        case[i], case[j] = case[j], case[i]
+        i += 1
+        j -= 1
+    return True
+def prev_permutation(case):
+    n = len(case)
+    i = n - 1
+    while 0 < i and case[i-1] <= case[i]: i -= 1
+    if i <= 0: return False
+    j = n - 1
+    while case[i-1] <= case[j]: j -= 1
+    case[i-1], case[j] = case[j], case[i-1]
+    j = n - 1
+    while i < j:
+        case[i], case[j] = case[j], case[i]
+        i += 1
+        j -= 1
+    return True
+
+
 # EXAMPLE EXECUTIONS
 print("===INT===")
 # INT LIST
@@ -58,6 +89,20 @@ case = [ord(c) for c in case_char]
 print(case)
 case = next_permutation(case)
 print(case)
-case_char = [str(chr(c)) for c in case]
-print(case_char)
-print(''.join(case_char))
+#case_char = [str(chr(c)) for c in case]
+#print(case_char)
+#print(''.join(case_char))
+
+case = [1,2,3]
+next_permutation(case)
+print(case)
+next_permutation(case)
+print(case)
+next_permutation(case)
+print(case)
+prev_permutation(case)
+print(case)
+prev_permutation(case)
+print(case)
+prev_permutation(case)
+print(case)

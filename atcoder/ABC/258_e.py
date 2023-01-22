@@ -84,7 +84,7 @@ def resolve():
         for i in range(n*10):
             if visited[cur] == -1:
                 visited[cur] = turn
-                #print("tu", cur, turn, visited)
+                #print("tu", cur, turn, parent)
             cnt[cur] += 1
             nxt = cur + buf[cur]
             nxt %= n

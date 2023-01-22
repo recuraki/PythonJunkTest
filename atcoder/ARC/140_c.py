@@ -75,7 +75,7 @@ def resolve():
                         initdelta += 1
                         continue
                 initdelta += 1
-                #print("loop", over, visited)
+                #print("loop", over, parent)
                 if over: break
             l = []
             for i in range(len(dat) - 1):
