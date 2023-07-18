@@ -2,16 +2,19 @@ from typing import List, Tuple, Optional
 from pprint import pprint
 from collections import deque, defaultdict
 
-###################################
-# Paste the template of question
+
 class Solution:
-    def defdef(self):
-        pass
-###################################
+    def alternateDigitSum(self, n: int) -> int:
+        a = 0
+        s = str(n)
+        for i in range(n):
+            if (i%2 == 0): a += int(s[i])
+            if (i%2 == 1): a -= int(s[i])
+        return a
+
 
 
 st = Solution()
 
-print(st.defdef(1)==0)
-print(st.defdef(2)==1)
+print(st.alternateDigitSum(512)==4)
 
