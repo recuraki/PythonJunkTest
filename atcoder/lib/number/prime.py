@@ -115,6 +115,18 @@ def factorization_expand(n):
         dat += [a] * b
     return dat
 
+# https://atcoder.jp/contests/abc280/editorial/5348
+# n! は p で何回割り切れるか（ルジャンドルの定理）
+def legendre(n, p):
+  res = 0
+  p2 = p
+  while True:
+    tmp = n // p2
+    if tmp == 0: break
+    res += tmp
+    p2 *= p
+  return res
+
 print(prime_list_eratosthenes(100009))
 
 l = factorization(50)
@@ -125,3 +137,5 @@ print(is_prime(4))
 print(is_prime(13))
 
 print(factorization(1))
+
+print(legendre(9, 3))

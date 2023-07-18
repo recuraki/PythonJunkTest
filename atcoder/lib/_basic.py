@@ -13,13 +13,11 @@ REの時のポイント
 
 """
 
+
 def resolve():
 
     import sys
     input = sys.stdin.readline
-    from pprint import pprint
-    #import pypyjit
-    #pypyjit.set_param('max_unroll_recursion=-1')
 
     import math
     INF = 1 << 63
@@ -29,10 +27,11 @@ def resolve():
         dat = list(map(int, input().split()))
         n, k = map(int, input().split())
         s = input()
-
-
     # 1 time
     do()
+
+
+
 
     # n questions
     q = int(input())
@@ -92,6 +91,20 @@ def resolve():
     maze.append(["#"] * (ow + 2))
     print(maze)
 
+    # maze gogo
+    from collections import deque
+    q = deque([(0, 0)])
+    visited = [[False] * ow for _ in range(oh)] # T/Fのフラグ。
+    while(len(q) > 0):
+        curh, curw = q.popleft()
+        for di in range(len(dh)):
+            nh = curh + dh[di]
+            nw = curw + dw[di]
+            if not (0 <= nh < oh): continue
+            if not (0 <= nw < ow): continue
+            if visited[nh][nw]: continue
+            visited[nh][nw] = True
+            q.append((nh, nw))
 
 
 
