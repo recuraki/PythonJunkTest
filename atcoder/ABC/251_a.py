@@ -6,10 +6,10 @@ logging.basicConfig(level=logging.DEBUG)
 
 def resolve():
 
-
     s = input()
-    s = s* 100
-    print(s[:6])
+    for i in range(6):
+        print(s[i % len(s)], end="")
+    print()
 
 
 class TestClass(unittest.TestCase):

@@ -1,3 +1,8 @@
+"""
+sol=49490_sol.py
+inter=49490_interactor.py
+rm /tmp/fifo && mkfifo /tmp/fifo && (python3 $sol < /tmp/fifo) | python3 $inter > /tmp/fifo
+"""
 import sys
 ans, qcount = 10, 0
 while qcount < 26:

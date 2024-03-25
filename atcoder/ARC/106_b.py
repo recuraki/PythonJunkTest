@@ -42,7 +42,7 @@ def resolve():
         distlist[node] = d
         nodesperdepth[d].append(node)
         for nextnode in e[node]:
-            if parentlist[nextnode] is not None:  # visited
+            if parentlist[nextnode] is not None:  # parent
                 continue
             q.append([nextnode, node, d + 1])
 

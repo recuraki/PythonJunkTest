@@ -13,30 +13,30 @@ REの時のポイント
 
 """
 
+
 def resolve():
-
-
-
 
     import sys
     input = sys.stdin.readline
-    from pprint import pprint
 
     import math
     INF = 1 << 63
     ceil = lambda a, b: (((a) + ((b) - 1)) // (b))
     def do():
-        s = input()
         n = int(input())
-        n, k = map(int, input().split())
         dat = list(map(int, input().split()))
+        n, k = map(int, input().split())
+        s = input()
+    # 1 time
+    do()
+
+
+
 
     # n questions
     q = int(input())
     for _ in range(q):
         do()
-    # 1 time
-    do()
 
 
 
@@ -70,8 +70,11 @@ def resolve():
         offset += 2
 
     # for maze
+    dh = [-1, -1, -1, 0, 0, 1, 1, 1]
+    dw = [-1, 0, 1,  -1, 1,-1, 0, 1]
     dh = [-1, 0, 0, 1]
     dw = [0, -1, 1, 0]
+
     maze = []
     oh , ow = 0,0
     for h in range(oh):
@@ -88,8 +91,20 @@ def resolve():
     maze.append(["#"] * (ow + 2))
     print(maze)
 
-
-
+    # maze gogo
+    from collections import deque
+    q = deque([(0, 0)])
+    visited = [[False] * ow for _ in range(oh)] # T/Fのフラグ。
+    while(len(q) > 0):
+        curh, curw = q.popleft()
+        for di in range(len(dh)):
+            nh = curh + dh[di]
+            nw = curw + dw[di]
+            if not (0 <= nh < oh): continue
+            if not (0 <= nw < ow): continue
+            if visited[nh][nw]: continue
+            visited[nh][nw] = True
+            q.append((nh, nw))
 
 
 

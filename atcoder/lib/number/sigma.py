@@ -1,6 +1,6 @@
 # https://rikeilabo.com/sum-formula-of-numerical-sequence
 
-# k = 1からnまでの k の和
+# k = 1からnまでの k の和 (include)
 def sigma1(n):
     return n * (n+1) // 2
 
@@ -30,7 +30,7 @@ class CumSum1D():
         pass
     def load(self, a):
         self.sdat = list(itertools.accumulate(itertools.chain([0], a)))
-    def queru(self, l ,r): # query [a, b)
+    def query(self, l ,r): # query [a, b)
         return self.sdat[r] - self.sdat[l]
 
 """

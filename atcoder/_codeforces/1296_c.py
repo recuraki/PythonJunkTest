@@ -36,7 +36,7 @@ def resolve():
             #print("step t={0} x={1} y={2}".format(t, x, y))
             if (x * 200000 + y) in dat:
                 cd = i - dat[x * 200000 + y]
-                #print("visited! now = {2} prevtime ={0} cd = {1}".format(dat[x * 200000 + y], cd, t))
+                #print("parent! now = {2} prevtime ={0} cd = {1}".format(dat[x * 200000 + y], cd, t))
                 if cd < d:
                     #print("short")
                     l = dat[x * 200000 + y]

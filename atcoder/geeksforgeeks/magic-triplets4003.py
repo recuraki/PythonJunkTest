@@ -44,8 +44,12 @@ class Solution:
 #Initial Template for Python 3
 
 if __name__ == '__main__':
-    n = int(input())
-    nums = list(map(int,input().split()))
+    #n = int(input())
+    #nums = list(map(int,input().split()))
+    n = 4
+    nums = [3,1,4,1]
+    nums.sort()
+
     ob = Solution()
     ans = ob.countTriplets(nums)
     print(ans)

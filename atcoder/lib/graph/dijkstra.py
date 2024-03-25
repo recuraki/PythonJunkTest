@@ -7,8 +7,12 @@ class dijkstra():
         self.numV = numV
         self.e = [[] for _ in range(numV)]
 
-    def makeEdge(self, s, t, cost):
+    def makeEdge1way(self, s, t, cost):
         self.e[s].append((t, cost))
+
+    def makeEdge2way(self, s, t, cost):
+        self.e[s].append((t, cost))
+        self.e[t].append((s, cost))
 
     def solve(self, nodeS, nodeT):
         self.cost = [self.INF] * self.numV # cost

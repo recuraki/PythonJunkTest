@@ -1,7 +1,7 @@
 
 
 from collections import deque
-class scc():
+class StronglyConnectedComponent():
     def __init__(self, n):
         self.n = n
         self.g = [[] for _ in range(n)]
@@ -47,7 +47,7 @@ class scc():
 
 
 vCount = 13 # 超点数
-sc = scc(13)
+sc = StronglyConnectedComponent(13)
 sc.addEdge( 0,12)
 sc.addEdge( 12, 11)
 sc.addEdge( 11, 8)

@@ -15,6 +15,7 @@ def reroot(n, e):
     parent = [-1] * n
     dfsRoute = deque([])
 
+
     # #####################これを入れていいかは問題による
     if n == 1:
         return [initCost]
@@ -135,7 +136,7 @@ def maxDistanceFromEachNode():
     adde(8, 10, 1)
     adde(10, 11, 1)
     adde(11, 12, 1)
-    reroot(n, e)
+    print(reroot(n, e))
 
-#maxDistanceFromEachNode()
-GRL_5_A()
+maxDistanceFromEachNode()
+#GRL_5_A()

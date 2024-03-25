@@ -8,7 +8,7 @@ def resolve():
     n, m = map(int, input().split())
     used = []
     for i in range(n+1):
-        # visited, pv, cost
+        # parent, pv, cost
         used.append([False, None])
     path = []
     for i in range(n+1):
@@ -36,7 +36,7 @@ def resolve():
             #print(" >> path[{0}] = {1}".format(path[curroom][i], nextroom))
             #print(" >>>>", used[nextroom])
             if used[nextroom][0] is True:
-                #print(" >>!!visited")
+                #print(" >>!!parent")
                 continue
             q.append([nextroom, curroom,cost])
 

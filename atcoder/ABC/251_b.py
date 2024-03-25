@@ -7,33 +7,18 @@ logging.basicConfig(level=logging.DEBUG)
 def resolve():
 
 
-    import sys
-    input = sys.stdin.readline
-    from pprint import pprint
-    #import pypyjit
-    #pypyjit.set_param('max_unroll_recursion=-1')
 
-    import math
-    INF = 1 << 63
-    ceil = lambda a, b: (((a) + ((b) - 1)) // (b))
-    def do():
-        n, w = map(int, input().split())
-        dat = list(map(int, input().split()))
-        from itertools import combinations
-        l = list(range(n))
-        ans = set()
-        for cnt in (1,2,3):
-            for x in combinations(l, cnt):
-                t = 0
-                for i in x:
-                    t += dat[i]
-                if t <= w:
-                    ans.add(t)
-        print(len(ans))
+    from itertools import combinations
+    n, w = map(int, input().split())
+    dat = list(map(int, input().split()))
+    ans = set() # 結果の種類数
+    for cnt in (1,2,3): # 1,2,3個選んだ時
+        for selected in combinations(dat, cnt): # datの値をcnt個選ぶ全ての組み合わせ
+            # ここで、selectedには(3,6,10)や(1,2)や(4)のようにcnt個の重さの値が入っている
+            if sum(selected) <= w: # なので、その和がw以下なら
+                ans.add(sum(selected)) # その和を重さの種類としてsetに淹れる
+    print(len(ans)) # で、種類数をひょぅじしてやれば良い
 
-
-    # 1 time
-    do()
 
 
 class TestClass(unittest.TestCase):

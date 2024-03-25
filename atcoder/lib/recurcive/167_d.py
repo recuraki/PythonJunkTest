@@ -56,8 +56,7 @@ class TestClass(unittest.TestCase):
         print("test_input_1")
         input = """4 5
 3 2 4 1"""
-        output = """4"""
-        self.assertIO(input, output)
+        output = """4"""       self.assertIO(input, output)
 
     def test_input_12(self):
         print("test_input_12")

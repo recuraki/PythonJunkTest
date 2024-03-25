@@ -103,9 +103,9 @@ def resolve():
             q = list(newq)
             step += 1
 
-        #pprint(visited)
+        #pprint(parent)
         #pprint(maze)
-        #print(visited[oh][ow])
+        #print(parent[oh][ow])
         #pprint(maze)
 
 

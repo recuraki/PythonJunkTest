@@ -7,29 +7,16 @@ logging.basicConfig(level=logging.DEBUG)
 def resolve():
 
 
-    from pprint import pprint
-    #import pypyjit
-    #pypyjit.set_param('max_unroll_recursion=-1')
-
-    import math
-    INF = 1 << 63
-    ceil = lambda a, b: (((a) + ((b) - 1)) // (b))
-    def do():
-        n = int(input())
-        dat = list()
-        known = set()
-        for i in range(n):
-            s, t = input().split()
-            t = int(t)
-            if s in known: continue
-            known.add(s)
-            dat.append( (-t, i+1) )
-        dat.sort()
-        ans = dat[0]
-        print(ans[1])
-
-    # 1 time
-    do()
+    n = int(input())
+    dat = list()
+    known = set() # sを管理するリスト
+    for i in range(n):
+        s, t = input().split()
+        if s in known: continue # sが既に出現したならスキップ
+        known.add(s) # sを処理したと記録
+        dat.append( (-int(t), i+1) ) # (-t, index)を作る
+    dat.sort() # ソートして
+    print(dat[0][1]) # 頭のindexを出力
 
 
 class TestClass(unittest.TestCase):

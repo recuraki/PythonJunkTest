@@ -146,6 +146,47 @@ import math
 def warerukazu(n, x):
     n // x
 
+# k = 1からnまでの k の和 (include)
+def sigma1(n):
+    return n * (n+1) // 2
+
+def sumodd(l, r): # [l, r]内の奇数の合計
+    basel = l//2
+    baser = r//2
+    if r % 2 == 0: baser -= 1
+    if baser < basel: return 0
+    total = 2 * (sigma1(baser) - sigma1(basel-1)) + (baser - basel + 1)
+    return total
+
+def sumeven(l, r): # [l, r]内の奇数の合計
+    basel = l//2
+    baser = r//2
+    if l % 2 == 1: basel += 1
+    if baser < basel: return 0
+    total = 2 * (sigma1(baser) - sigma1(basel-1))
+    return total
+
+def sumall(l, r): #その行の和
+    total =  (sigma1(r) - sigma1(l-1))
+    return total
+
+def cntodd(l, r): # [l, r]内の奇数の数
+    basel = l//2
+    baser = r//2
+    if r % 2 == 0: baser -= 1
+    if baser < basel: return 0
+    total = baser - basel + 1
+    return total
+
+def cnteven(l, r): # [l, r]内の奇数の数
+    basel = l//2
+    baser = r//2
+    if l % 2 == 1: basel += 1
+    if baser < basel: return 0
+    total = baser - basel + 1
+    return total
+
+
 
 
 # 平方数で割れる数
@@ -163,6 +204,36 @@ for i in range(2, mnumsqr):
         while x <= mnum:
             mCanDivSqrt[x] = i**2
             x += cur
+
+
+# test
+for l in range(10):
+    for r in range(l, 10):
+        t = 0
+        tt = 0
+        for i in range(l, r+1):
+            if i %2 == 1: t += i
+            if i % 2 == 1: tt += 1
+        if sumodd(l, r) != t: print(l, r, t, sumodd(l, r))
+        if cntodd(l, r) != tt: print(l, r, tt, cntodd(l, r))
+
+for l in range(10):
+    for r in range(l, 10):
+        t = 0
+        tt = 0
+        for i in range(l, r+1):
+            if i %2 == 0: t += i
+            if i % 2 == 0: tt += 1
+        if sumeven(l, r) != t: print(l, r, t, sumeven(l, r))
+        if cnteven(l, r) != tt: print(l, r, tt, cnteven(l, r))
+
+for l in range(10):
+    for r in range(l, 10):
+        t = 0
+        for i in range(l, r+1):
+            if True: t += i
+        if sumall(l, r) != t: print(l, r, t, sumall(l, r))
+
 
 
 

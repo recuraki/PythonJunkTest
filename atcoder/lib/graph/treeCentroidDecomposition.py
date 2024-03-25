@@ -67,5 +67,6 @@ def test():
     cd = centroidDecomposition(v)
     for s,t in edged: cd.makeEdge(s,t)
     cd.build()
+    print(cd.parent)
 
 test()
